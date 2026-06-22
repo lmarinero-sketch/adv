@@ -3726,7 +3726,7 @@ function App() {
           type={modalState.type} 
           onClose={() => setModalState(s => ({ ...s, isOpen: false }))} 
         />
-        <GallitoWidget />
+        {/* <GallitoWidget /> */}
       </div>
     </AppContext.Provider>
   );
