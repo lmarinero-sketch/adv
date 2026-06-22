@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ng-blue: #1E3A8A;
+  --color-ng-yellow: #EAB308;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
