@@ -63,13 +63,26 @@ serve(async (req) => {
       messageType = 'media';
     }
 
-    if (!phone || (!body && !attachmentUrls)) {
+    if (!phone || (!body && !attachmentUrls && !data.status)) {
       await supabase.from('ng_error_logs').insert({
         title: 'Webhook Ignored',
         message: JSON.stringify(payload),
         type: 'warning'
       });
       return new Response(JSON.stringify({ status: "ignored - missing fields", payload }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
+    // --- MANEJO DE EVENTOS DE ESTADO (READ RECEIPTS) ---
+    if (data.status && key.id && !body) {
+      console.log(`[Status Event] Updating message ${key.id} to status ${data.status}`);
+      await supabase.from('ng_whatsapp_messages')
+        .update({ status: data.status })
+        .eq('whatsapp_id', key.id);
+      
+      return new Response(JSON.stringify({ success: true, status_updated: data.status }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });
@@ -140,7 +153,13 @@ serve(async (req) => {
         .limit(1);
 
       if (recentMsg && recentMsg.length > 0) {
-        return new Response(JSON.stringify({ success: true, reason: 'duplicate' }), {
+        // En lugar de ignorarlo, actualizamos el whatsapp_id del mensaje que ya estaba en la BD
+        if (key.id) {
+          await supabase.from('ng_whatsapp_messages')
+            .update({ whatsapp_id: key.id })
+            .eq('id', recentMsg[0].id);
+        }
+        return new Response(JSON.stringify({ success: true, reason: 'duplicate_updated_id' }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 200,
         });
@@ -172,7 +191,8 @@ serve(async (req) => {
         body: bodyText || 'Multimedia',
         direction: computedDirection,
         message_type: messageType,
-        attachment_urls: attachmentUrls
+        attachment_urls: attachmentUrls,
+        whatsapp_id: key.id || null
       })
       .select();
 

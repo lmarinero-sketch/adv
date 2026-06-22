@@ -469,25 +469,29 @@ function Messenger() {
       .channel('messenger-realtime')
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'ng_whatsapp_messages' },
+        { event: '*', schema: 'public', table: 'ng_whatsapp_messages' },
         (payload) => {
-          console.log('[Realtime] Nuevo mensaje recibido:', payload.new?.direction, payload.new?.body?.substring(0, 40));
-          setMessages(prev => {
-            // Deduplicar: check id exacto O body+phone con prefijo (80 chars, strip ZWS) en ventana de 120s
-            const newBody = (payload.new.body || '').replace(/\u200B/g, '').trim();
-            const newBodyPrefix = newBody.substring(0, 80);
-            const isDuplicate = prev.some(m => 
-              m.id === payload.new.id || 
-              (m.client_phone === payload.new.client_phone && 
-               (m.body || '').replace(/\u200B/g, '').trim().substring(0, 80) === newBodyPrefix &&
-               Math.abs(new Date(m.created_at).getTime() - new Date(payload.new.created_at).getTime()) < 120000)
-            );
-            if (isDuplicate) {
-              console.log('[Realtime] Mensaje duplicado, ignorando');
-              return prev;
-            }
-            return [payload.new, ...prev];
-          });
+          if (payload.eventType === 'INSERT') {
+            console.log('[Realtime] Nuevo mensaje recibido:', payload.new?.direction, payload.new?.body?.substring(0, 40));
+            setMessages(prev => {
+              // Deduplicar: check id exacto O body+phone con prefijo (80 chars, strip ZWS) en ventana de 120s
+              const newBody = (payload.new.body || '').replace(/\u200B/g, '').trim();
+              const newBodyPrefix = newBody.substring(0, 80);
+              const isDuplicate = prev.some(m => 
+                m.id === payload.new.id || 
+                (m.client_phone === payload.new.client_phone && 
+                 (m.body || '').replace(/\u200B/g, '').trim().substring(0, 80) === newBodyPrefix &&
+                 Math.abs(new Date(m.created_at).getTime() - new Date(payload.new.created_at).getTime()) < 120000)
+              );
+              if (isDuplicate) {
+                console.log('[Realtime] Mensaje duplicado, ignorando');
+                return prev;
+              }
+              return [payload.new, ...prev];
+            });
+          } else if (payload.eventType === 'UPDATE') {
+            setMessages(prev => prev.map(m => m.id === payload.new.id ? { ...m, ...payload.new } : m));
+          }
         }
       )
       .subscribe((status, err) => {
@@ -1356,7 +1360,11 @@ function Messenger() {
                     
                     <div className={`text-[10px] mt-1.5 text-right font-medium flex items-center justify-end ${msg.direction === 'outgoing' ? 'text-[#667781]' : 'text-[#54656f]'}`}>
                       {new Date(msg.created_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
-                      {msg.direction === 'outgoing' && <span className="ml-1 text-[10px]">✓✓</span>}
+                      {msg.direction === 'outgoing' && (
+                        <span className={`ml-1.5 text-[12px] font-bold tracking-tighter ${['READ', 'PLAYED'].includes(msg.status) ? 'text-blue-500' : 'text-[#8696a0]'}`}>
+                          {['DELIVERY_ACK', 'READ', 'PLAYED'].includes(msg.status) ? '✓✓' : '✓'}
+                        </span>
+                      )}
                     </div>
 
                     {/* Toggle direction button - visible on hover */}
