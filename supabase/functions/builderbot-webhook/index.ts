@@ -184,6 +184,24 @@ serve(async (req) => {
       const { data: dbClient } = await supabase.from('ng_clients').select('bot_paused_until, name').eq('phone', phone).single();
       const userName = dbClient?.name || 'Corredor';
       
+      // Fetch global config FIRST
+      const { data: configs } = await supabase
+        .from('ng_bot_config')
+        .select('key, value')
+        .in('key', ['bot_enabled', 'bot_trigger', 'system_prompt']);
+
+      const configMap: Record<string, string> = {};
+      (configs || []).forEach((c: any) => { configMap[c.key] = c.value; });
+
+      const botEnabled = configMap['bot_enabled'] === 'true';
+      const botTriggerConfig = (configMap['bot_trigger'] || '').toLowerCase().trim();
+      const dbPrompt = configMap['system_prompt'] || '';
+
+      if (!botEnabled) {
+        return new Response(JSON.stringify({ success: true, reason: 'bot_disabled_globally' }), { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 });
+      }
+
+      
       const triggerWord = "edge";
       const isTriggerWord = bodyText.toLowerCase().includes("edge") || bodyText.toLowerCase().includes("asistente");
       
@@ -225,18 +243,7 @@ serve(async (req) => {
         }
       }
 
-      const { data: configs } = await supabase
-        .from('ng_bot_config')
-        .select('key, value')
-        .in('key', ['bot_enabled', 'bot_trigger', 'system_prompt']);
 
-      const configMap: Record<string, string> = {};
-      (configs || []).forEach((c: any) => { configMap[c.key] = c.value; });
-
-      const botEnabled = configMap['bot_enabled'] === 'true';
-      const botTriggerConfig = (configMap['bot_trigger'] || '').toLowerCase().trim();
-      
-      const dbPrompt = configMap['system_prompt'] || '';
       
       const foxyPrompt = `1. ROL Y PERSONALIDAD
 Eres Foxy, el asistente oficial de AdventurePro. Tu misión es guiar a corredores y ciclistas sobre los eventos deportivos de la organización.
@@ -445,7 +452,7 @@ ${dbPrompt}
         ? bodyText.toLowerCase().includes(botTriggerConfig)
         : true;
 
-      if (botEnabled && systemPrompt && messageContainsTrigger) {
+      if (systemPrompt && messageContainsTrigger) {
         if (botTriggerConfig) {
           bodyText = bodyText.replace(new RegExp(botTriggerConfig, 'gi'), '').trim();
         }
