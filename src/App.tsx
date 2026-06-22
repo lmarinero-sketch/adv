@@ -1724,7 +1724,7 @@ function Messenger() {
         {activeContact ? (
           <>
             {/* Chat Topbar */}
-            <div className="h-16 bg-zinc-900 border-b border-slate-200 flex items-center justify-between px-6 z-10 shrink-0 shadow-sm relative">
+            <div className="h-16 bg-[#f0f2f5] border-b border-slate-200 flex items-center justify-between px-6 z-10 shrink-0 shadow-sm relative">
               <div className="flex items-center">
                 <img src="/images.png" alt="Avatar Cliente" className="w-10 h-10 rounded-full object-cover shadow-sm mr-3 border border-slate-200" />
                 <div>
@@ -1808,8 +1808,8 @@ function Messenger() {
                 <div key={msg.id} className={`flex flex-col mb-4 max-w-[75%] group/msg ${msg.direction === 'outgoing' ? 'self-end items-end' : 'self-start items-start'}`}>
                   <div className={`px-4 py-3 rounded-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.1)] relative
                     ${msg.direction === 'outgoing' 
-                      ? 'bg-orange-600 text-[#111b21] rounded-tr-sm' 
-                      : 'bg-zinc-900 border border-slate-200 text-[#111b21] rounded-tl-sm'
+                      ? 'bg-[#d9fdd3] text-[#111b21] rounded-tr-sm' 
+                      : 'bg-white border border-transparent text-[#111b21] rounded-tl-sm shadow-sm'
                     }`}
                   >
                     {renderMedia(msg)}
@@ -1956,7 +1956,7 @@ function Messenger() {
                 </div>
               )}
 
-                <div className="bg-zinc-900 p-4 shrink-0 flex items-center shadow-[0_-2px_10px_-4px_rgba(0,0,0,0.05)] border-t border-slate-200 relative">
+                <div className="bg-[#f0f2f5] p-4 shrink-0 flex items-center shadow-[0_-2px_10px_-4px_rgba(0,0,0,0.05)] border-t border-slate-200 relative">
                 {is24hExpired && (
                   <div className="absolute top-0 left-0 right-0 -translate-y-full bg-amber-100 border-y border-amber-300 px-6 py-2.5 flex items-center justify-center shadow-md z-30">
                     <AlertTriangle className="w-4 h-4 text-amber-600 mr-2" />
@@ -1976,22 +1976,22 @@ function Messenger() {
 
                   {/* Menú de Adjuntos */}
                   {showAttachmentMenu && (
-                    <div className="absolute bottom-full left-0 mb-2 w-[220px] bg-zinc-900 rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
+                    <div className="absolute bottom-full left-0 mb-2 w-[220px] bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
                       <div className="p-1.5 flex flex-col gap-1">
-                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-[#f5f6f6] rounded-lg text-zinc-200 transition-colors">
+                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-[#f0f2f5] rounded-lg text-[#111b21] transition-colors">
                           <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-[#111b21]"><ImageIcon className="w-4 h-4" /></div>
                           <div className="text-left"><p className="text-[13px] font-bold">Fotos y Videos</p></div>
                         </button>
-                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-[#f5f6f6] rounded-lg text-zinc-200 transition-colors">
+                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-[#f0f2f5] rounded-lg text-[#111b21] transition-colors">
                           <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600"><FileText className="w-4 h-4" /></div>
                           <div className="text-left"><p className="text-[13px] font-bold">Documento</p></div>
                         </button>
-                        <button onClick={() => { alert("Nota de voz en desarrollo..."); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-[#f5f6f6] rounded-lg text-zinc-200 transition-colors">
+                        <button onClick={() => { alert("Nota de voz en desarrollo..."); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-[#f0f2f5] rounded-lg text-[#111b21] transition-colors">
                           <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-600"><Mic className="w-4 h-4" /></div>
                           <div className="text-left"><p className="text-[13px] font-bold">Audio</p></div>
                         </button>
-                        <div className="h-[1px] bg-zinc-800 my-1"></div>
-                        <button onClick={() => { setShowWaPicker(true); setShowAttachmentMenu(false); if (!waTemplates.length) { fetchWaTemplates(); } }} className="flex items-center gap-3 w-full p-2.5 hover:bg-green-50 rounded-lg text-zinc-200 transition-colors group">
+                        <div className="h-[1px] bg-slate-200 my-1"></div>
+                        <button onClick={() => { setShowWaPicker(true); setShowAttachmentMenu(false); if (!waTemplates.length) { fetchWaTemplates(); } }} className="flex items-center gap-3 w-full p-2.5 hover:bg-green-50 rounded-lg text-[#111b21] transition-colors group">
                           <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform"><MessageSquarePlus className="w-4 h-4" /></div>
                           <div className="text-left">
                             <p className="text-[13px] font-bold text-green-800">Plantilla de Meta</p>
@@ -2011,10 +2011,10 @@ function Messenger() {
                 </div>
 
                 {showWaPicker && (
-                  <div className="absolute bottom-full left-4 w-[400px] mb-2 bg-zinc-900 rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
+                  <div className="absolute bottom-full left-4 w-[400px] mb-2 bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
                     <div className="bg-green-50 p-2.5 border-b border-green-100 flex items-center justify-between">
                       <span className="text-[11px] font-bold text-green-700 uppercase tracking-wider">Plantillas Meta (Con Costo)</span>
-                      <button onClick={() => setShowWaPicker(false)} className="text-[#54656f] hover:text-zinc-300"><X className="w-4 h-4"/></button>
+                      <button onClick={() => setShowWaPicker(false)} className="text-[#54656f] hover:text-[#111b21]"><X className="w-4 h-4"/></button>
                     </div>
                     <div className="max-h-60 overflow-y-auto">
                       {waTemplatesLoading ? (
@@ -2025,10 +2025,10 @@ function Messenger() {
                         waTemplates.map((t, idx) => {
                           const body = t.components?.find((c: any) => c.type === 'BODY')?.text || 'Plantilla sin texto';
                           return (
-                            <div key={idx} className="p-3 hover:bg-green-50/50 border-b border-slate-50 cursor-pointer transition-colors" onClick={() => applyOfficialTemplate(t)}>
+                            <div key={idx} className="p-3 hover:bg-green-50/50 border-b border-slate-200 cursor-pointer transition-colors" onClick={() => applyOfficialTemplate(t)}>
                               <div className="flex items-center justify-between mb-1">
-                                <span className="text-[13px] font-bold text-zinc-200">{t.name}</span>
-                                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-zinc-800 text-[#54656f] font-mono uppercase">{t.language || 'es'}</span>
+                                <span className="text-[13px] font-bold text-[#111b21]">{t.name}</span>
+                                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#f0f2f5] text-[#54656f] font-mono uppercase">{t.language || 'es'}</span>
                               </div>
                               <p className="text-[12px] text-[#54656f] truncate">{body}</p>
                             </div>
@@ -2056,7 +2056,7 @@ function Messenger() {
                     className={`w-full border rounded-full px-5 py-3 text-[14px] focus:outline-none transition-all shadow-inner 
                       ${is24hExpired 
                         ? 'bg-amber-50 border-amber-300 text-amber-900 focus:bg-amber-100 focus:border-amber-500 placeholder:text-amber-500/70' 
-                        : 'bg-zinc-800 border-transparent text-[#111b21] focus:bg-zinc-900 focus:border-blue-400 focus:ring-4 focus:ring-orange-500/10'}`}
+                        : 'bg-white border-transparent text-[#111b21] focus:bg-white focus:border-blue-400 focus:ring-4 focus:ring-orange-500/10 shadow-sm'}`}
                   />
                 </form>
 
