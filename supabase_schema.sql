@@ -78,7 +78,6 @@ ALTER TABLE public.ng_invoices DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ng_follow_ups DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ng_templates DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ng_whatsapp_messages DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.ng_error_logs DISABLE ROW LEVEL SECURITY;
 
 -- GRANT: Permisos completos para roles anon/authenticated/service_role
 GRANT ALL ON public.ng_clients TO anon, authenticated, service_role;
@@ -86,7 +85,6 @@ GRANT ALL ON public.ng_invoices TO anon, authenticated, service_role;
 GRANT ALL ON public.ng_follow_ups TO anon, authenticated, service_role;
 GRANT ALL ON public.ng_whatsapp_messages TO anon, authenticated, service_role;
 GRANT ALL ON public.ng_templates TO anon, authenticated, service_role;
-GRANT ALL ON public.ng_error_logs TO anon, authenticated, service_role;
 
 -- Columnas adicionales
 ALTER TABLE public.ng_follow_ups ADD COLUMN IF NOT EXISTS observations TEXT;
