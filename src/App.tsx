@@ -1851,7 +1851,7 @@ function Messenger() {
 
             <div className="relative z-20">
               {showTemplates && (
-                <div className="absolute bottom-full left-12 w-[440px] mb-2 bg-zinc-900 rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
+                <div className="absolute bottom-full left-12 w-[440px] mb-2 bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
                   <div className="bg-white p-2.5 border-b border-slate-200 flex items-center justify-between">
                     <span className="text-[11px] font-bold text-[#54656f] uppercase tracking-wider">Atajos / Plantillas</span>
                     <div className="flex items-center gap-2">
@@ -1867,16 +1867,16 @@ function Messenger() {
                   {showAddTemplate && (
                     <div className="p-3 border-b border-slate-200 bg-white bg-[#f0f2f5]/50 space-y-2">
                       <div className="flex gap-2">
-                        <input type="text" value={tplForm.shortcut} onChange={e => setTplForm({...tplForm, shortcut: e.target.value})} placeholder="/ATAJO" className="w-[100px] border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] font-bold focus:border-blue-400 focus:outline-none bg-zinc-900" />
-                        <select value={tplForm.category} onChange={e => setTplForm({...tplForm, category: e.target.value})} className="border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] bg-zinc-900 focus:border-blue-400 focus:outline-none">
+                        <input type="text" value={tplForm.shortcut} onChange={e => setTplForm({...tplForm, shortcut: e.target.value})} placeholder="/ATAJO" className="w-[100px] border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] font-bold focus:border-blue-400 focus:outline-none bg-[#f0f2f5] text-[#111b21]" />
+                        <select value={tplForm.category} onChange={e => setTplForm({...tplForm, category: e.target.value})} className="border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] bg-[#f0f2f5] text-[#111b21] focus:border-blue-400 focus:outline-none">
                           <option>General</option><option>Seguimiento</option><option>Ventas</option><option>Soporte</option>
                         </select>
                       </div>
-                      <textarea value={tplForm.body} onChange={e => setTplForm({...tplForm, body: e.target.value})} placeholder="Texto de la plantilla... usa {{nombre}}, {{productos}}, {{importe}}" rows={2} className="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] focus:border-blue-400 focus:outline-none bg-zinc-900 resize-none" />
+                      <textarea value={tplForm.body} onChange={e => setTplForm({...tplForm, body: e.target.value})} placeholder="Texto de la plantilla... usa {{nombre}}, {{productos}}, {{importe}}" rows={2} className="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] focus:border-blue-400 focus:outline-none bg-[#f0f2f5] text-[#111b21] resize-none" />
                       <div className="flex items-center justify-between">
                         <div className="flex gap-1">
                           {['nombre','productos','importe','fecha'].map(v => (
-                            <button key={v} onClick={() => setTplForm({...tplForm, body: tplForm.body + `{{${v}}}`})} className="text-[10px] bg-zinc-900 border border-slate-200 px-1.5 py-0.5 rounded text-indigo-600 hover:bg-indigo-50 transition-colors">{`{{${v}}}`}</button>
+                            <button key={v} onClick={() => setTplForm({...tplForm, body: tplForm.body + `{{${v}}}`})} className="text-[10px] bg-[#f0f2f5] border border-slate-200 px-1.5 py-0.5 rounded text-[#111b21] hover:bg-indigo-50 hover:text-indigo-600 transition-colors">{`{{${v}}}`}</button>
                           ))}
                         </div>
                         <div className="flex gap-1.5">
@@ -1928,7 +1928,7 @@ function Messenger() {
                     )}
                     
                     {/* SECCIÓN META TEMPLATES */}
-                    <div className="bg-zinc-800 px-3 py-1.5 border-y border-slate-200">
+                    <div className="bg-[#f0f2f5] px-3 py-1.5 border-y border-slate-200">
                       <span className="text-[10px] font-bold text-[#54656f] uppercase tracking-wider flex items-center">
                         <MessageSquarePlus className="w-3 h-3 mr-1" />
                         Plantillas Meta (Con Costo)
