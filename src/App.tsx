@@ -95,7 +95,7 @@ function Sidebar() {
   return (
     <div className={`h-screen flex flex-col fixed left-0 top-0 overflow-hidden transition-[width] duration-300 z-50 ${isSidebarOpen ? 'w-[280px]' : 'w-[80px]'}`}
       style={{
-        backgroundImage: 'linear-gradient(to bottom, rgba(15,23,42,0.95) 0%, rgba(0,0,0,0.98) 100%), url(/2021-06-07.png)',
+        backgroundImage: 'linear-gradient(to bottom, rgba(15,23,42,0.95) 0%, rgba(0,0,0,0.98) 100%), url(/WhatsApp-Image-2025-11-03-at-12.49.44-2.jpeg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
@@ -207,7 +207,7 @@ function Dashboard() {
          <div className="w-full bg-black rounded-[28px] overflow-hidden mb-10 relative shadow-md shadow-orange-500/20">
            {/* Background Image Setup */}
            <div className="absolute inset-0 z-0">
-             <img src="/maxresdefault.jpg" alt="Fondo Eventos" className="w-full h-full object-cover opacity-40 mix-blend-overlay brightness-75" />
+             <img src="/WhatsApp-Image-2025-11-03-at-12.49.44-2.jpeg" alt="Fondo Eventos" className="w-full h-full object-cover opacity-40 mix-blend-overlay brightness-75" />
              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-orange-600/40"></div>
            </div>
            
@@ -218,13 +218,11 @@ function Dashboard() {
              </div>
              
              <p className="text-orange-50 text-[15px] font-medium leading-relaxed max-w-3xl mb-8 opacity-90">
-               Bienvenido al <strong>Sistema de Administración</strong> de Adventure Pro. Desde acá podés subir facturas, controlar seguimientos con inteligencia artificial y comunicarte automáticamente con los clientes por WhatsApp.
+               Bienvenido al <strong>Sistema de Administración</strong> de Adventure Pro. Desde acá podés controlar seguimientos con inteligencia artificial y comunicarte automáticamente con los clientes por WhatsApp.
              </p>
 
              <div className="flex flex-wrap gap-3">
-               <div className="bg-zinc-900/20 hover:bg-zinc-900/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
-                 <FileText className="w-4 h-4 mr-2" /> Facturas <span className="ml-2 bg-zinc-900/20 px-2 py-0.5 rounded textxs">Módulo IA</span>
-               </div>
+
                <div className="bg-zinc-900/20 hover:bg-zinc-900/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
                  <Clock className="w-4 h-4 mr-2" /> Seguimientos <span className="ml-2 bg-zinc-900/20 px-2 py-0.5 rounded textxs">{stats.followUps} Activos</span>
                </div>
@@ -247,20 +245,7 @@ function Dashboard() {
          {/* ACTION LIST CARDS */}
          <div className="space-y-4">
            
-           <Link to="/subir" className="bg-zinc-900 hover:bg-zinc-800/50 transition-colors cursor-pointer border border-zinc-800/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
-             <div className="flex items-center">
-               <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mr-5 shrink-0">
-                 <FileText className="w-5 h-5 text-orange-500" />
-               </div>
-               <div>
-                 <h4 className="text-[16px] font-bold text-white">Cargar Nueva Factura</h4>
-                 <p className="text-[13px] text-zinc-400 mt-0.5">Subí el PDF de la factura, extraé datos por IA y creá un seguimiento.</p>
-               </div>
-             </div>
-             <div className="bg-orange-50 text-orange-600 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center">
-               Subir PDF <ChevronDown className="w-4 h-4 ml-1" />
-             </div>
-            </Link>
+
 
            <Link to="/mensajeria" className="bg-zinc-900 hover:bg-zinc-800/50 transition-colors cursor-pointer border border-zinc-800/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
              <div className="flex items-center">
@@ -318,451 +303,7 @@ function formatMoney(amount: number | string): string {
   const num = typeof amount === 'string' ? parseFloat(amount) : amount;
   if (isNaN(num)) return '$0,00';
   return '$' + num.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
 
-function UploadInvoice() {
-  const { isSidebarOpen, showSystemModal } = React.useContext(AppContext);
-  const [file, setFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [parsedData, setParsedData] = useState<any>(null);
-  const [reason, setReason] = useState('Rotación de eventos');
-  const [days, setDays] = useState(180);
-  const [observations, setObservations] = useState('');
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!file) return;
-    setLoading(true);
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      let text = '';
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        text += content.items.map((item: any) => item.str).join(' ') + '\n';
-      }
-
-      const { data, error } = await supabase.functions.invoke('parse-invoice', { 
-        body: { text } 
-      });
-      
-      if (error) throw error;
-      // Normalize phone client side too
-      if (data.phone) data.phone = normalizePhone(data.phone);
-      setParsedData(data);
-    } catch (err: any) {
-      console.error(err);
-      showSystemModal('Error', 'Error procesando factura (¿La Edge Function está corriendo?) | Error: ' + err.message, 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const [saving, setSaving] = useState(false);
-
-  const saveFollowUp = async () => {
-    if (!parsedData) return;
-    setSaving(true);
-    try {
-      const normalizedPhone = normalizePhone(parsedData.phone || '0000000');
-      const { data: client, error: cErr } = await supabase.from('ng_clients').upsert({
-        name: parsedData.clientName,
-        phone: normalizedPhone
-      }, { onConflict: 'phone' }).select().single();
-
-      if (cErr) throw cErr; 
-
-      // Save invoice with structured items
-      const itemsToSave = Array.isArray(parsedData.items) ? parsedData.items : [];
-      const { error: invErr } = await supabase.from('ng_invoices').insert({
-        client_id: client?.id,
-        invoice_number: parsedData.invoiceNumber || null,
-        amount: parsedData.amount || 0,
-        items: itemsToSave,
-        purchase_date: parsedData.date || new Date().toISOString().split('T')[0]
-      });
-      if (invErr) throw invErr;
-      
-      const scheduledDate = new Date();
-      scheduledDate.setDate(scheduledDate.getDate() + days);
-
-      const { error: fErr } = await supabase.from('ng_follow_ups').insert({
-        client_id: client?.id, 
-        reason: reason,
-        scheduled_date: scheduledDate.toISOString().split('T')[0],
-        observations: observations || null
-      });
-
-      if (fErr) throw fErr;
-      showSystemModal('¡Exito!', '¡Factura y Seguimiento Guardados Exitosamente!', 'success');
-      setParsedData(null);
-      setFile(null);
-      setObservations('');
-    } catch(e: any) {
-      console.error(e);
-      showSystemModal('Error Base de Datos', 'Error al guardar el seguimiento. Asegúrate de ejecutar el sql schema. Detalles: ' + e?.message, 'error');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const [uploadTab, setUploadTab] = useState<'pdf' | 'manual' | 'excel'>('pdf');
-  const [manualData, setManualData] = useState({ clientName: '', phone: '', amount: '', items: '' });
-  const [manualObservations, setManualObservations] = useState('');
-
-  const handleManualSave = async () => {
-    setSaving(true);
-    try {
-      const normalizedPhone = normalizePhone(manualData.phone);
-      const { data: client } = await supabase.from('ng_clients').upsert({ phone: normalizedPhone, name: manualData.clientName }, { onConflict: 'phone' }).select().single();
-      await supabase.from('ng_invoices').insert({ client_id: client?.id, amount: parseFloat(manualData.amount) || 0, items: manualData.items.split(',').map(i => i.trim()) });
-      const scheduledDate = new Date(); scheduledDate.setDate(scheduledDate.getDate() + days);
-      await supabase.from('ng_follow_ups').insert({ client_id: client?.id, reason, scheduled_date: scheduledDate.toISOString().split('T')[0], observations: manualObservations || null });
-      showSystemModal('¡Éxito!', '¡Venta manual guardada exitosamente!', 'success');
-      setManualData({ clientName: '', phone: '', amount: '', items: '' });
-      setManualObservations('');
-    } catch(e: any) {
-      showSystemModal('Error', 'Error al guardar venta manual: ' + e?.message, 'error');
-    }
-    setSaving(false);
-  };
-
-  // Helper: check if items are in new structured format (array of objects)
-  const hasStructuredItems = parsedData?.items && Array.isArray(parsedData.items) && parsedData.items.length > 0 && typeof parsedData.items[0] === 'object';
-
-  return (
-    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-zinc-950 flex flex-col`}>
-      <TopBar title="Adventure Pro" subtitle="Subir Documentos" />
-      <main className="px-10 py-6 w-full">
-        
-        {/* Tab Switcher */}
-        <div className="flex items-center mb-8 bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-1.5">
-          <button onClick={() => setUploadTab('pdf')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all ${uploadTab === 'pdf' ? 'bg-orange-600 text-white shadow-md' : 'text-zinc-400 hover:bg-zinc-800/50'}`}>
-            <Sparkles className="w-4 h-4" /> Extraer con IA (PDF)
-          </button>
-          <button onClick={() => setUploadTab('manual')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all ${uploadTab === 'manual' ? 'bg-orange-600 text-white shadow-md' : 'text-zinc-400 hover:bg-zinc-800/50'}`}>
-            <PenLine className="w-4 h-4" /> Ingreso Manual
-          </button>
-          <button onClick={() => setUploadTab('excel')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all relative ${uploadTab === 'excel' ? 'bg-orange-600 text-white shadow-md' : 'text-zinc-400 hover:bg-zinc-800/50'}`}>
-            <Table2 className="w-4 h-4" /> Carga Masiva (Excel)
-            <span className="absolute -top-2 -right-1 bg-amber-400 text-amber-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-sm">PRÓXIMAMENTE</span>
-          </button>
-        </div>
-
-        {/* TAB: PDF IA */}
-        {uploadTab === 'pdf' && (
-          <>
-            <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-8 mb-8">
-              <div className="flex items-center mb-6">
-                <UploadCloud className="w-5 h-5 text-orange-500 mr-3" />
-                <h2 className="text-[17px] font-bold text-white">Cargar PDF</h2>
-              </div>
-              <label className="border-2 border-dashed border-zinc-800 rounded-xl p-12 text-center bg-zinc-800/50 hover:bg-zinc-800 transition-colors cursor-pointer block">
-                <FileText className="w-10 h-10 text-slate-300 mx-auto mb-4" />
-                <p className="text-[15px] font-bold text-zinc-200 mb-1">
-                  {file ? `Archivo: ${file.name}` : 'Subir Factura'}
-                </p>
-                <p className="text-[13px] text-zinc-500">Seleccioná un archivo PDF (Max 5MB)</p>
-                <input type="file" accept="application/pdf" className="hidden" onChange={handleFileChange} />
-              </label>
-              <div className="mt-6 flex justify-end">
-                <button 
-                  onClick={handleUpload}
-                  disabled={!file || loading}
-                  className="bg-orange-600 text-white px-6 py-2.5 rounded-xl text-[14px] font-medium hover:bg-orange-700 disabled:opacity-50 transition-colors"
-                >
-                  {loading ? 'Procesando Documento...' : 'Extraer con Inteligencia Artificial'}
-                </button>
-              </div>
-            </div>
-
-            {/* ═══════════════════════════════════════════════════════════
-                RESULTADO DEL ANÁLISIS — ESTILO FACTURA
-               ═══════════════════════════════════════════════════════════ */}
-            {parsedData && (
-              <div className="animate-in fade-in slide-in-from-bottom-4 space-y-6">
-                
-                {/* SUCCESS BANNER */}
-                <div className="bg-green-50 border border-green-200 rounded-2xl px-6 py-4 flex items-center">
-                  <div className="w-2.5 h-2.5 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                  <p className="text-[13px] font-bold text-green-800">Análisis exitoso — Datos extraídos con IA</p>
-                  <span className="ml-auto text-[11px] text-green-600 font-medium bg-green-100 px-3 py-1 rounded-full">Factura {parsedData.invoiceType || 'A'}</span>
-                </div>
-
-                {/* ──── FACTURA VISUAL CARD ──── */}
-                <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.08)] overflow-hidden">
-                  
-                  {/* HEADER FACTURA */}
-                  <div className="bg-gradient-to-r from-[#01428E] to-[#1E3A8A] p-6 flex items-start justify-between">
-                    <div className="flex items-center">
-                      <img src="/images.png" alt="Adventure Pro" className="w-12 h-12 rounded-xl object-cover border-2 border-white/20 mr-4" />
-                      <div>
-                        <h3 className="text-white text-[18px] font-extrabold tracking-tight">Adventure Pro eventos</h3>
-                        <p className="text-orange-500/70 text-[12px] font-medium">Adventure Pro S.R.L.</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="flex items-center justify-end gap-3 mb-1">
-                        <span className="bg-zinc-900 text-[#01428E] text-[14px] font-black px-3 py-1 rounded-lg">{parsedData.invoiceType || 'A'}</span>
-                        <span className="text-white text-[16px] font-bold">Factura</span>
-                      </div>
-                      {parsedData.invoiceNumber && (
-                        <p className="text-orange-500/70 text-[13px] font-bold tracking-wider">Nº {parsedData.invoiceNumber}</p>
-                      )}
-                      {parsedData.date && (
-                        <p className="text-blue-300 text-[12px] mt-1">Fecha: {new Date(parsedData.date + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* DATOS CLIENTE */}
-                  <div className="grid grid-cols-2 gap-6 p-6 border-b border-zinc-800">
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Señor/es</p>
-                        <p className="text-[16px] font-extrabold text-white">{parsedData.clientName || '—'}</p>
-                      </div>
-                      {parsedData.cuit && (
-                        <div>
-                          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">C.U.I.T.</p>
-                          <p className="text-[14px] font-mono font-bold text-zinc-200">{parsedData.cuit}</p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Teléfono</p>
-                        <div className="flex items-center gap-2">
-                          <p className="text-[14px] font-mono font-bold text-zinc-200">{parsedData.phone || 'No especificado'}</p>
-                          {parsedData.phone && <span className="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">549 OK</span>}
-                        </div>
-                      </div>
-                      {parsedData.paymentCondition && (
-                        <div>
-                          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Cond. Venta</p>
-                          <p className="text-[14px] font-bold text-zinc-200">{parsedData.paymentCondition}</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* ──── TABLA DE PRODUCTOS ──── */}
-                  <div className="p-6">
-                    <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-3 flex items-center">
-                      <Package className="w-3.5 h-3.5 mr-2" />
-                      Detalle de Productos / Servicios
-                    </p>
-                    <div className="border border-zinc-800 rounded-xl overflow-hidden">
-                      <table className="w-full">
-                        <thead>
-                          <tr className="bg-zinc-800/50">
-                            <th className="text-left px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[80px]">CÓD.</th>
-                            <th className="text-center px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[60px]">CANT.</th>
-                            <th className="text-left px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">DESCRIPCIÓN</th>
-                            <th className="text-right px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[120px]">P. UNIT.</th>
-                            <th className="text-right px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[120px]">IMPORTE</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                          {hasStructuredItems ? (
-                            parsedData.items.map((item: any, idx: number) => (
-                              <tr key={idx} className="hover:bg-orange-50/30 transition-colors">
-                                <td className="px-4 py-3 text-[12px] font-mono text-zinc-400">{item.cod || '—'}</td>
-                                <td className="px-4 py-3 text-[13px] font-bold text-white text-center">{item.qty || 1}</td>
-                                <td className="px-4 py-3 text-[13px] font-medium text-white">{item.description}</td>
-                                <td className="px-4 py-3 text-[13px] font-mono text-zinc-300 text-right">{item.unitPrice ? formatMoney(item.unitPrice) : '—'}</td>
-                                <td className="px-4 py-3 text-[13px] font-mono font-bold text-white text-right">{item.total ? formatMoney(item.total) : '—'}</td>
-                              </tr>
-                            ))
-                          ) : Array.isArray(parsedData.items) ? (
-                            parsedData.items.map((item: any, idx: number) => (
-                              <tr key={idx} className="hover:bg-orange-50/30 transition-colors">
-                                <td className="px-4 py-3 text-[12px] font-mono text-zinc-400">—</td>
-                                <td className="px-4 py-3 text-[13px] font-bold text-white text-center">1</td>
-                                <td className="px-4 py-3 text-[13px] font-medium text-white">{typeof item === 'string' ? item : item.description || JSON.stringify(item)}</td>
-                                <td className="px-4 py-3 text-[13px] font-mono text-zinc-300 text-right">—</td>
-                                <td className="px-4 py-3 text-[13px] font-mono font-bold text-white text-right">—</td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan={5} className="px-4 py-4 text-[13px] text-zinc-400 text-center">Sin productos extraídos</td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* ──── TOTALES ESTILO FACTURA ──── */}
-                  <div className="px-6 pb-6">
-                    <div className="flex justify-end">
-                      <div className="w-[380px] space-y-2">
-                        {parsedData.subtotal && (
-                          <div className="flex justify-between text-[13px]">
-                            <span className="text-zinc-400">Subtotal</span>
-                            <span className="font-mono font-medium text-zinc-200">{formatMoney(parsedData.subtotal)}</span>
-                          </div>
-                        )}
-                        {parsedData.discount && (
-                          <div className="flex justify-between text-[13px]">
-                            <span className="text-zinc-400">Descuento ({parsedData.discount}%)</span>
-                            <span className="font-mono font-medium text-red-500">-{parsedData.discountAmount ? formatMoney(parsedData.discountAmount) : '—'}</span>
-                          </div>
-                        )}
-                        {parsedData.iva && (
-                          <div className="flex justify-between text-[13px]">
-                            <span className="text-zinc-400">IVA 21%</span>
-                            <span className="font-mono font-medium text-zinc-200">{formatMoney(parsedData.iva)}</span>
-                          </div>
-                        )}
-                        <div className="border-t-2 border-slate-800 pt-3 mt-2 flex justify-between">
-                          <span className="text-[15px] font-extrabold text-white">TOTAL</span>
-                          <span className="text-[18px] font-extrabold text-white font-mono">{formatMoney(parsedData.amount || 0)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* ──── CONFIGURACIÓN DE SEGUIMIENTO ──── */}
-                <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
-                  <div className="bg-zinc-800/50 px-6 py-4 border-b border-zinc-800 flex items-center">
-                    <Clock className="w-4 h-4 text-amber-500 mr-3" />
-                    <p className="text-[13px] font-bold text-zinc-200">Configurar Seguimiento</p>
-                  </div>
-                  <div className="p-6 space-y-6">
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-[13px] font-bold text-zinc-200 mb-2">Motivo de contacto</label>
-                        <select value={reason} onChange={e => setReason(e.target.value)} className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900 shadow-sm">
-                          <option>Rotación de eventos</option>
-                          <option>Alineación y Balanceo</option>
-                          <option>Satisfacción de compra</option>
-                          <option>Cambio de Aceite</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-[13px] font-bold text-zinc-200 mb-2">Agendar a X días</label>
-                        <div className="flex rounded-xl overflow-hidden shadow-sm border border-zinc-800 bg-zinc-900">
-                          <button onClick={() => setDays(30)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 30 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>30</button>
-                          <div className="w-[1px] bg-zinc-800"></div>
-                          <button onClick={() => setDays(90)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 90 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>90</button>
-                          <div className="w-[1px] bg-zinc-800"></div>
-                          <button onClick={() => setDays(180)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 180 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>180</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* OBSERVACIONES */}
-                    <div>
-                      <label className="block text-[13px] font-bold text-zinc-200 mb-2 flex items-center">
-                        <Edit2 className="w-3.5 h-3.5 mr-2 text-zinc-500" />
-                        Observaciones
-                        <span className="ml-2 text-[10px] font-medium text-zinc-500">(opcional — se verán en el seguimiento)</span>
-                      </label>
-                      <textarea 
-                        value={observations} 
-                        onChange={e => setObservations(e.target.value)} 
-                        placeholder="Ej: Cliente pidió que lo contactemos por la mañana. Interesado en alineación 3D..." 
-                        className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-zinc-200 h-24 resize-none focus:outline-none focus:border-orange-500 bg-zinc-900 shadow-sm" 
-                      />
-                    </div>
-                    
-                    <button 
-                      onClick={saveFollowUp} 
-                      disabled={saving} 
-                      className="w-full bg-[#EAB308] hover:bg-yellow-400 text-yellow-950 font-bold px-6 py-4 rounded-xl shadow-sm transition-all text-[15px] disabled:opacity-50"
-                    >
-                      {saving ? 'Guardando en Base de Datos...' : 'Guardar Factura + Seguimiento Automático'}
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-            )}
-          </>
-        )}
-
-        {/* TAB: MANUAL */}
-        {uploadTab === 'manual' && (
-          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
-            <div className="bg-orange-50 px-6 py-4 border-b border-orange-100 flex items-center">
-              <PenLine className="w-4 h-4 text-orange-600 mr-3" />
-              <p className="text-[13px] font-bold text-blue-800">Ingreso Manual de Venta</p>
-            </div>
-            <div className="p-8 grid grid-cols-2 gap-x-8 gap-y-6">
-              <div>
-                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Nombre del Cliente</label>
-                <input type="text" value={manualData.clientName} onChange={e => setManualData({...manualData, clientName: e.target.value})} placeholder="Ej: Juan Pérez" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900" />
-              </div>
-              <div>
-                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Teléfono</label>
-                <input type="text" value={manualData.phone} onChange={e => setManualData({...manualData, phone: e.target.value})} placeholder="Ej: 5492645438114" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900" />
-                <p className="text-[10px] text-orange-500 mt-1 font-medium">Formato: 549 + código de área + número (sin 15). Ej: 549264<b>5438114</b></p>
-                {manualData.phone && <p className="text-[10px] text-green-600 mt-0.5 font-bold">Se guardará como: {normalizePhone(manualData.phone)}</p>}
-              </div>
-              <div>
-                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Importe Total ($)</label>
-                <input type="number" value={manualData.amount} onChange={e => setManualData({...manualData, amount: e.target.value})} placeholder="Ej: 150000" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900" />
-              </div>
-              <div>
-                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Motivo de contacto</label>
-                <select value={reason} onChange={e => setReason(e.target.value)} className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900">
-                  <option>Rotación de eventos</option>
-                  <option>Alineación y Balanceo</option>
-                  <option>Satisfacción de compra</option>
-                  <option>Cambio de Aceite</option>
-                </select>
-              </div>
-              <div className="col-span-2">
-                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Productos (separados por coma)</label>
-                <textarea value={manualData.items} onChange={e => setManualData({...manualData, items: e.target.value})} placeholder="Ej: Bridgestone 205/55R16, Alineación, Balanceo" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white h-24 resize-none focus:outline-none focus:border-orange-500 bg-zinc-900" />
-              </div>
-              <div className="col-span-2">
-                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Observaciones (opcional)</label>
-                <textarea value={manualObservations} onChange={e => setManualObservations(e.target.value)} placeholder="Ej: Llamar por la mañana, interesado en alineación..." className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white h-20 resize-none focus:outline-none focus:border-orange-500 bg-zinc-900" />
-              </div>
-              <div className="col-span-2">
-                <label className="block text-[13px] font-bold text-zinc-200 mb-2">Agendar seguimiento a X días</label>
-                <div className="flex rounded-xl overflow-hidden shadow-sm border border-zinc-800 bg-zinc-900">
-                  <button onClick={() => setDays(30)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 30 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>30</button>
-                  <div className="w-[1px] bg-zinc-800"></div>
-                  <button onClick={() => setDays(90)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 90 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>90</button>
-                  <div className="w-[1px] bg-zinc-800"></div>
-                  <button onClick={() => setDays(180)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 180 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>180</button>
-                </div>
-              </div>
-            </div>
-            <div className="p-8 pt-0">
-              <button 
-                onClick={handleManualSave} 
-                disabled={saving || !manualData.clientName || !manualData.phone}
-                className="w-full bg-[#EAB308] hover:bg-yellow-400 text-yellow-950 font-bold px-6 py-4 rounded-xl shadow-sm transition-all text-[15px] disabled:opacity-50"
-              >
-                {saving ? 'Guardando...' : 'Guardar Venta Manual + Seguimiento'}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* TAB: EXCEL */}
-        {uploadTab === 'excel' && (
-          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-12 text-center">
-            <div className="w-20 h-20 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-6">
-              <Lock className="w-10 h-10 text-amber-400" />
-            </div>
-            <h3 className="text-[20px] font-bold text-white mb-2">Carga Masiva por Excel</h3>
-            <p className="text-[14px] text-zinc-400 mb-1 max-w-md mx-auto">Esta funcionalidad estará disponible próximamente. Vas a poder subir un archivo Excel (.xlsx) con múltiples ventas y el sistema las procesará automáticamente.</p>
-            <span className="inline-block mt-4 bg-amber-100 text-amber-700 text-[12px] font-bold px-4 py-2 rounded-full">🚧 En desarrollo — Próximamente</span>
-          </div>
-        )}
 
       </main>
     </div>
@@ -2081,7 +1622,7 @@ function Messenger() {
         )}
       </div>
 
-      {/* RIGHT SIDE PANEL: Facturas Asociadas */}
+      {/* RIGHT SIDE PANEL: Contact Info */}
       {activeContact && (
         <div className="w-[320px] bg-zinc-900 text-[#111b21] flex flex-col shrink-0 overflow-y-auto border-l border-slate-200 relative z-20">
           <div className="p-8 flex flex-col items-center border-b border-slate-200 bg-white">
@@ -2167,51 +1708,7 @@ function Messenger() {
               </div>
             )}
 
-            {activeContactInfo?.invoices && activeContactInfo.invoices.length > 0 && (
-              <>
-                <h4 className="text-[11px] font-bold text-[#54656f] tracking-[0.2em] flex items-center mb-5 uppercase">
-                  <Package className="w-3.5 h-3.5 mr-2" />
-                  Facturas ({activeContactInfo.invoices.length})
-                </h4>
-            
-            <div className="space-y-4">
-              {activeContactInfo.invoices.map((inv: any, idx: number) => (
-                <div key={idx} className="bg-zinc-900 border border-slate-200 rounded-xl p-4 transition-all hover:border-blue-300 hover:shadow-md relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-[#f0f2f5]0 transform origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
-                  
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="text-[13px] font-bold text-[#111b21] tracking-wider">FA-{inv.id.substring(0,6).toUpperCase()}</span>
-                    <span className="text-[9px] font-bold bg-amber-50 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-[4px] tracking-wider">PENDIENTE</span>
-                  </div>
-                  
-                  <div className="space-y-2 text-[12px] text-zinc-300">
-                    <p className="flex justify-between border-b border-slate-200 pb-1">
-                      <span className="text-[#54656f] font-medium">Motivo:</span>
-                      <span className="truncate max-w-[140px] font-medium text-zinc-200" title={Array.isArray(inv.items) ? inv.items.join(', ') : inv.items || 'Detalles'}>
-                        {Array.isArray(inv.items) ? inv.items[0] : (inv.items || 'Detalles').split(',')[0]}
-                      </span>
-                    </p>
-                    <p className="flex justify-between border-b border-slate-200 pb-1">
-                      <span className="text-[#54656f] font-medium">Total:</span>
-                      <span className="font-bold text-[#111b21]">${inv.amount}</span>
-                    </p>
-                    <p className="flex justify-between pb-1">
-                      <span className="text-[#54656f] font-medium">Fecha:</span>
-                      <span className="text-zinc-300">{inv.purchase_date}</span>
-                    </p>
-                  </div>
-                  
-                  {inv.file_url && (
-                    <a href={inv.file_url} target="_blank" rel="noreferrer" className="mt-4 w-full py-2.5 rounded-lg border border-blue-200 text-[#111b21] text-[10px] font-bold tracking-[0.2em] flex items-center justify-center hover:bg-orange-600 hover:text-[#111b21] transition-all">
-                      <ExternalLink className="w-3 h-3 mr-2" />
-                      VER PDF
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-            </>
-            )}
+
           </div>
         </div>
       )}
@@ -2651,7 +2148,7 @@ function Clients() {
   const totalInvoiceAmount = (invs: any[]) => invs.reduce((acc: number, i: any) => acc + (parseFloat(i.amount) || 0), 0);
 
   return (
-    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-zinc-950 flex flex-col`}>
+    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-[#f0f2f5] flex flex-col`}>
       <TopBar title="Adventure Pro" subtitle="Clientes" />
       <main className="px-10 py-6 w-full">
 
@@ -2677,27 +2174,23 @@ function Clients() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-6 mb-8">
-          <div className="bg-zinc-900 rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
+        <div className="grid grid-cols-3 gap-6 mb-8">
+          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
             <p className="text-[11px] font-bold text-[#54656f] uppercase tracking-wider mb-1">Total Clientes</p>
             <p className="text-[26px] font-extrabold text-[#111b21]">{clients.length}</p>
           </div>
-          <div className="bg-zinc-900 rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
-            <p className="text-[11px] font-bold text-indigo-500 uppercase tracking-wider mb-1">Con Factura</p>
-            <p className="text-[26px] font-extrabold text-indigo-600">{clients.filter(c => c.ai_summary && c.ai_summary.toLowerCase().includes('factura')).length || '—'}</p>
-          </div>
-          <div className="bg-zinc-900 rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
+          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
             <p className="text-[11px] font-bold text-green-500 uppercase tracking-wider mb-1">Con Resumen IA</p>
             <p className="text-[26px] font-extrabold text-green-600">{clients.filter(c => c.ai_summary).length}</p>
           </div>
-          <div className="bg-zinc-900 rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
+          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
             <p className="text-[11px] font-bold text-amber-500 uppercase tracking-wider mb-1">Sin Resumen</p>
             <p className="text-[26px] font-extrabold text-amber-600">{clients.filter(c => !c.ai_summary).length}</p>
           </div>
         </div>
 
         {/* Search */}
-        <div className="bg-zinc-900 rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
           <div className="p-4 border-b border-slate-200 flex items-center">
             <div className="flex-1 max-w-md relative">
               <Search className="w-4 h-4 absolute left-3 top-2.5 text-[#54656f]" />
@@ -2706,7 +2199,7 @@ function Clients() {
                 placeholder="Buscar por nombre o teléfono..." 
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-[13px] font-medium text-zinc-200 focus:outline-none focus:bg-zinc-900 focus:border-blue-400 transition-colors"
+                className="w-full bg-[#f0f2f5] border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-[13px] font-medium text-[#111b21] focus:outline-none focus:bg-white focus:border-blue-400 transition-colors"
               />
             </div>
           </div>
@@ -2751,7 +2244,7 @@ function Clients() {
       {panelOpen && selectedClient && (
         <div className="fixed inset-0 z-[100] flex justify-end">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setPanelOpen(false)}></div>
-          <div className="relative w-full max-w-[580px] bg-zinc-900 h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 overflow-y-auto">
+          <div className="relative w-full max-w-[580px] bg-[#f0f2f5] h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 overflow-y-auto">
             
             {/* Panel Header */}
             <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 px-6 py-5 flex items-center justify-between flex-shrink-0">
@@ -2801,22 +2294,14 @@ function Clients() {
                     <RefreshCw className="w-3 h-3" /> Regenerar
                   </button>
                 </div>
-                <p className="text-[13px] text-zinc-200 leading-relaxed">
+                <p className="text-[13px] text-[#111b21] leading-relaxed">
                   {selectedClient.ai_summary || 'Resumen pendiente de generación...'}
                 </p>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-3 px-5 py-4 border-b border-slate-200 flex-shrink-0">
-              <div className="bg-[#f0f2f5] rounded-xl p-3 text-center">
-                <p className="text-[10px] font-bold text-orange-500 uppercase tracking-wider">Facturas</p>
-                <p className="text-[20px] font-extrabold text-orange-700">{clientInvoices.length}</p>
-              </div>
-              <div className="bg-green-50 rounded-xl p-3 text-center">
-                <p className="text-[10px] font-bold text-green-500 uppercase tracking-wider">Facturado</p>
-                <p className="text-[16px] font-extrabold text-green-700">{formatMoney(totalInvoiceAmount(clientInvoices))}</p>
-              </div>
+            <div className="grid grid-cols-1 gap-3 px-5 py-4 border-b border-slate-200 flex-shrink-0">
               <div className="bg-amber-50 rounded-xl p-3 text-center">
                 <p className="text-[10px] font-bold text-amber-500 uppercase tracking-wider">Mensajes</p>
                 <p className="text-[20px] font-extrabold text-amber-700">{clientMsgCount}</p>
@@ -2833,7 +2318,7 @@ function Clients() {
               ) : clientInvoices.map((inv: any, idx: number) => (
                 <div key={idx} className="bg-white rounded-xl p-4 mb-3 border border-slate-200">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[12px] font-bold text-zinc-300">
+                    <span className="text-[12px] font-bold text-[#111b21]">
                       {inv.invoice_number ? `Factura N° ${inv.invoice_number}` : `Factura #${idx + 1}`}
                     </span>
                     <span className="text-[14px] font-extrabold text-green-700">{formatMoney(inv.amount || 0)}</span>
@@ -2845,7 +2330,7 @@ function Clients() {
                     <div className="border border-slate-200 rounded-lg overflow-hidden mt-2">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-zinc-900">
+                          <tr className="bg-slate-50">
                             <th className="text-left px-3 py-2 text-[9px] font-bold text-[#54656f] uppercase">Cant.</th>
                             <th className="text-left px-3 py-2 text-[9px] font-bold text-[#54656f] uppercase">Producto</th>
                             <th className="text-right px-3 py-2 text-[9px] font-bold text-[#54656f] uppercase">Importe</th>
@@ -2854,9 +2339,9 @@ function Clients() {
                         <tbody className="divide-y divide-slate-100">
                           {inv.items.map((item: any, i: number) => (
                             <tr key={i}>
-                              <td className="px-3 py-1.5 text-[12px] font-bold text-zinc-200">{typeof item === 'object' ? (item.qty || 1) : 1}</td>
-                              <td className="px-3 py-1.5 text-[12px] text-zinc-200">{typeof item === 'object' ? item.description : item}</td>
-                              <td className="px-3 py-1.5 text-[12px] font-mono text-right text-zinc-300">{typeof item === 'object' && item.total ? formatMoney(item.total) : '—'}</td>
+                              <td className="px-3 py-1.5 text-[12px] font-bold text-[#111b21]">{typeof item === 'object' ? (item.qty || 1) : 1}</td>
+                              <td className="px-3 py-1.5 text-[12px] text-[#111b21]">{typeof item === 'object' ? item.description : item}</td>
+                              <td className="px-3 py-1.5 text-[12px] font-mono text-right text-[#54656f]">{typeof item === 'object' && item.total ? formatMoney(item.total) : '—'}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -2878,7 +2363,7 @@ function Clients() {
                 <div key={idx} className="flex items-center gap-3 py-2 border-b border-slate-50 last:border-0">
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 ${fu.status === 'pending' ? 'bg-amber-400' : fu.status === 'completed' ? 'bg-green-400' : 'bg-red-400'}`}></div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-medium text-zinc-200">{fu.reason}</p>
+                    <p className="text-[13px] font-medium text-[#111b21]">{fu.reason}</p>
                     {fu.observations && <p className="text-[11px] text-[#54656f] italic truncate">{fu.observations}</p>}
                   </div>
                   <span className="text-[11px] text-[#54656f] flex-shrink-0">{new Date(fu.scheduled_date).toLocaleDateString('es-AR')}</span>
@@ -3712,7 +3197,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/subir" element={<UploadInvoice />} />
+
           <Route path="/mensajeria" element={<Messenger />} />
           <Route path="/clientes" element={<Clients />} />
           <Route path="/seguimientos" element={<FollowUps />} />
