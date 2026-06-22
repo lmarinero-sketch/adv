@@ -1399,7 +1399,7 @@ function Messenger() {
                   onClick={() => setActiveContact(c.phone)}
                   className={`flex items-start p-3 cursor-pointer border-b border-slate-50 transition-colors ${isActive ? 'bg-[#f0f2f5]' : 'hover:bg-[#f5f6f6]'}`}
                 >
-                  <img src="/images.png" alt="Cliente" className="w-10 h-10 rounded-full object-cover shrink-0 shadow-sm mr-3 border border-slate-200" />
+                  <img src="/images.jpg" alt="Cliente" className="w-10 h-10 rounded-full object-cover shrink-0 shadow-sm mr-3 border border-slate-200" />
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center mb-0.5">
                       <h4 className={`text-[14px] font-bold truncate ${isActive ? 'text-[#111b21]' : 'text-[#111b21]'}`}>{c.name}</h4>
@@ -1726,7 +1726,7 @@ function Messenger() {
             {/* Chat Topbar */}
             <div className="h-16 bg-[#f0f2f5] border-b border-slate-200 flex items-center justify-between px-6 z-10 shrink-0 shadow-sm relative">
               <div className="flex items-center">
-                <img src="/images.png" alt="Avatar Cliente" className="w-10 h-10 rounded-full object-cover shadow-sm mr-3 border border-slate-200" />
+                <img src="/images.jpg" alt="Avatar Cliente" className="w-10 h-10 rounded-full object-cover shadow-sm mr-3 border border-slate-200" />
                 <div>
                   
                   {isEditingClient ? (
