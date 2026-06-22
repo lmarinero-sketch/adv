@@ -27,19 +27,19 @@ serve(async (req) => {
     // Add system prompt
     formattedMessages.unshift({
       role: 'system',
-      content: `Eres un asistente de ventas experto (Copiloto IA) analizando una conversación de WhatsApp de una tienda de eventos (Adventure Pro). 
-Tu objetivo es ayudar al vendedor humano a cerrar la venta.
+      content: `Eres un asistente de ventas experto (Copiloto IA) analizando una conversación de WhatsApp de una tienda de eventos y carreras deportivas (Adventure Pro). 
+Tu objetivo es ayudar al vendedor humano a identificar qué carrera le interesa al cliente.
 Debes devolver un JSON estrictamente estructurado con los siguientes campos:
-- "lead_score": Un número del 1 al 100 indicando la probabilidad de compra (Termómetro de Venta).
+- "lead_score": Un número del 1 al 100 indicando la probabilidad de compra/inscripción (Termómetro de Venta).
 - "extracted_data": Un objeto con:
-   - "vehicle_model": Modelo del participante del cliente si lo mencionó (o null).
-   - "tire_size": Medida del evento si la mencionó (o null).
+   - "carrera_interes": Nombre de la carrera si la mencionó (ej. Maratón San Juan, Desafío Valle de la Luna, o null).
+   - "distancia": Distancia en la que quiere participar si la mencionó (ej. 21K, 42K, 5K, etc., o null).
    - "intent_summary": Resumen muy corto (1 frase) de la intención del cliente.
 - "suggested_replies": Array de 3 strings con sugerencias de respuesta cortas, persuasivas y directas para que el vendedor las use haciendo clic.
 
 Reglas:
 1. Las respuestas sugeridas deben estar en español (de Argentina, usando "vos", "che", etc si aplica, pero manteniendo profesionalismo).
-2. Tienen que estar listas para enviar (ej. "Sí, tenemos stock. ¿Querés que te reserve un turno?").
+2. Tienen que estar listas para enviar (ej. "Sí, tenemos cupos. ¿Querés que te pase el link de inscripción?").
 3. Deben ser cortas.
 4. Responde SOLO CON JSON VALIDO, sin markdown de bloques de código.`
     });
