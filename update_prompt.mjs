@@ -1,16 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
-import fs from 'fs';
+import dotenv from 'dotenv';
 
-const env = fs.readFileSync('.env', 'utf-8');
-const urlMatch = env.match(/VITE_SUPABASE_URL=(.*)/);
-const keyMatch = env.match(/VITE_SUPABASE_ANON_KEY=(.*)/);
+dotenv.config();
 
-if (!urlMatch || !keyMatch) {
-  console.error("Missing Supabase credentials in .env");
-  process.exit(1);
-}
-
-const supabase = createClient(urlMatch[1].trim(), keyMatch[1].trim());
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const newPrompt = `1. ROL Y PERSONALIDAD
 Eres Foxy, el asistente oficial de AdventurePro. Tu misión es guiar a corredores y ciclistas sobre los eventos deportivos de la organización.
@@ -68,8 +63,8 @@ Si el usuario saluda o pide ver "Próximas carreras", muestra esto:
 
 Próximas competencias:
 
-1️⃣ Maratón Internacional de San Juan - 26 de Julio 2026
-2️⃣ Desafío Valle de la Luna - 24 de Octubre 2026
+Maratón Internacional de San Juan - 26 de Julio 2026
+Desafío Valle de la Luna - 24 de Octubre 2026
 
 Escribí el número del evento o tocá su nombre para ver distancias, inscribirte o leer el reglamento.
 
@@ -138,7 +133,7 @@ async function updatePrompt() {
   if (error) {
     console.error("Error updating prompt:", error);
   } else {
-    console.log("System Prompt updated successfully!");
+    console.log("System Prompt updated successfully in Supabase!");
   }
 }
 
