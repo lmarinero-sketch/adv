@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ng-blue: #1E3A8A;
-  --color-ng-yellow: #EAB308;
+  --color-ng-blue: #dc2626; /* Replaced with Red to maintain class compat if used */
+  --color-ng-yellow: #f97316; /* Replaced with Orange */
+  
+  --color-primary: #dc2626; /* Red */
+  --color-secondary: #f97316; /* Orange */
+  --color-dark: #0f172a; /* Black/Dark */
 }
 
 @layer base {
@@ -10,4 +14,47 @@
     @apply bg-slate-50 text-slate-900 antialiased;
     font-family: 'Inter', sans-serif;
   }
+}
+
+/* ===== UTILITY: ANIMATIONS (Copied from ADM-QUI) ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); max-height: 0; }
+  to { opacity: 1; transform: translateY(0); max-height: 400px; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 250ms cubic-bezier(0.4, 0, 0.2, 1) ease-out;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 250ms cubic-bezier(0.4, 0, 0.2, 1) ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 150ms cubic-bezier(0.4, 0, 0.2, 1) ease-out;
 }

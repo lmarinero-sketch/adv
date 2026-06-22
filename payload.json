@@ -1,0 +1,10 @@
+{
+  "eventName": "message.incoming",
+  "data": {
+    "from": "5491112345678",
+    "name": "Test User",
+    "body": "Hola, esto es una prueba manual",
+    "fromMe": false,
+    "status": "RECEIVED"
+  }
+}

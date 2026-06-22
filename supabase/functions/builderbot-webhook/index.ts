@@ -64,7 +64,12 @@ serve(async (req) => {
     }
 
     if (!phone || (!body && !attachmentUrls)) {
-      return new Response(JSON.stringify({ status: "ignored - missing fields" }), {
+      await supabase.from('ng_error_logs').insert({
+        title: 'Webhook Ignored',
+        message: JSON.stringify(payload),
+        type: 'warning'
+      });
+      return new Response(JSON.stringify({ status: "ignored - missing fields", payload }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });

@@ -72,14 +72,14 @@ function Sidebar() {
       <Link 
         to={to} 
         title={!isSidebarOpen ? text : undefined}
-        className={`flex items-center ${isSidebarOpen ? 'justify-between px-4' : 'justify-center px-0'} py-3 text-[14px] font-medium rounded-xl transition-all ${
+        className={`flex items-center ${isSidebarOpen ? 'justify-between px-4' : 'justify-center px-0'} py-3 text-[14px] font-medium transition-all ${
           isActive 
-            ? 'bg-white/15 text-white backdrop-blur-sm' 
-            : 'text-blue-100/70 hover:bg-white/10 hover:text-white'
+            ? 'bg-orange-500/20 text-orange-400 border-r-4 border-orange-500' 
+            : 'text-slate-400 hover:bg-white/5 hover:text-white rounded-xl'
         }`}
       >
         <div className="flex items-center">
-          <Icon className={`w-[18px] h-[18px] ${isSidebarOpen ? 'mr-3' : ''} ${isActive ? 'text-white' : 'text-[#00FF88]/70/60'}`} />
+          <Icon className={`w-[18px] h-[18px] ${isSidebarOpen ? 'mr-3' : ''} ${isActive ? 'text-orange-500' : 'text-slate-500'}`} />
           {isSidebarOpen && text}
         </div>
         {badge && isSidebarOpen && (
@@ -92,20 +92,20 @@ function Sidebar() {
   };
 
   return (
-    <div className={`h-screen flex flex-col fixed left-0 top-0 overflow-visible transition-[width] duration-300 z-50 ${isSidebarOpen ? 'w-[280px]' : 'w-[80px]'}`}
+    <div className={`h-screen flex flex-col fixed left-0 top-0 overflow-hidden transition-[width] duration-300 z-50 ${isSidebarOpen ? 'w-[280px]' : 'w-[80px]'}`}
       style={{
-        backgroundImage: 'linear-gradient(to bottom, rgba(1,66,142,0.92) 0%, rgba(1,40,100,0.97) 100%), url(/2021-06-07.png)',
+        backgroundImage: 'linear-gradient(to bottom, rgba(15,23,42,0.95) 0%, rgba(0,0,0,0.98) 100%), url(/2021-06-07.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
     >
       <div className={`p-4 border-b border-white/10 flex items-center h-[88px] relative ${isSidebarOpen ? 'justify-between px-6' : 'justify-center px-2'}`}>
         <div className="flex items-center overflow-hidden">
-            <img src="/images.png" alt="Adventure Pro" className="w-[42px] h-[42px] rounded-xl object-cover shadow-lg shrink-0 border-2 border-white/20" />
+            <img src="/images.jpg" alt="Adventure Pro" className="w-[42px] h-[42px] rounded-xl object-cover shadow-lg shrink-0 border-2 border-white/20" />
             {isSidebarOpen && (
               <div className="ml-3 shrink-0">
                 <h2 className="text-[17px] font-extrabold text-white leading-tight">Eventos</h2>
-                <p className="text-[14px] text-[#00FF88]/70 leading-tight font-medium tracking-wide">Adventure Pro</p>
+                <p className="text-[14px] text-orange-500/70 leading-tight font-medium tracking-wide">Adventure Pro</p>
               </div>
             )}
         </div>
@@ -113,7 +113,7 @@ function Sidebar() {
         {/* Toggle Button */}
         <button 
            onClick={toggleSidebar} 
-           className="absolute -right-[14px] top-[30px] bg-white border border-slate-200 text-slate-400 hover:text-blue-600 shadow-sm rounded-md p-1 z-50 transition-colors"
+           className="absolute -right-[14px] top-[30px] bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-orange-600 shadow-sm rounded-md p-1 z-50 transition-colors"
         >
            {isSidebarOpen ? <PanelLeftClose className="w-[18px] h-[18px]" /> : <PanelLeftOpen className="w-[18px] h-[18px]" />}
         </button>
@@ -130,13 +130,20 @@ function Sidebar() {
         <NavItem to="/configuracion" icon={Settings} text="Configuración" />
       </nav>
       
-      {isSidebarOpen && (
-        <div className="p-4 border-t border-white/10 text-center">
-          <a href="https://www.growlabs.lat" target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#00FF88]/70/60 font-medium uppercase tracking-wider hover:text-white transition-colors block">
-            SISTEMA CREADO POR GROW LABS
-          </a>
-        </div>
-      )}
+      <div className="mt-auto">
+        {isSidebarOpen && (
+          <div className="px-4 pb-2 text-center flex flex-col items-center">
+            <img src="/giftrote.gif" alt="Animation" className="w-full h-auto max-h-[250px] object-cover rounded-lg shadow-lg opacity-80 mix-blend-screen" />
+          </div>
+        )}
+        {isSidebarOpen && (
+          <div className="p-4 border-t border-white/10 text-center">
+            <a href="https://www.growlabs.lat" target="_blank" rel="noopener noreferrer" className="text-[10px] text-slate-500 font-medium uppercase tracking-wider hover:text-orange-500 transition-colors block">
+              SISTEMA CREADO POR GROW LABS
+            </a>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -148,28 +155,28 @@ function TopBar({ title, subtitle }: { title: string, subtitle: string }) {
   const formattedDate = new Intl.DateTimeFormat('es-AR', dateOptions).format(new Date());
 
   return (
-    <header className="h-[88px] bg-white/80 backdrop-blur-md flex items-center justify-between px-10 sticky top-0 z-10 transition-colors">
+    <header className="h-[88px] bg-zinc-900/80 backdrop-blur-md flex items-center justify-between px-10 sticky top-0 z-10 transition-colors">
       <div className="flex items-center">
         <div>
-          <h1 className="text-[22px] text-slate-800"><span className="font-bold">Administración</span> {title}</h1>
-          <p className="text-sm text-slate-400 mt-0.5">{subtitle}</p>
+          <h1 className="text-[22px] text-white"><span className="font-bold">Administración</span> {title}</h1>
+          <p className="text-sm text-zinc-500 mt-0.5">{subtitle}</p>
         </div>
       </div>
       
       <div className="flex items-center space-x-3">
-        <div className="bg-slate-100 px-4 py-2 rounded-full text-[13px] font-medium text-slate-600 capitalize">
+        <div className="bg-zinc-800 px-4 py-2 rounded-full text-[13px] font-medium text-zinc-300 capitalize">
           {formattedDate}
         </div>
-        <div className="bg-slate-100 pl-4 pr-1 py-1 rounded-full flex items-center justify-between border border-slate-200">
-          <span className="text-[13px] font-medium text-slate-700 mr-3">Vendedor Juan</span>
-          <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">
+        <div className="bg-zinc-800 pl-4 pr-1 py-1 rounded-full flex items-center justify-between border border-zinc-800">
+          <span className="text-[13px] font-medium text-zinc-200 mr-3">Vendedor Juan</span>
+          <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center text-xs font-bold">
             VJ
           </div>
         </div>
-        <button className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors">
+        <button className="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50 transition-colors">
           <Search className="w-4 h-4" />
         </button>
-        <button onClick={() => (window as any).toggleTheme()} className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors">
+        <button onClick={() => (window as any).toggleTheme()} className="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50 transition-colors">
           <Moon className="w-4 h-4" />
         </button>
       </div>
@@ -191,17 +198,17 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className={`flex-1 min-h-screen bg-[#F8FAFC] flex flex-col transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'}`}>
+    <div className={`flex-1 min-h-screen bg-zinc-950 flex flex-col transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'}`}>
        <TopBar title="Adventure Pro" subtitle="Sistema de gestión integral" />
        
        <main className="px-10 py-6 w-full">
          
          {/* HERO BANNER - Exact replication */}
-         <div className="w-full bg-[#1E3A8A] rounded-[28px] overflow-hidden mb-10 relative shadow-md shadow-blue-500/20">
+         <div className="w-full bg-black rounded-[28px] overflow-hidden mb-10 relative shadow-md shadow-orange-500/20">
            {/* Background Image Setup */}
            <div className="absolute inset-0 z-0">
              <img src="/maxresdefault.jpg" alt="Fondo Eventos" className="w-full h-full object-cover opacity-40 mix-blend-overlay brightness-75" />
-             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-600/40"></div>
+             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-orange-600/40"></div>
            </div>
            
            <div className="relative z-10 px-12 py-10">
@@ -210,19 +217,19 @@ function Dashboard() {
                <h2 className="text-3xl font-bold text-white tracking-tight">Buenas noches 👋</h2>
              </div>
              
-             <p className="text-blue-50 text-[15px] font-medium leading-relaxed max-w-3xl mb-8 opacity-90">
+             <p className="text-orange-50 text-[15px] font-medium leading-relaxed max-w-3xl mb-8 opacity-90">
                Bienvenido al <strong>Sistema de Administración</strong> de Adventure Pro. Desde acá podés subir facturas, controlar seguimientos con inteligencia artificial y comunicarte automáticamente con los clientes por WhatsApp.
              </p>
 
              <div className="flex flex-wrap gap-3">
-               <div className="bg-white/20 hover:bg-white/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
-                 <FileText className="w-4 h-4 mr-2" /> Facturas <span className="ml-2 bg-white/20 px-2 py-0.5 rounded textxs">Módulo IA</span>
+               <div className="bg-zinc-900/20 hover:bg-zinc-900/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
+                 <FileText className="w-4 h-4 mr-2" /> Facturas <span className="ml-2 bg-zinc-900/20 px-2 py-0.5 rounded textxs">Módulo IA</span>
                </div>
-               <div className="bg-white/20 hover:bg-white/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
-                 <Clock className="w-4 h-4 mr-2" /> Seguimientos <span className="ml-2 bg-white/20 px-2 py-0.5 rounded textxs">{stats.followUps} Activos</span>
+               <div className="bg-zinc-900/20 hover:bg-zinc-900/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
+                 <Clock className="w-4 h-4 mr-2" /> Seguimientos <span className="ml-2 bg-zinc-900/20 px-2 py-0.5 rounded textxs">{stats.followUps} Activos</span>
                </div>
-               <div className="bg-white/20 hover:bg-white/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
-                 <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp <span className="ml-2 bg-white/20 px-2 py-0.5 rounded textxs">Integrado</span>
+               <div className="bg-zinc-900/20 hover:bg-zinc-900/30 cursor-pointer backdrop-blur-md px-4 py-2 rounded-xl text-white text-[13px] font-medium border border-white/10 transition-colors flex items-center">
+                 <MessageSquare className="w-4 h-4 mr-2" /> WhatsApp <span className="ml-2 bg-zinc-900/20 px-2 py-0.5 rounded textxs">Integrado</span>
                </div>
              </div>
            </div>
@@ -230,39 +237,39 @@ function Dashboard() {
          
          {/* SECTION TITLE */}
          <div className="flex items-center mb-6">
-           <FileText className="w-5 h-5 text-slate-500 mr-3" />
+           <FileText className="w-5 h-5 text-zinc-400 mr-3" />
            <div>
-             <h3 className="text-[17px] font-bold text-slate-800">Acciones Directas</h3>
-             <p className="text-sm text-slate-400">Tocá cada sección para acceder al sistema rápido.</p>
+             <h3 className="text-[17px] font-bold text-white">Acciones Directas</h3>
+             <p className="text-sm text-zinc-500">Tocá cada sección para acceder al sistema rápido.</p>
            </div>
          </div>
 
          {/* ACTION LIST CARDS */}
          <div className="space-y-4">
            
-           <Link to="/subir" className="bg-white hover:bg-slate-50 transition-colors cursor-pointer border border-slate-200/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
+           <Link to="/subir" className="bg-zinc-900 hover:bg-zinc-800/50 transition-colors cursor-pointer border border-zinc-800/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
              <div className="flex items-center">
-               <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mr-5 shrink-0">
-                 <FileText className="w-5 h-5 text-blue-500" />
+               <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mr-5 shrink-0">
+                 <FileText className="w-5 h-5 text-orange-500" />
                </div>
                <div>
-                 <h4 className="text-[16px] font-bold text-slate-800">Cargar Nueva Factura</h4>
-                 <p className="text-[13px] text-slate-500 mt-0.5">Subí el PDF de la factura, extraé datos por IA y creá un seguimiento.</p>
+                 <h4 className="text-[16px] font-bold text-white">Cargar Nueva Factura</h4>
+                 <p className="text-[13px] text-zinc-400 mt-0.5">Subí el PDF de la factura, extraé datos por IA y creá un seguimiento.</p>
                </div>
              </div>
-             <div className="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center">
+             <div className="bg-orange-50 text-orange-600 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center">
                Subir PDF <ChevronDown className="w-4 h-4 ml-1" />
              </div>
             </Link>
 
-           <Link to="/mensajeria" className="bg-white hover:bg-slate-50 transition-colors cursor-pointer border border-slate-200/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
+           <Link to="/mensajeria" className="bg-zinc-900 hover:bg-zinc-800/50 transition-colors cursor-pointer border border-zinc-800/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
              <div className="flex items-center">
                <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mr-5 shrink-0">
                  <MessageSquare className="w-5 h-5 text-green-500" />
                </div>
                <div>
-                 <h4 className="text-[16px] font-bold text-slate-800">Historial de Mensajes</h4>
-                 <p className="text-[13px] text-slate-500 mt-0.5">Controlá las consultas de los clientes que llegaron vía builderBot.</p>
+                 <h4 className="text-[16px] font-bold text-white">Historial de Mensajes</h4>
+                 <p className="text-[13px] text-zinc-400 mt-0.5">Controlá las consultas de los clientes que llegaron vía builderBot.</p>
                </div>
              </div>
              <div className="bg-green-50 text-green-600 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center">
@@ -270,14 +277,14 @@ function Dashboard() {
              </div>
             </Link>
 
-           <Link to="/configuracion" className="bg-white hover:bg-slate-50 transition-colors cursor-pointer border border-slate-200/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
+           <Link to="/configuracion" className="bg-zinc-900 hover:bg-zinc-800/50 transition-colors cursor-pointer border border-zinc-800/60 rounded-2xl p-5 flex items-center justify-between shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] no-underline">
              <div className="flex items-center">
                <div className="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center mr-5 shrink-0">
                  <Settings className="w-5 h-5 text-purple-500" />
                </div>
                <div>
-                 <h4 className="text-[16px] font-bold text-slate-800">Configuración</h4>
-                 <p className="text-[13px] text-slate-500 mt-0.5">Configurá las credenciales de Supabase y prompts de la IA.</p>
+                 <h4 className="text-[16px] font-bold text-white">Configuración</h4>
+                 <p className="text-[13px] text-zinc-400 mt-0.5">Configurá las credenciales de Supabase y prompts de la IA.</p>
                </div>
              </div>
              <div className="bg-purple-50 text-purple-600 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center">
@@ -430,19 +437,19 @@ function UploadInvoice() {
   const hasStructuredItems = parsedData?.items && Array.isArray(parsedData.items) && parsedData.items.length > 0 && typeof parsedData.items[0] === 'object';
 
   return (
-    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-[#F8FAFC] flex flex-col`}>
+    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-zinc-950 flex flex-col`}>
       <TopBar title="Adventure Pro" subtitle="Subir Documentos" />
       <main className="px-10 py-6 w-full">
         
         {/* Tab Switcher */}
-        <div className="flex items-center mb-8 bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-1.5">
-          <button onClick={() => setUploadTab('pdf')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all ${uploadTab === 'pdf' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}>
+        <div className="flex items-center mb-8 bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-1.5">
+          <button onClick={() => setUploadTab('pdf')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all ${uploadTab === 'pdf' ? 'bg-orange-600 text-white shadow-md' : 'text-zinc-400 hover:bg-zinc-800/50'}`}>
             <Sparkles className="w-4 h-4" /> Extraer con IA (PDF)
           </button>
-          <button onClick={() => setUploadTab('manual')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all ${uploadTab === 'manual' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}>
+          <button onClick={() => setUploadTab('manual')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all ${uploadTab === 'manual' ? 'bg-orange-600 text-white shadow-md' : 'text-zinc-400 hover:bg-zinc-800/50'}`}>
             <PenLine className="w-4 h-4" /> Ingreso Manual
           </button>
-          <button onClick={() => setUploadTab('excel')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all relative ${uploadTab === 'excel' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}>
+          <button onClick={() => setUploadTab('excel')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold transition-all relative ${uploadTab === 'excel' ? 'bg-orange-600 text-white shadow-md' : 'text-zinc-400 hover:bg-zinc-800/50'}`}>
             <Table2 className="w-4 h-4" /> Carga Masiva (Excel)
             <span className="absolute -top-2 -right-1 bg-amber-400 text-amber-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-sm">PRÓXIMAMENTE</span>
           </button>
@@ -451,24 +458,24 @@ function UploadInvoice() {
         {/* TAB: PDF IA */}
         {uploadTab === 'pdf' && (
           <>
-            <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-8 mb-8">
+            <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-8 mb-8">
               <div className="flex items-center mb-6">
-                <UploadCloud className="w-5 h-5 text-blue-500 mr-3" />
-                <h2 className="text-[17px] font-bold text-slate-800">Cargar PDF</h2>
+                <UploadCloud className="w-5 h-5 text-orange-500 mr-3" />
+                <h2 className="text-[17px] font-bold text-white">Cargar PDF</h2>
               </div>
-              <label className="border-2 border-dashed border-slate-200 rounded-xl p-12 text-center bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer block">
+              <label className="border-2 border-dashed border-zinc-800 rounded-xl p-12 text-center bg-zinc-800/50 hover:bg-zinc-800 transition-colors cursor-pointer block">
                 <FileText className="w-10 h-10 text-slate-300 mx-auto mb-4" />
-                <p className="text-[15px] font-bold text-slate-700 mb-1">
+                <p className="text-[15px] font-bold text-zinc-200 mb-1">
                   {file ? `Archivo: ${file.name}` : 'Subir Factura'}
                 </p>
-                <p className="text-[13px] text-slate-400">Seleccioná un archivo PDF (Max 5MB)</p>
+                <p className="text-[13px] text-zinc-500">Seleccioná un archivo PDF (Max 5MB)</p>
                 <input type="file" accept="application/pdf" className="hidden" onChange={handleFileChange} />
               </label>
               <div className="mt-6 flex justify-end">
                 <button 
                   onClick={handleUpload}
                   disabled={!file || loading}
-                  className="bg-blue-600 text-white px-6 py-2.5 rounded-xl text-[14px] font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                  className="bg-orange-600 text-white px-6 py-2.5 rounded-xl text-[14px] font-medium hover:bg-orange-700 disabled:opacity-50 transition-colors"
                 >
                   {loading ? 'Procesando Documento...' : 'Extraer con Inteligencia Artificial'}
                 </button>
@@ -489,7 +496,7 @@ function UploadInvoice() {
                 </div>
 
                 {/* ──── FACTURA VISUAL CARD ──── */}
-                <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.08)] overflow-hidden">
+                <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.08)] overflow-hidden">
                   
                   {/* HEADER FACTURA */}
                   <div className="bg-gradient-to-r from-[#01428E] to-[#1E3A8A] p-6 flex items-start justify-between">
@@ -497,16 +504,16 @@ function UploadInvoice() {
                       <img src="/images.png" alt="Adventure Pro" className="w-12 h-12 rounded-xl object-cover border-2 border-white/20 mr-4" />
                       <div>
                         <h3 className="text-white text-[18px] font-extrabold tracking-tight">Adventure Pro eventos</h3>
-                        <p className="text-[#00FF88]/70 text-[12px] font-medium">Adventure Pro S.R.L.</p>
+                        <p className="text-orange-500/70 text-[12px] font-medium">Adventure Pro S.R.L.</p>
                       </div>
                     </div>
                     <div className="text-right">
                       <div className="flex items-center justify-end gap-3 mb-1">
-                        <span className="bg-white text-[#01428E] text-[14px] font-black px-3 py-1 rounded-lg">{parsedData.invoiceType || 'A'}</span>
+                        <span className="bg-zinc-900 text-[#01428E] text-[14px] font-black px-3 py-1 rounded-lg">{parsedData.invoiceType || 'A'}</span>
                         <span className="text-white text-[16px] font-bold">Factura</span>
                       </div>
                       {parsedData.invoiceNumber && (
-                        <p className="text-[#00FF88]/70 text-[13px] font-bold tracking-wider">Nº {parsedData.invoiceNumber}</p>
+                        <p className="text-orange-500/70 text-[13px] font-bold tracking-wider">Nº {parsedData.invoiceNumber}</p>
                       )}
                       {parsedData.date && (
                         <p className="text-blue-300 text-[12px] mt-1">Fecha: {new Date(parsedData.date + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
@@ -515,31 +522,31 @@ function UploadInvoice() {
                   </div>
 
                   {/* DATOS CLIENTE */}
-                  <div className="grid grid-cols-2 gap-6 p-6 border-b border-slate-100">
+                  <div className="grid grid-cols-2 gap-6 p-6 border-b border-zinc-800">
                     <div className="space-y-3">
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Señor/es</p>
-                        <p className="text-[16px] font-extrabold text-slate-800">{parsedData.clientName || '—'}</p>
+                        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Señor/es</p>
+                        <p className="text-[16px] font-extrabold text-white">{parsedData.clientName || '—'}</p>
                       </div>
                       {parsedData.cuit && (
                         <div>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">C.U.I.T.</p>
-                          <p className="text-[14px] font-mono font-bold text-slate-700">{parsedData.cuit}</p>
+                          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">C.U.I.T.</p>
+                          <p className="text-[14px] font-mono font-bold text-zinc-200">{parsedData.cuit}</p>
                         </div>
                       )}
                     </div>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Teléfono</p>
+                        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Teléfono</p>
                         <div className="flex items-center gap-2">
-                          <p className="text-[14px] font-mono font-bold text-slate-700">{parsedData.phone || 'No especificado'}</p>
+                          <p className="text-[14px] font-mono font-bold text-zinc-200">{parsedData.phone || 'No especificado'}</p>
                           {parsedData.phone && <span className="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">549 OK</span>}
                         </div>
                       </div>
                       {parsedData.paymentCondition && (
                         <div>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Cond. Venta</p>
-                          <p className="text-[14px] font-bold text-slate-700">{parsedData.paymentCondition}</p>
+                          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Cond. Venta</p>
+                          <p className="text-[14px] font-bold text-zinc-200">{parsedData.paymentCondition}</p>
                         </div>
                       )}
                     </div>
@@ -547,45 +554,45 @@ function UploadInvoice() {
 
                   {/* ──── TABLA DE PRODUCTOS ──── */}
                   <div className="p-6">
-                    <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center">
+                    <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-3 flex items-center">
                       <Package className="w-3.5 h-3.5 mr-2" />
                       Detalle de Productos / Servicios
                     </p>
-                    <div className="border border-slate-200 rounded-xl overflow-hidden">
+                    <div className="border border-zinc-800 rounded-xl overflow-hidden">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-slate-50">
-                            <th className="text-left px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-[80px]">CÓD.</th>
-                            <th className="text-center px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-[60px]">CANT.</th>
-                            <th className="text-left px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">DESCRIPCIÓN</th>
-                            <th className="text-right px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-[120px]">P. UNIT.</th>
-                            <th className="text-right px-4 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-[120px]">IMPORTE</th>
+                          <tr className="bg-zinc-800/50">
+                            <th className="text-left px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[80px]">CÓD.</th>
+                            <th className="text-center px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[60px]">CANT.</th>
+                            <th className="text-left px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">DESCRIPCIÓN</th>
+                            <th className="text-right px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[120px]">P. UNIT.</th>
+                            <th className="text-right px-4 py-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider w-[120px]">IMPORTE</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
                           {hasStructuredItems ? (
                             parsedData.items.map((item: any, idx: number) => (
-                              <tr key={idx} className="hover:bg-blue-50/30 transition-colors">
-                                <td className="px-4 py-3 text-[12px] font-mono text-slate-500">{item.cod || '—'}</td>
-                                <td className="px-4 py-3 text-[13px] font-bold text-slate-800 text-center">{item.qty || 1}</td>
-                                <td className="px-4 py-3 text-[13px] font-medium text-slate-800">{item.description}</td>
-                                <td className="px-4 py-3 text-[13px] font-mono text-slate-600 text-right">{item.unitPrice ? formatMoney(item.unitPrice) : '—'}</td>
-                                <td className="px-4 py-3 text-[13px] font-mono font-bold text-slate-800 text-right">{item.total ? formatMoney(item.total) : '—'}</td>
+                              <tr key={idx} className="hover:bg-orange-50/30 transition-colors">
+                                <td className="px-4 py-3 text-[12px] font-mono text-zinc-400">{item.cod || '—'}</td>
+                                <td className="px-4 py-3 text-[13px] font-bold text-white text-center">{item.qty || 1}</td>
+                                <td className="px-4 py-3 text-[13px] font-medium text-white">{item.description}</td>
+                                <td className="px-4 py-3 text-[13px] font-mono text-zinc-300 text-right">{item.unitPrice ? formatMoney(item.unitPrice) : '—'}</td>
+                                <td className="px-4 py-3 text-[13px] font-mono font-bold text-white text-right">{item.total ? formatMoney(item.total) : '—'}</td>
                               </tr>
                             ))
                           ) : Array.isArray(parsedData.items) ? (
                             parsedData.items.map((item: any, idx: number) => (
-                              <tr key={idx} className="hover:bg-blue-50/30 transition-colors">
-                                <td className="px-4 py-3 text-[12px] font-mono text-slate-500">—</td>
-                                <td className="px-4 py-3 text-[13px] font-bold text-slate-800 text-center">1</td>
-                                <td className="px-4 py-3 text-[13px] font-medium text-slate-800">{typeof item === 'string' ? item : item.description || JSON.stringify(item)}</td>
-                                <td className="px-4 py-3 text-[13px] font-mono text-slate-600 text-right">—</td>
-                                <td className="px-4 py-3 text-[13px] font-mono font-bold text-slate-800 text-right">—</td>
+                              <tr key={idx} className="hover:bg-orange-50/30 transition-colors">
+                                <td className="px-4 py-3 text-[12px] font-mono text-zinc-400">—</td>
+                                <td className="px-4 py-3 text-[13px] font-bold text-white text-center">1</td>
+                                <td className="px-4 py-3 text-[13px] font-medium text-white">{typeof item === 'string' ? item : item.description || JSON.stringify(item)}</td>
+                                <td className="px-4 py-3 text-[13px] font-mono text-zinc-300 text-right">—</td>
+                                <td className="px-4 py-3 text-[13px] font-mono font-bold text-white text-right">—</td>
                               </tr>
                             ))
                           ) : (
                             <tr>
-                              <td colSpan={5} className="px-4 py-4 text-[13px] text-slate-500 text-center">Sin productos extraídos</td>
+                              <td colSpan={5} className="px-4 py-4 text-[13px] text-zinc-400 text-center">Sin productos extraídos</td>
                             </tr>
                           )}
                         </tbody>
@@ -599,25 +606,25 @@ function UploadInvoice() {
                       <div className="w-[380px] space-y-2">
                         {parsedData.subtotal && (
                           <div className="flex justify-between text-[13px]">
-                            <span className="text-slate-500">Subtotal</span>
-                            <span className="font-mono font-medium text-slate-700">{formatMoney(parsedData.subtotal)}</span>
+                            <span className="text-zinc-400">Subtotal</span>
+                            <span className="font-mono font-medium text-zinc-200">{formatMoney(parsedData.subtotal)}</span>
                           </div>
                         )}
                         {parsedData.discount && (
                           <div className="flex justify-between text-[13px]">
-                            <span className="text-slate-500">Descuento ({parsedData.discount}%)</span>
+                            <span className="text-zinc-400">Descuento ({parsedData.discount}%)</span>
                             <span className="font-mono font-medium text-red-500">-{parsedData.discountAmount ? formatMoney(parsedData.discountAmount) : '—'}</span>
                           </div>
                         )}
                         {parsedData.iva && (
                           <div className="flex justify-between text-[13px]">
-                            <span className="text-slate-500">IVA 21%</span>
-                            <span className="font-mono font-medium text-slate-700">{formatMoney(parsedData.iva)}</span>
+                            <span className="text-zinc-400">IVA 21%</span>
+                            <span className="font-mono font-medium text-zinc-200">{formatMoney(parsedData.iva)}</span>
                           </div>
                         )}
                         <div className="border-t-2 border-slate-800 pt-3 mt-2 flex justify-between">
-                          <span className="text-[15px] font-extrabold text-slate-800">TOTAL</span>
-                          <span className="text-[18px] font-extrabold text-slate-900 font-mono">{formatMoney(parsedData.amount || 0)}</span>
+                          <span className="text-[15px] font-extrabold text-white">TOTAL</span>
+                          <span className="text-[18px] font-extrabold text-white font-mono">{formatMoney(parsedData.amount || 0)}</span>
                         </div>
                       </div>
                     </div>
@@ -625,16 +632,16 @@ function UploadInvoice() {
                 </div>
 
                 {/* ──── CONFIGURACIÓN DE SEGUIMIENTO ──── */}
-                <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
-                  <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center">
+                <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
+                  <div className="bg-zinc-800/50 px-6 py-4 border-b border-zinc-800 flex items-center">
                     <Clock className="w-4 h-4 text-amber-500 mr-3" />
-                    <p className="text-[13px] font-bold text-slate-700">Configurar Seguimiento</p>
+                    <p className="text-[13px] font-bold text-zinc-200">Configurar Seguimiento</p>
                   </div>
                   <div className="p-6 space-y-6">
                     <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-[13px] font-bold text-slate-700 mb-2">Motivo de contacto</label>
-                        <select value={reason} onChange={e => setReason(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 focus:outline-none focus:border-blue-500 bg-white shadow-sm">
+                        <label className="block text-[13px] font-bold text-zinc-200 mb-2">Motivo de contacto</label>
+                        <select value={reason} onChange={e => setReason(e.target.value)} className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900 shadow-sm">
                           <option>Rotación de eventos</option>
                           <option>Alineación y Balanceo</option>
                           <option>Satisfacción de compra</option>
@@ -642,29 +649,29 @@ function UploadInvoice() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[13px] font-bold text-slate-700 mb-2">Agendar a X días</label>
-                        <div className="flex rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white">
-                          <button onClick={() => setDays(30)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 30 ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>30</button>
-                          <div className="w-[1px] bg-slate-100"></div>
-                          <button onClick={() => setDays(90)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 90 ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>90</button>
-                          <div className="w-[1px] bg-slate-100"></div>
-                          <button onClick={() => setDays(180)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 180 ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>180</button>
+                        <label className="block text-[13px] font-bold text-zinc-200 mb-2">Agendar a X días</label>
+                        <div className="flex rounded-xl overflow-hidden shadow-sm border border-zinc-800 bg-zinc-900">
+                          <button onClick={() => setDays(30)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 30 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>30</button>
+                          <div className="w-[1px] bg-zinc-800"></div>
+                          <button onClick={() => setDays(90)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 90 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>90</button>
+                          <div className="w-[1px] bg-zinc-800"></div>
+                          <button onClick={() => setDays(180)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 180 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>180</button>
                         </div>
                       </div>
                     </div>
 
                     {/* OBSERVACIONES */}
                     <div>
-                      <label className="block text-[13px] font-bold text-slate-700 mb-2 flex items-center">
-                        <Edit2 className="w-3.5 h-3.5 mr-2 text-slate-400" />
+                      <label className="block text-[13px] font-bold text-zinc-200 mb-2 flex items-center">
+                        <Edit2 className="w-3.5 h-3.5 mr-2 text-zinc-500" />
                         Observaciones
-                        <span className="ml-2 text-[10px] font-medium text-slate-400">(opcional — se verán en el seguimiento)</span>
+                        <span className="ml-2 text-[10px] font-medium text-zinc-500">(opcional — se verán en el seguimiento)</span>
                       </label>
                       <textarea 
                         value={observations} 
                         onChange={e => setObservations(e.target.value)} 
                         placeholder="Ej: Cliente pidió que lo contactemos por la mañana. Interesado en alineación 3D..." 
-                        className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-700 h-24 resize-none focus:outline-none focus:border-blue-500 bg-white shadow-sm" 
+                        className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-zinc-200 h-24 resize-none focus:outline-none focus:border-orange-500 bg-zinc-900 shadow-sm" 
                       />
                     </div>
                     
@@ -685,29 +692,29 @@ function UploadInvoice() {
 
         {/* TAB: MANUAL */}
         {uploadTab === 'manual' && (
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
-            <div className="bg-blue-50 px-6 py-4 border-b border-blue-100 flex items-center">
-              <PenLine className="w-4 h-4 text-blue-600 mr-3" />
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
+            <div className="bg-orange-50 px-6 py-4 border-b border-orange-100 flex items-center">
+              <PenLine className="w-4 h-4 text-orange-600 mr-3" />
               <p className="text-[13px] font-bold text-blue-800">Ingreso Manual de Venta</p>
             </div>
             <div className="p-8 grid grid-cols-2 gap-x-8 gap-y-6">
               <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Nombre del Cliente</label>
-                <input type="text" value={manualData.clientName} onChange={e => setManualData({...manualData, clientName: e.target.value})} placeholder="Ej: Juan Pérez" className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 focus:outline-none focus:border-blue-500 bg-white" />
+                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Nombre del Cliente</label>
+                <input type="text" value={manualData.clientName} onChange={e => setManualData({...manualData, clientName: e.target.value})} placeholder="Ej: Juan Pérez" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900" />
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Teléfono</label>
-                <input type="text" value={manualData.phone} onChange={e => setManualData({...manualData, phone: e.target.value})} placeholder="Ej: 5492645438114" className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 focus:outline-none focus:border-blue-500 bg-white" />
-                <p className="text-[10px] text-blue-500 mt-1 font-medium">Formato: 549 + código de área + número (sin 15). Ej: 549264<b>5438114</b></p>
+                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Teléfono</label>
+                <input type="text" value={manualData.phone} onChange={e => setManualData({...manualData, phone: e.target.value})} placeholder="Ej: 5492645438114" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900" />
+                <p className="text-[10px] text-orange-500 mt-1 font-medium">Formato: 549 + código de área + número (sin 15). Ej: 549264<b>5438114</b></p>
                 {manualData.phone && <p className="text-[10px] text-green-600 mt-0.5 font-bold">Se guardará como: {normalizePhone(manualData.phone)}</p>}
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Importe Total ($)</label>
-                <input type="number" value={manualData.amount} onChange={e => setManualData({...manualData, amount: e.target.value})} placeholder="Ej: 150000" className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 focus:outline-none focus:border-blue-500 bg-white" />
+                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Importe Total ($)</label>
+                <input type="number" value={manualData.amount} onChange={e => setManualData({...manualData, amount: e.target.value})} placeholder="Ej: 150000" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900" />
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Motivo de contacto</label>
-                <select value={reason} onChange={e => setReason(e.target.value)} className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 focus:outline-none focus:border-blue-500 bg-white">
+                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Motivo de contacto</label>
+                <select value={reason} onChange={e => setReason(e.target.value)} className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-orange-500 bg-zinc-900">
                   <option>Rotación de eventos</option>
                   <option>Alineación y Balanceo</option>
                   <option>Satisfacción de compra</option>
@@ -715,21 +722,21 @@ function UploadInvoice() {
                 </select>
               </div>
               <div className="col-span-2">
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Productos (separados por coma)</label>
-                <textarea value={manualData.items} onChange={e => setManualData({...manualData, items: e.target.value})} placeholder="Ej: Bridgestone 205/55R16, Alineación, Balanceo" className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 h-24 resize-none focus:outline-none focus:border-blue-500 bg-white" />
+                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Productos (separados por coma)</label>
+                <textarea value={manualData.items} onChange={e => setManualData({...manualData, items: e.target.value})} placeholder="Ej: Bridgestone 205/55R16, Alineación, Balanceo" className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white h-24 resize-none focus:outline-none focus:border-orange-500 bg-zinc-900" />
               </div>
               <div className="col-span-2">
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Observaciones (opcional)</label>
-                <textarea value={manualObservations} onChange={e => setManualObservations(e.target.value)} placeholder="Ej: Llamar por la mañana, interesado en alineación..." className="w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 h-20 resize-none focus:outline-none focus:border-blue-500 bg-white" />
+                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Observaciones (opcional)</label>
+                <textarea value={manualObservations} onChange={e => setManualObservations(e.target.value)} placeholder="Ej: Llamar por la mañana, interesado en alineación..." className="w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white h-20 resize-none focus:outline-none focus:border-orange-500 bg-zinc-900" />
               </div>
               <div className="col-span-2">
-                <label className="block text-[13px] font-bold text-slate-700 mb-2">Agendar seguimiento a X días</label>
-                <div className="flex rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white">
-                  <button onClick={() => setDays(30)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 30 ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>30</button>
-                  <div className="w-[1px] bg-slate-100"></div>
-                  <button onClick={() => setDays(90)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 90 ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>90</button>
-                  <div className="w-[1px] bg-slate-100"></div>
-                  <button onClick={() => setDays(180)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 180 ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>180</button>
+                <label className="block text-[13px] font-bold text-zinc-200 mb-2">Agendar seguimiento a X días</label>
+                <div className="flex rounded-xl overflow-hidden shadow-sm border border-zinc-800 bg-zinc-900">
+                  <button onClick={() => setDays(30)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 30 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>30</button>
+                  <div className="w-[1px] bg-zinc-800"></div>
+                  <button onClick={() => setDays(90)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 90 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>90</button>
+                  <div className="w-[1px] bg-zinc-800"></div>
+                  <button onClick={() => setDays(180)} className={`flex-1 py-3 text-[14px] font-medium transition-colors ${days === 180 ? 'bg-orange-600 text-white' : 'hover:bg-zinc-800/50 text-zinc-300'}`}>180</button>
                 </div>
               </div>
             </div>
@@ -747,12 +754,12 @@ function UploadInvoice() {
 
         {/* TAB: EXCEL */}
         {uploadTab === 'excel' && (
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-12 text-center">
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-12 text-center">
             <div className="w-20 h-20 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-6">
               <Lock className="w-10 h-10 text-amber-400" />
             </div>
-            <h3 className="text-[20px] font-bold text-slate-800 mb-2">Carga Masiva por Excel</h3>
-            <p className="text-[14px] text-slate-500 mb-1 max-w-md mx-auto">Esta funcionalidad estará disponible próximamente. Vas a poder subir un archivo Excel (.xlsx) con múltiples ventas y el sistema las procesará automáticamente.</p>
+            <h3 className="text-[20px] font-bold text-white mb-2">Carga Masiva por Excel</h3>
+            <p className="text-[14px] text-zinc-400 mb-1 max-w-md mx-auto">Esta funcionalidad estará disponible próximamente. Vas a poder subir un archivo Excel (.xlsx) con múltiples ventas y el sistema las procesará automáticamente.</p>
             <span className="inline-block mt-4 bg-amber-100 text-amber-700 text-[12px] font-bold px-4 py-2 rounded-full">🚧 En desarrollo — Próximamente</span>
           </div>
         )}
@@ -1285,61 +1292,61 @@ function Messenger() {
       const type = msg.message_type || 'media';
       if (type === 'image' || type === 'sticker') {
         return (
-          <div className="mt-2 bg-slate-100 rounded-lg p-4 flex items-center justify-center border border-slate-200 max-w-[240px]">
+          <div className="mt-2 bg-zinc-800 rounded-lg p-4 flex items-center justify-center border border-zinc-800 max-w-[240px]">
             <div className="text-center">
               <span className="text-2xl">📷</span>
-              <p className="text-[10px] text-slate-400 mt-1 font-medium">Imagen (archivo temporal expirado)</p>
+              <p className="text-[10px] text-zinc-500 mt-1 font-medium">Imagen (archivo temporal expirado)</p>
             </div>
           </div>
         );
       }
       if (type === 'audio' || type === 'voice' || type === 'ptt') {
         return (
-          <div className="mt-2 bg-slate-100 rounded-lg p-3 flex items-center border border-slate-200 max-w-[240px]">
+          <div className="mt-2 bg-zinc-800 rounded-lg p-3 flex items-center border border-zinc-800 max-w-[240px]">
             <span className="text-lg mr-2">🎵</span>
-            <p className="text-[11px] text-slate-400 font-medium">Audio (archivo temporal expirado)</p>
+            <p className="text-[11px] text-zinc-500 font-medium">Audio (archivo temporal expirado)</p>
           </div>
         );
       }
       if (type === 'video') {
         return (
-          <div className="mt-2 bg-slate-100 rounded-lg p-4 flex items-center justify-center border border-slate-200 max-w-[240px]">
+          <div className="mt-2 bg-zinc-800 rounded-lg p-4 flex items-center justify-center border border-zinc-800 max-w-[240px]">
             <div className="text-center">
               <span className="text-2xl">🎬</span>
-              <p className="text-[10px] text-slate-400 mt-1 font-medium">Video (archivo temporal expirado)</p>
+              <p className="text-[10px] text-zinc-500 mt-1 font-medium">Video (archivo temporal expirado)</p>
             </div>
           </div>
         );
       }
       if (type === 'document') {
         return (
-          <div className="mt-2 bg-slate-100 rounded-lg p-3 flex items-center border border-slate-200 max-w-[240px]">
-            <FileText className="w-4 h-4 mr-2 text-slate-400" />
-            <p className="text-[11px] text-slate-400 font-medium">Documento (archivo temporal expirado)</p>
+          <div className="mt-2 bg-zinc-800 rounded-lg p-3 flex items-center border border-zinc-800 max-w-[240px]">
+            <FileText className="w-4 h-4 mr-2 text-zinc-500" />
+            <p className="text-[11px] text-zinc-500 font-medium">Documento (archivo temporal expirado)</p>
           </div>
         );
       }
       return (
-        <div className="mt-2 bg-slate-100 rounded-lg p-3 flex items-center border border-slate-200 max-w-[240px]">
-          <Upload className="w-4 h-4 mr-2 text-slate-400" />
-          <p className="text-[11px] text-slate-400 font-medium">Archivo adjunto (no disponible)</p>
+        <div className="mt-2 bg-zinc-800 rounded-lg p-3 flex items-center border border-zinc-800 max-w-[240px]">
+          <Upload className="w-4 h-4 mr-2 text-zinc-500" />
+          <p className="text-[11px] text-zinc-500 font-medium">Archivo adjunto (no disponible)</p>
         </div>
       );
     }
     
     // URLs válidas: renderizar normalmente
     if (urlLower.match(/\.(jpeg|jpg|gif|png|webp)/) || msg.message_type === 'image' || msg.message_type === 'sticker') {
-      return <img src={url} alt="Archivo adjunto" className="max-w-[240px] rounded-lg mt-2 cursor-pointer shadow-sm border border-slate-200" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />;
+      return <img src={url} alt="Archivo adjunto" className="max-w-[240px] rounded-lg mt-2 cursor-pointer shadow-sm border border-zinc-800" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />;
     }
     if (urlLower.match(/\.(mp4|ogg|oga|mp3|wav)/) || msg.message_type === 'audio' || msg.message_type === 'voice' || msg.message_type === 'ptt') {
       return <audio controls src={url} className="w-[240px] mt-2 h-10 outline-none" />;
     }
     if (urlLower.match(/\.(mp4|webm|mov)/) || msg.message_type === 'video') {
-      return <video controls src={url} className="max-w-[280px] rounded-lg mt-2 shadow-sm border border-slate-200" />;
+      return <video controls src={url} className="max-w-[280px] rounded-lg mt-2 shadow-sm border border-zinc-800" />;
     }
     if (urlLower.match(/\.(pdf)/) || msg.message_type === 'document') {
       return (
-        <a href={url} target="_blank" rel="noreferrer" className="flex items-center mt-2 bg-slate-50 p-3 rounded-lg border border-slate-200 text-blue-600 hover:bg-slate-100 transition-colors">
+        <a href={url} target="_blank" rel="noreferrer" className="flex items-center mt-2 bg-zinc-800/50 p-3 rounded-lg border border-zinc-800 text-orange-600 hover:bg-zinc-800 transition-colors">
           <FileText className="w-5 h-5 mr-2" />
           <span className="text-xs font-bold truncate max-w-[180px]">Ver Documento PDF</span>
         </a>
@@ -1348,41 +1355,41 @@ function Messenger() {
     
     // Fallback: intentar mostrar como imagen si message_type es 'media'
     if (msg.message_type === 'media') {
-      return <img src={url} alt="Archivo adjunto" className="max-w-[240px] rounded-lg mt-2 cursor-pointer shadow-sm border border-slate-200" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />;
+      return <img src={url} alt="Archivo adjunto" className="max-w-[240px] rounded-lg mt-2 cursor-pointer shadow-sm border border-zinc-800" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />;
     }
     
     return (
-      <a href={url} target="_blank" rel="noreferrer" className="mt-2 text-[11px] font-bold text-blue-500 underline flex items-center">
+      <a href={url} target="_blank" rel="noreferrer" className="mt-2 text-[11px] font-bold text-orange-500 underline flex items-center">
         <Upload className="w-3 h-3 mr-1" /> Archivo Adjunto ({msg.message_type})
       </a>
     );
   };
 
   return (
-    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} h-screen bg-slate-100 flex overflow-hidden`}>
+    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} h-screen bg-zinc-800 flex overflow-hidden`}>
       
-      <div className="w-[340px] bg-white border-r border-slate-200 flex flex-col shrink-0">
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-          <h2 className="text-lg font-bold text-slate-800 flex items-center">
+      <div className="w-[340px] bg-zinc-900 border-r border-zinc-800 flex flex-col shrink-0">
+        <div className="p-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-800/50">
+          <h2 className="text-lg font-bold text-white flex items-center">
             Mensajería <span className="ml-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">{conversations.length}</span>
           </h2>
-          <div className="flex space-x-2 text-slate-400">
-            <button onClick={() => openSettings()} className="hover:text-blue-600 transition-colors"><Settings className="w-5 h-5" /></button>
+          <div className="flex space-x-2 text-zinc-500">
+            <button onClick={() => openSettings()} className="hover:text-orange-600 transition-colors"><Settings className="w-5 h-5" /></button>
           </div>
         </div>
 
-        <div className="p-3 border-b border-slate-100">
-          <div className="bg-slate-100 rounded-lg flex items-center px-3 py-2 border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-400">
-            <Search className="w-4 h-4 text-slate-400 mr-2 shrink-0" />
-            <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Buscar conversación..." className="bg-transparent border-none outline-none text-[13px] w-full text-slate-800" />
+        <div className="p-3 border-b border-zinc-800">
+          <div className="bg-zinc-800 rounded-lg flex items-center px-3 py-2 border border-zinc-800 focus-within:ring-2 focus-within:ring-orange-500/20 focus-within:border-blue-400">
+            <Search className="w-4 h-4 text-zinc-500 mr-2 shrink-0" />
+            <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Buscar conversación..." className="bg-transparent border-none outline-none text-[13px] w-full text-white" />
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto" onScroll={handleScrollSidebar}>
           {loading ? (
-            <p className="text-center text-xs text-slate-400 p-4">Cargando...</p>
+            <p className="text-center text-xs text-zinc-500 p-4">Cargando...</p>
           ) : conversations.length === 0 ? (
-            <p className="text-center text-xs text-slate-400 p-4">Sin mensajes en DB</p>
+            <p className="text-center text-xs text-zinc-500 p-4">Sin mensajes en DB</p>
           ) : (
             conversations.map((c: any) => {
               const isActive = activeContact === c.phone;
@@ -1390,17 +1397,17 @@ function Messenger() {
                 <div 
                   key={c.phone} 
                   onClick={() => setActiveContact(c.phone)}
-                  className={`flex items-start p-3 cursor-pointer border-b border-slate-50 transition-colors ${isActive ? 'bg-blue-50' : 'hover:bg-slate-50'}`}
+                  className={`flex items-start p-3 cursor-pointer border-b border-slate-50 transition-colors ${isActive ? 'bg-orange-50' : 'hover:bg-zinc-800/50'}`}
                 >
-                  <img src="/images.png" alt="Cliente" className="w-10 h-10 rounded-full object-cover shrink-0 shadow-sm mr-3 border border-slate-200" />
+                  <img src="/images.png" alt="Cliente" className="w-10 h-10 rounded-full object-cover shrink-0 shadow-sm mr-3 border border-zinc-800" />
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center mb-0.5">
-                      <h4 className={`text-[14px] font-bold truncate ${isActive ? 'text-blue-800' : 'text-slate-800'}`}>{c.name}</h4>
-                      <span className="text-[10px] text-slate-400 font-medium">
+                      <h4 className={`text-[14px] font-bold truncate ${isActive ? 'text-blue-800' : 'text-white'}`}>{c.name}</h4>
+                      <span className="text-[10px] text-zinc-500 font-medium">
                         {new Date(c.lastMessage.created_at).toLocaleDateString()}
                       </span>
                     </div>
-                    <p className={`text-[12px] truncate ${isActive ? 'text-blue-600 font-medium' : 'text-slate-500'}`}>
+                    <p className={`text-[12px] truncate ${isActive ? 'text-orange-600 font-medium' : 'text-zinc-400'}`}>
                       {c.lastMessage.message_type === 'media' ? '📷 Imagen/Audio adjunto' : c.lastMessage.body}
                     </p>
                     <div className="mt-1">
@@ -1413,8 +1420,8 @@ function Messenger() {
           )}
           {loadingMore && (
             <div className="p-4 flex justify-center items-center">
-              <RefreshCw className="w-4 h-4 text-slate-400 animate-spin mr-2" />
-              <span className="text-xs text-slate-500 font-bold">Cargando chats más antiguos...</span>
+              <RefreshCw className="w-4 h-4 text-zinc-500 animate-spin mr-2" />
+              <span className="text-xs text-zinc-400 font-bold">Cargando chats más antiguos...</span>
             </div>
           )}
         </div>
@@ -1423,20 +1430,20 @@ function Messenger() {
       {/* ═══ SETTINGS MODAL ═══ */}
       {showSettings && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center" onClick={() => setShowSettings(false)}>
-          <div className="bg-white rounded-2xl shadow-2xl w-[720px] max-h-[85vh] flex flex-col overflow-hidden border border-slate-200" onClick={e => e.stopPropagation()}>
+          <div className="bg-zinc-900 rounded-2xl shadow-2xl w-[720px] max-h-[85vh] flex flex-col overflow-hidden border border-zinc-800" onClick={e => e.stopPropagation()}>
             
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
-              <h2 className="text-[16px] font-bold text-slate-800 flex items-center">
-                <Settings className="w-5 h-5 mr-2 text-blue-600" /> Configuración de Mensajería
+            <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-800/50">
+              <h2 className="text-[16px] font-bold text-white flex items-center">
+                <Settings className="w-5 h-5 mr-2 text-orange-600" /> Configuración de Mensajería
               </h2>
-              <button onClick={() => setShowSettings(false)} className="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-lg hover:bg-slate-100">
+              <button onClick={() => setShowSettings(false)} className="text-zinc-500 hover:text-zinc-300 transition-colors p-1 rounded-lg hover:bg-zinc-800">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex border-b border-slate-100 px-6 bg-white">
+            <div className="flex border-b border-zinc-800 px-6 bg-zinc-900">
               {[
                 { key: 'templates', label: '📋 Plantillas Rápidas' },
                 { key: 'blacklist', label: '🚫 Blacklist Bot' },
@@ -1458,8 +1465,8 @@ function Messenger() {
                   }}
                   className={`px-4 py-3 text-[12px] font-bold border-b-2 transition-colors ${
                     settingsTab === tab.key 
-                      ? 'border-blue-500 text-blue-600' 
-                      : 'border-transparent text-slate-400 hover:text-slate-600'
+                      ? 'border-orange-500 text-orange-600' 
+                      : 'border-transparent text-zinc-500 hover:text-zinc-300'
                   }`}
                 >
                   {tab.label}
@@ -1475,28 +1482,28 @@ function Messenger() {
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h3 className="text-[14px] font-bold text-slate-800">Atajos de Plantillas</h3>
-                      <p className="text-[12px] text-slate-400 mt-0.5">Escribí "/" en el chat para usarlas rápidamente</p>
+                      <h3 className="text-[14px] font-bold text-white">Atajos de Plantillas</h3>
+                      <p className="text-[12px] text-zinc-500 mt-0.5">Escribí "/" en el chat para usarlas rápidamente</p>
                     </div>
                     <button 
                       onClick={() => { setShowAddTemplate(!showAddTemplate); setEditingTemplate(null); setTplForm({ shortcut: '/', body: '', category: 'General' }); }}
-                      className="bg-blue-500 hover:bg-blue-600 text-white text-[11px] font-bold px-3 py-2 rounded-lg transition-colors flex items-center"
+                      className="bg-orange-500 hover:bg-orange-600 text-white text-[11px] font-bold px-3 py-2 rounded-lg transition-colors flex items-center"
                     >
                       <Plus className="w-3.5 h-3.5 mr-1" /> Nueva Plantilla
                     </button>
                   </div>
 
                   {showAddTemplate && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 space-y-3">
+                    <div className="bg-orange-50 border border-blue-200 rounded-xl p-4 mb-4 space-y-3">
                       <div className="flex gap-2">
-                        <input type="text" value={tplForm.shortcut} onChange={e => setTplForm({...tplForm, shortcut: e.target.value})} placeholder="/ATAJO" className="w-[120px] border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold focus:border-blue-400 focus:outline-none bg-white" />
-                        <select value={tplForm.category} onChange={e => setTplForm({...tplForm, category: e.target.value})} className="border border-slate-200 rounded-lg px-3 py-2 text-[12px] bg-white focus:border-blue-400 focus:outline-none">
+                        <input type="text" value={tplForm.shortcut} onChange={e => setTplForm({...tplForm, shortcut: e.target.value})} placeholder="/ATAJO" className="w-[120px] border border-zinc-800 rounded-lg px-3 py-2 text-[12px] font-bold focus:border-blue-400 focus:outline-none bg-zinc-900" />
+                        <select value={tplForm.category} onChange={e => setTplForm({...tplForm, category: e.target.value})} className="border border-zinc-800 rounded-lg px-3 py-2 text-[12px] bg-zinc-900 focus:border-blue-400 focus:outline-none">
                           <option>General</option><option>Seguimiento</option><option>Ventas</option><option>Soporte</option>
                         </select>
                       </div>
-                      <textarea value={tplForm.body} onChange={e => setTplForm({...tplForm, body: e.target.value})} placeholder="Texto de la plantilla... usa {{nombre}}, {{productos}}, {{importe}}" rows={3} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-[12px] focus:border-blue-400 focus:outline-none bg-white resize-none" />
+                      <textarea value={tplForm.body} onChange={e => setTplForm({...tplForm, body: e.target.value})} placeholder="Texto de la plantilla... usa {{nombre}}, {{productos}}, {{importe}}" rows={3} className="w-full border border-zinc-800 rounded-lg px-3 py-2 text-[12px] focus:border-blue-400 focus:outline-none bg-zinc-900 resize-none" />
                       <div className="flex justify-end gap-2">
-                        <button onClick={() => { setShowAddTemplate(false); setEditingTemplate(null); }} className="text-slate-400 hover:text-slate-600 text-[11px] font-bold px-3 py-1.5 rounded-lg">Cancelar</button>
+                        <button onClick={() => { setShowAddTemplate(false); setEditingTemplate(null); }} className="text-zinc-500 hover:text-zinc-300 text-[11px] font-bold px-3 py-1.5 rounded-lg">Cancelar</button>
                         <button onClick={async () => {
                           const tpl = { shortcut: tplForm.shortcut, body: tplForm.body, category: tplForm.category };
                           if (editingTemplate) {
@@ -1508,7 +1515,7 @@ function Messenger() {
                           setShowAddTemplate(false);
                           setEditingTemplate(null);
                           setTplForm({ shortcut: '/', body: '', category: 'General' });
-                        }} disabled={!tplForm.body.trim() || !tplForm.shortcut.trim()} className="bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300 text-white text-[11px] font-bold px-4 py-1.5 rounded-lg transition-colors">
+                        }} disabled={!tplForm.body.trim() || !tplForm.shortcut.trim()} className="bg-orange-500 hover:bg-orange-600 disabled:bg-slate-300 text-white text-[11px] font-bold px-4 py-1.5 rounded-lg transition-colors">
                           {editingTemplate ? 'Actualizar' : 'Guardar'}
                         </button>
                       </div>
@@ -1517,22 +1524,22 @@ function Messenger() {
 
                   <div className="space-y-2">
                     {templates.map((t, idx) => (
-                      <div key={t.id || idx} className="bg-white border border-slate-200 rounded-xl p-4 hover:border-blue-300 transition-colors group">
+                      <div key={t.id || idx} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-blue-300 transition-colors group">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-[13px] font-bold text-blue-600">{t.shortcut}</span>
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-medium">{t.category}</span>
+                            <span className="text-[13px] font-bold text-orange-600">{t.shortcut}</span>
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 font-medium">{t.category}</span>
                           </div>
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={() => { setEditingTemplate(t); setTplForm({ shortcut: t.shortcut, body: t.body, category: t.category }); setShowAddTemplate(true); }} className="text-blue-400 hover:text-blue-600 p-1.5 rounded-lg hover:bg-blue-50"><Edit2 className="w-3.5 h-3.5" /></button>
+                            <button onClick={() => { setEditingTemplate(t); setTplForm({ shortcut: t.shortcut, body: t.body, category: t.category }); setShowAddTemplate(true); }} className="text-blue-400 hover:text-orange-600 p-1.5 rounded-lg hover:bg-orange-50"><Edit2 className="w-3.5 h-3.5" /></button>
                             <button onClick={async () => { await supabase.from('ng_templates').delete().eq('id', t.id); fetchTemplates(); }} className="text-red-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50"><Trash2 className="w-3.5 h-3.5" /></button>
                           </div>
                         </div>
-                        <p className="text-[12px] text-slate-500 leading-relaxed">{t.body}</p>
+                        <p className="text-[12px] text-zinc-400 leading-relaxed">{t.body}</p>
                       </div>
                     ))}
                     {templates.length === 0 && (
-                      <div className="text-center py-8 text-slate-400">
+                      <div className="text-center py-8 text-zinc-500">
                         <p className="text-[13px] font-medium">No hay plantillas creadas aún</p>
                         <p className="text-[11px] mt-1">Crea tu primera plantilla para agilizar tus respuestas</p>
                       </div>
@@ -1545,8 +1552,8 @@ function Messenger() {
               {settingsTab === 'blacklist' && (
                 <div>
                   <div className="mb-4">
-                    <h3 className="text-[14px] font-bold text-slate-800">Lista Negra del Bot</h3>
-                    <p className="text-[12px] text-slate-400 mt-0.5">El bot no responderá automáticamente a estos números. Útil para proveedores, familiares o números internos.</p>
+                    <h3 className="text-[14px] font-bold text-white">Lista Negra del Bot</h3>
+                    <p className="text-[12px] text-zinc-500 mt-0.5">El bot no responderá automáticamente a estos números. Útil para proveedores, familiares o números internos.</p>
                   </div>
 
                   <div className="flex gap-2 mb-5">
@@ -1556,7 +1563,7 @@ function Messenger() {
                       onChange={e => setBlacklistInput(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && addToBlacklist()}
                       placeholder="Ej: 5491133775246" 
-                      className="flex-1 border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] focus:border-blue-400 focus:outline-none bg-white"
+                      className="flex-1 border border-zinc-800 rounded-lg px-4 py-2.5 text-[13px] focus:border-blue-400 focus:outline-none bg-zinc-900"
                     />
                     <button onClick={addToBlacklist} className="bg-red-500 hover:bg-red-600 text-white text-[11px] font-bold px-4 py-2.5 rounded-lg transition-colors flex items-center shrink-0">
                       <Plus className="w-3.5 h-3.5 mr-1" /> Bloquear
@@ -1565,25 +1572,25 @@ function Messenger() {
 
                   {blacklistLoading ? (
                     <div className="flex items-center justify-center py-8">
-                      <RefreshCw className="w-4 h-4 text-slate-400 animate-spin mr-2" />
-                      <span className="text-[12px] text-slate-400">Cargando blacklist...</span>
+                      <RefreshCw className="w-4 h-4 text-zinc-500 animate-spin mr-2" />
+                      <span className="text-[12px] text-zinc-500">Cargando blacklist...</span>
                     </div>
                   ) : blacklist.length === 0 ? (
-                    <div className="text-center py-8 text-slate-400 bg-slate-50 rounded-xl border border-slate-100">
+                    <div className="text-center py-8 text-zinc-500 bg-zinc-800/50 rounded-xl border border-zinc-800">
                       <p className="text-[13px] font-medium">🤖 Sin números bloqueados</p>
                       <p className="text-[11px] mt-1">El bot responde a todos los números por ahora</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
                       {blacklist.map((num, idx) => (
-                        <div key={idx} className="flex items-center justify-between bg-white border border-slate-200 rounded-xl px-4 py-3 hover:border-red-200 transition-colors group">
+                        <div key={idx} className="flex items-center justify-between bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 hover:border-red-200 transition-colors group">
                           <div className="flex items-center">
                             <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
                               <span className="text-red-500 text-[11px] font-bold">🚫</span>
                             </div>
                             <div>
-                              <span className="text-[13px] font-bold text-slate-700">{typeof num === 'string' ? num : num.number || JSON.stringify(num)}</span>
-                              <p className="text-[10px] text-slate-400">Bot desactivado</p>
+                              <span className="text-[13px] font-bold text-zinc-200">{typeof num === 'string' ? num : num.number || JSON.stringify(num)}</span>
+                              <p className="text-[10px] text-zinc-500">Bot desactivado</p>
                             </div>
                           </div>
                           <button 
@@ -1604,28 +1611,28 @@ function Messenger() {
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h3 className="text-[14px] font-bold text-slate-800">Plantillas Oficiales WhatsApp</h3>
-                      <p className="text-[12px] text-slate-400 mt-0.5">Templates aprobados por Meta para iniciar conversaciones después de 24hs</p>
+                      <h3 className="text-[14px] font-bold text-white">Plantillas Oficiales WhatsApp</h3>
+                      <p className="text-[12px] text-zinc-500 mt-0.5">Templates aprobados por Meta para iniciar conversaciones después de 24hs</p>
                     </div>
-                    <button onClick={fetchWaTemplates} className="text-blue-500 hover:text-blue-700 text-[11px] font-bold flex items-center">
+                    <button onClick={fetchWaTemplates} className="text-orange-500 hover:text-orange-700 text-[11px] font-bold flex items-center">
                       <RefreshCw className="w-3.5 h-3.5 mr-1" /> Actualizar
                     </button>
                   </div>
 
                   {waTemplatesLoading ? (
                     <div className="flex items-center justify-center py-8">
-                      <RefreshCw className="w-4 h-4 text-slate-400 animate-spin mr-2" />
-                      <span className="text-[12px] text-slate-400">Cargando templates de Meta...</span>
+                      <RefreshCw className="w-4 h-4 text-zinc-500 animate-spin mr-2" />
+                      <span className="text-[12px] text-zinc-500">Cargando templates de Meta...</span>
                     </div>
                   ) : waTemplates.length === 0 ? (
-                    <div className="text-center py-8 text-slate-400 bg-slate-50 rounded-xl border border-slate-100">
+                    <div className="text-center py-8 text-zinc-500 bg-zinc-800/50 rounded-xl border border-zinc-800">
                       <p className="text-[13px] font-medium">Sin plantillas de WhatsApp</p>
                       <p className="text-[11px] mt-1">Configurá tus templates desde el panel de Meta Business</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
                       {waTemplates.map((wt: any, idx: number) => (
-                        <div key={idx} className="bg-white border border-slate-200 rounded-xl p-4 hover:border-green-300 transition-colors">
+                        <div key={idx} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-green-300 transition-colors">
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-[13px] font-bold text-green-700">{wt.name || wt.templateName || `Template ${idx+1}`}</span>
                             <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
@@ -1634,7 +1641,7 @@ function Messenger() {
                                 : 'bg-amber-50 text-amber-600 border border-amber-200'
                             }`}>{wt.status || 'N/A'}</span>
                           </div>
-                          <p className="text-[12px] text-slate-500">{wt.body || wt.text || (wt.components && wt.components[0]?.text) || 'Sin preview'}</p>
+                          <p className="text-[12px] text-zinc-400">{wt.body || wt.text || (wt.components && wt.components[0]?.text) || 'Sin preview'}</p>
                           {wt.language && <span className="text-[10px] text-slate-300 mt-1 inline-block">Idioma: {wt.language}</span>}
                         </div>
                       ))}
@@ -1647,37 +1654,37 @@ function Messenger() {
               {settingsTab === 'general' && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-[14px] font-bold text-slate-800 mb-1">Información del Bot</h3>
-                    <p className="text-[12px] text-slate-400 mb-3">Datos de conexión con BuilderBot Cloud</p>
-                    <div className="bg-slate-50 rounded-xl border border-slate-100 p-4 space-y-2">
+                    <h3 className="text-[14px] font-bold text-white mb-1">Información del Bot</h3>
+                    <p className="text-[12px] text-zinc-500 mb-3">Datos de conexión con BuilderBot Cloud</p>
+                    <div className="bg-zinc-800/50 rounded-xl border border-zinc-800 p-4 space-y-2">
                       <div className="flex justify-between text-[12px]">
-                        <span className="text-slate-400 font-medium">Bot ID:</span>
-                        <span className="text-slate-600 font-mono text-[11px]">{BB_BOT_ID || 'No configurado'}</span>
+                        <span className="text-zinc-500 font-medium">Bot ID:</span>
+                        <span className="text-zinc-300 font-mono text-[11px]">{BB_BOT_ID || 'No configurado'}</span>
                       </div>
                       <div className="flex justify-between text-[12px]">
-                        <span className="text-slate-400 font-medium">API URL:</span>
-                        <span className="text-slate-600 font-mono text-[11px] truncate max-w-[300px]">{BB_URL || 'No configurado'}</span>
+                        <span className="text-zinc-500 font-medium">API URL:</span>
+                        <span className="text-zinc-300 font-mono text-[11px] truncate max-w-[300px]">{BB_URL || 'No configurado'}</span>
                       </div>
                       <div className="flex justify-between text-[12px]">
-                        <span className="text-slate-400 font-medium">API Key:</span>
-                        <span className="text-slate-600 font-mono text-[11px]">{BB_KEY ? '••••••' + BB_KEY.slice(-8) : 'No configurado'}</span>
+                        <span className="text-zinc-500 font-medium">API Key:</span>
+                        <span className="text-zinc-300 font-mono text-[11px]">{BB_KEY ? '••••••' + BB_KEY.slice(-8) : 'No configurado'}</span>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-[14px] font-bold text-slate-800 mb-1">Webhook URL</h3>
-                    <p className="text-[12px] text-slate-400 mb-3">URL que debe estar configurada en BuilderBot → Webhooks</p>
-                    <div className="bg-blue-50 rounded-xl border border-blue-200 p-4">
-                      <code className="text-[11px] text-blue-700 font-mono break-all select-all">
+                    <h3 className="text-[14px] font-bold text-white mb-1">Webhook URL</h3>
+                    <p className="text-[12px] text-zinc-500 mb-3">URL que debe estar configurada en BuilderBot → Webhooks</p>
+                    <div className="bg-orange-50 rounded-xl border border-blue-200 p-4">
+                      <code className="text-[11px] text-orange-700 font-mono break-all select-all">
                         https://pxvhovctyewwppwkldaq.supabase.co/functions/v1/builderbot-webhook
                       </code>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-[14px] font-bold text-slate-800 mb-1">Regla de 24 Horas</h3>
-                    <p className="text-[12px] text-slate-400 mb-3">WhatsApp requiere usar plantillas oficiales para contactar clientes después de 24hs sin interacción</p>
+                    <h3 className="text-[14px] font-bold text-white mb-1">Regla de 24 Horas</h3>
+                    <p className="text-[12px] text-zinc-500 mb-3">WhatsApp requiere usar plantillas oficiales para contactar clientes después de 24hs sin interacción</p>
                     <div className="bg-amber-50 rounded-xl border border-amber-200 p-4 flex items-start">
                       <AlertTriangle className="w-4 h-4 text-amber-500 mr-3 mt-0.5 shrink-0" />
                       <p className="text-[12px] text-amber-700">El sistema detecta automáticamente sesiones expiradas y obliga el uso de plantillas oficiales para cumplir con las políticas de Meta.</p>
@@ -1685,19 +1692,19 @@ function Messenger() {
                   </div>
 
                   <div>
-                    <h3 className="text-[14px] font-bold text-slate-800 mb-1">Estadísticas Rápidas</h3>
+                    <h3 className="text-[14px] font-bold text-white mb-1">Estadísticas Rápidas</h3>
                     <div className="grid grid-cols-3 gap-3 mt-3">
-                      <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
-                        <p className="text-[22px] font-bold text-blue-600">{conversations.length}</p>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Conversaciones</p>
+                      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center">
+                        <p className="text-[22px] font-bold text-orange-600">{conversations.length}</p>
+                        <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Conversaciones</p>
                       </div>
-                      <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center">
                         <p className="text-[22px] font-bold text-green-600">{messages.length}</p>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Mensajes</p>
+                        <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Mensajes</p>
                       </div>
-                      <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center">
                         <p className="text-[22px] font-bold text-purple-600">{templates.length}</p>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Plantillas</p>
+                        <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Plantillas</p>
                       </div>
                     </div>
                   </div>
@@ -1717,9 +1724,9 @@ function Messenger() {
         {activeContact ? (
           <>
             {/* Chat Topbar */}
-            <div className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10 shrink-0 shadow-sm relative">
+            <div className="h-16 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between px-6 z-10 shrink-0 shadow-sm relative">
               <div className="flex items-center">
-                <img src="/images.png" alt="Avatar Cliente" className="w-10 h-10 rounded-full object-cover shadow-sm mr-3 border border-slate-200" />
+                <img src="/images.png" alt="Avatar Cliente" className="w-10 h-10 rounded-full object-cover shadow-sm mr-3 border border-zinc-800" />
                 <div>
                   
                   {isEditingClient ? (
@@ -1729,32 +1736,32 @@ function Messenger() {
                          autoFocus
                          value={editClientName}
                          onChange={(e) => setEditClientName(e.target.value)}
-                         className="text-[14px] font-bold text-slate-800 border-b border-blue-400 focus:outline-none bg-slate-50 px-1 py-0.5 rounded-sm"
+                         className="text-[14px] font-bold text-white border-b border-blue-400 focus:outline-none bg-zinc-800/50 px-1 py-0.5 rounded-sm"
                          onKeyDown={(e) => { if(e.key === 'Enter') handleSaveClientName(); if(e.key === 'Escape') setIsEditingClient(false); }}
                        />
                        <button onClick={handleSaveClientName} className="text-green-600 bg-green-50 p-1 rounded-md hover:bg-green-100"><Check className="w-4 h-4" /></button>
-                       <button onClick={() => setIsEditingClient(false)} className="text-slate-400 bg-slate-50 p-1 rounded-md hover:bg-slate-100">X</button>
+                       <button onClick={() => setIsEditingClient(false)} className="text-zinc-500 bg-zinc-800/50 p-1 rounded-md hover:bg-zinc-800">X</button>
                     </div>
                   ) : (
-                    <h3 className="text-[15px] font-bold text-slate-800 flex items-center group">
+                    <h3 className="text-[15px] font-bold text-white flex items-center group">
                       {(() => {
                          const rawName = activeContactInfo?.name || '';
                          if (!rawName) return 'Cliente Nuevo';
                          return rawName.match(/^\d+$/) ? `Cliente ${rawName.substring(rawName.length - 4)}` : rawName;
                       })()}
-                      <span className="text-slate-400 ml-2 font-normal text-xs bg-slate-100 px-1.5 py-0.5 rounded">{activeContact}</span>
+                      <span className="text-zinc-500 ml-2 font-normal text-xs bg-zinc-800 px-1.5 py-0.5 rounded">{activeContact}</span>
                       <button 
                         onClick={() => {
                           setEditClientName(activeContactInfo?.name || activeContact);
                           setIsEditingClient(true);
                         }}
-                        className="ml-2 text-slate-300 hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" title="Editar Nombre">
+                        className="ml-2 text-slate-300 hover:text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" title="Editar Nombre">
                         <Edit2 className="w-3 h-3" />
                       </button>
                     </h3>
                   )}
 
-                  <div className="flex items-center text-[11px] text-blue-500 font-medium">
+                  <div className="flex items-center text-[11px] text-orange-500 font-medium">
                     <MessageSquare className="w-3 h-3 mr-1" /> WhatsApp Integrado {activeContactInfo?.lastInvoice ? '• Factura Vinculada' : ''}
                   </div>
                 </div>
@@ -1790,7 +1797,7 @@ function Messenger() {
                   {isAnalyzing ? 'Analizando...' : 'Copiloto IA'}
                 </button>
 
-                <div className="bg-slate-100/80 px-4 py-1.5 rounded-full text-[11px] font-bold text-slate-500 shadow-sm border border-slate-200">
+                <div className="bg-zinc-800/80 px-4 py-1.5 rounded-full text-[11px] font-bold text-zinc-400 shadow-sm border border-zinc-800">
                   {new Intl.DateTimeFormat('es-AR', { weekday:'long', day:'2-digit', month:'long', year:'numeric'}).format(new Date())}
                 </div>
               </div>
@@ -1801,8 +1808,8 @@ function Messenger() {
                 <div key={msg.id} className={`flex flex-col mb-4 max-w-[75%] group/msg ${msg.direction === 'outgoing' ? 'self-end items-end' : 'self-start items-start'}`}>
                   <div className={`px-4 py-3 rounded-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.1)] relative
                     ${msg.direction === 'outgoing' 
-                      ? 'bg-blue-600 text-white rounded-tr-sm' 
-                      : 'bg-white border border-slate-100 text-slate-800 rounded-tl-sm'
+                      ? 'bg-orange-600 text-white rounded-tr-sm' 
+                      : 'bg-zinc-900 border border-zinc-800 text-white rounded-tl-sm'
                     }`}
                   >
                     {renderMedia(msg)}
@@ -1810,7 +1817,7 @@ function Messenger() {
                       <p className="text-[14px] leading-loose whitespace-pre-wrap font-medium">{formatMessageBody(msg.body)}</p>
                     )}
                     
-                    <div className={`text-[10px] mt-1.5 text-right font-medium flex items-center justify-end ${msg.direction === 'outgoing' ? 'text-blue-100' : 'text-slate-400'}`}>
+                    <div className={`text-[10px] mt-1.5 text-right font-medium flex items-center justify-end ${msg.direction === 'outgoing' ? 'text-orange-100' : 'text-zinc-500'}`}>
                       {new Date(msg.created_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
                       {msg.direction === 'outgoing' && <span className="ml-1 text-[10px]">✓✓</span>}
                     </div>
@@ -1830,8 +1837,8 @@ function Messenger() {
                       }}
                       className={`absolute -top-2 ${msg.direction === 'outgoing' ? '-left-8' : '-right-8'} opacity-0 group-hover/msg:opacity-100 transition-opacity w-6 h-6 rounded-full flex items-center justify-center text-[10px] shadow-md border
                         ${msg.direction === 'outgoing' 
-                          ? 'bg-white text-blue-600 border-blue-200 hover:bg-blue-50' 
-                          : 'bg-blue-500 text-white border-blue-400 hover:bg-blue-600'}`}
+                          ? 'bg-zinc-900 text-orange-600 border-blue-200 hover:bg-orange-50' 
+                          : 'bg-orange-500 text-white border-blue-400 hover:bg-orange-600'}`}
                       title={msg.direction === 'outgoing' ? 'Marcar como recibido' : 'Marcar como enviado'}
                     >
                       ↔
@@ -1844,12 +1851,12 @@ function Messenger() {
 
             <div className="relative z-20">
               {showTemplates && (
-                <div className="absolute bottom-full left-12 w-[440px] mb-2 bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
-                  <div className="bg-slate-50 p-2.5 border-b border-slate-100 flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Atajos / Plantillas</span>
+                <div className="absolute bottom-full left-12 w-[440px] mb-2 bg-zinc-900 rounded-xl shadow-xl border border-zinc-800 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
+                  <div className="bg-zinc-800/50 p-2.5 border-b border-zinc-800 flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Atajos / Plantillas</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-slate-400">{filteredTemplates.length} encontradas</span>
-                      <button onClick={(e) => { e.stopPropagation(); setShowAddTemplate(!showAddTemplate); setEditingTemplate(null); setTplForm({ shortcut: '/', body: '', category: 'General' }); }} className="bg-blue-500 hover:bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-md transition-colors flex items-center gap-1">
+                      <span className="text-[10px] text-zinc-500">{filteredTemplates.length} encontradas</span>
+                      <button onClick={(e) => { e.stopPropagation(); setShowAddTemplate(!showAddTemplate); setEditingTemplate(null); setTplForm({ shortcut: '/', body: '', category: 'General' }); }} className="bg-orange-500 hover:bg-orange-600 text-white text-[10px] font-bold px-2 py-1 rounded-md transition-colors flex items-center gap-1">
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
                         Nueva
                       </button>
@@ -1858,22 +1865,22 @@ function Messenger() {
 
                   {/* Add/Edit Template Form */}
                   {showAddTemplate && (
-                    <div className="p-3 border-b border-slate-200 bg-blue-50/50 space-y-2">
+                    <div className="p-3 border-b border-zinc-800 bg-orange-50/50 space-y-2">
                       <div className="flex gap-2">
-                        <input type="text" value={tplForm.shortcut} onChange={e => setTplForm({...tplForm, shortcut: e.target.value})} placeholder="/ATAJO" className="w-[100px] border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] font-bold focus:border-blue-400 focus:outline-none bg-white" />
-                        <select value={tplForm.category} onChange={e => setTplForm({...tplForm, category: e.target.value})} className="border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] bg-white focus:border-blue-400 focus:outline-none">
+                        <input type="text" value={tplForm.shortcut} onChange={e => setTplForm({...tplForm, shortcut: e.target.value})} placeholder="/ATAJO" className="w-[100px] border border-zinc-800 rounded-lg px-2 py-1.5 text-[12px] font-bold focus:border-blue-400 focus:outline-none bg-zinc-900" />
+                        <select value={tplForm.category} onChange={e => setTplForm({...tplForm, category: e.target.value})} className="border border-zinc-800 rounded-lg px-2 py-1.5 text-[12px] bg-zinc-900 focus:border-blue-400 focus:outline-none">
                           <option>General</option><option>Seguimiento</option><option>Ventas</option><option>Soporte</option>
                         </select>
                       </div>
-                      <textarea value={tplForm.body} onChange={e => setTplForm({...tplForm, body: e.target.value})} placeholder="Texto de la plantilla... usa {{nombre}}, {{productos}}, {{importe}}" rows={2} className="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-[12px] focus:border-blue-400 focus:outline-none bg-white resize-none" />
+                      <textarea value={tplForm.body} onChange={e => setTplForm({...tplForm, body: e.target.value})} placeholder="Texto de la plantilla... usa {{nombre}}, {{productos}}, {{importe}}" rows={2} className="w-full border border-zinc-800 rounded-lg px-2 py-1.5 text-[12px] focus:border-blue-400 focus:outline-none bg-zinc-900 resize-none" />
                       <div className="flex items-center justify-between">
                         <div className="flex gap-1">
                           {['nombre','productos','importe','fecha'].map(v => (
-                            <button key={v} onClick={() => setTplForm({...tplForm, body: tplForm.body + `{{${v}}}`})} className="text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded text-indigo-600 hover:bg-indigo-50 transition-colors">{`{{${v}}}`}</button>
+                            <button key={v} onClick={() => setTplForm({...tplForm, body: tplForm.body + `{{${v}}}`})} className="text-[10px] bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded text-indigo-600 hover:bg-indigo-50 transition-colors">{`{{${v}}}`}</button>
                           ))}
                         </div>
                         <div className="flex gap-1.5">
-                          <button onClick={() => { setShowAddTemplate(false); setEditingTemplate(null); }} className="text-[11px] text-slate-400 hover:text-slate-600 px-2 py-1 transition-colors">Cancelar</button>
+                          <button onClick={() => { setShowAddTemplate(false); setEditingTemplate(null); }} className="text-[11px] text-zinc-500 hover:text-zinc-300 px-2 py-1 transition-colors">Cancelar</button>
                           <button onClick={async () => {
                             const tpl = { shortcut: tplForm.shortcut.startsWith('/') ? tplForm.shortcut.toUpperCase() : `/${tplForm.shortcut.toUpperCase()}`, body: tplForm.body, category: tplForm.category };
                             if (editingTemplate) {
@@ -1897,13 +1904,13 @@ function Messenger() {
                     {filteredTemplates.map((t, idx) => (
                       <div 
                         key={t.id || idx} 
-                        className="p-3 hover:bg-blue-50 border-b border-slate-50 cursor-pointer transition-colors group"
+                        className="p-3 hover:bg-orange-50 border-b border-slate-50 cursor-pointer transition-colors group"
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-[13px] font-bold text-blue-600 cursor-pointer" onClick={() => applyTemplate(t.body)}>{t.shortcut}</span>
+                          <span className="text-[13px] font-bold text-orange-600 cursor-pointer" onClick={() => applyTemplate(t.body)}>{t.shortcut}</span>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500">{t.category}</span>
-                            <button onClick={(e) => { e.stopPropagation(); setEditingTemplate(t); setTplForm({ shortcut: t.shortcut, body: t.body, category: t.category }); setShowAddTemplate(true); }} className="opacity-0 group-hover:opacity-100 text-blue-400 hover:text-blue-600 p-0.5 transition-all" title="Editar">
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400">{t.category}</span>
+                            <button onClick={(e) => { e.stopPropagation(); setEditingTemplate(t); setTplForm({ shortcut: t.shortcut, body: t.body, category: t.category }); setShowAddTemplate(true); }} className="opacity-0 group-hover:opacity-100 text-blue-400 hover:text-orange-600 p-0.5 transition-all" title="Editar">
                               <Edit2 className="w-3 h-3" />
                             </button>
                             <button onClick={async (e) => { e.stopPropagation(); await supabase.from('ng_templates').delete().eq('id', t.id); fetchTemplates(); }} className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 p-0.5 transition-all" title="Eliminar">
@@ -1911,36 +1918,36 @@ function Messenger() {
                             </button>
                           </div>
                         </div>
-                        <p className="text-[12px] text-slate-500 truncate cursor-pointer" onClick={() => applyTemplate(t.body)}>{t.body}</p>
+                        <p className="text-[12px] text-zinc-400 truncate cursor-pointer" onClick={() => applyTemplate(t.body)}>{t.body}</p>
                       </div>
                     ))}
                     {filteredTemplates.length === 0 && !showAddTemplate && (
-                      <div className="p-4 text-center text-sm text-slate-400 font-medium">
-                        No hay plantillas. <button onClick={() => setShowAddTemplate(true)} className="text-blue-500 hover:underline">Crear la primera</button>
+                      <div className="p-4 text-center text-sm text-zinc-500 font-medium">
+                        No hay plantillas. <button onClick={() => setShowAddTemplate(true)} className="text-orange-500 hover:underline">Crear la primera</button>
                       </div>
                     )}
                     
                     {/* SECCIÓN META TEMPLATES */}
-                    <div className="bg-slate-100 px-3 py-1.5 border-y border-slate-200">
-                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center">
+                    <div className="bg-zinc-800 px-3 py-1.5 border-y border-zinc-800">
+                      <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider flex items-center">
                         <MessageSquarePlus className="w-3 h-3 mr-1" />
                         Plantillas Meta (Con Costo)
                       </span>
                     </div>
                     {waTemplatesLoading ? (
-                      <div className="p-4 text-center text-xs text-slate-400 font-medium animate-pulse">Cargando Meta API...</div>
+                      <div className="p-4 text-center text-xs text-zinc-500 font-medium animate-pulse">Cargando Meta API...</div>
                     ) : waTemplates.length === 0 ? (
-                      <div className="p-4 text-center text-xs text-slate-400">No hay plantillas oficiales recibidas.<br/><button onClick={fetchWaTemplates} className="text-blue-500 hover:underline mt-1">Actualizar</button></div>
+                      <div className="p-4 text-center text-xs text-zinc-500">No hay plantillas oficiales recibidas.<br/><button onClick={fetchWaTemplates} className="text-orange-500 hover:underline mt-1">Actualizar</button></div>
                     ) : (
                       waTemplates.map((t, idx) => {
                         const body = t.components?.find((c: any) => c.type === 'BODY')?.text || 'Plantilla sin texto';
                         return (
-                          <div key={`meta-${idx}`} className="p-3 hover:bg-green-50/50 border-b border-slate-100 cursor-pointer transition-colors" onClick={() => applyOfficialTemplate(t)}>
+                          <div key={`meta-${idx}`} className="p-3 hover:bg-green-50/50 border-b border-zinc-800 cursor-pointer transition-colors" onClick={() => applyOfficialTemplate(t)}>
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-[13px] font-bold text-green-700">/{t.name}</span>
                               <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 font-mono uppercase text-[8px] flex items-center">Oficial</span>
                             </div>
-                            <p className="text-[12px] text-slate-500 truncate">{body}</p>
+                            <p className="text-[12px] text-zinc-400 truncate">{body}</p>
                           </div>
                         );
                       })
@@ -1949,7 +1956,7 @@ function Messenger() {
                 </div>
               )}
 
-                <div className="bg-white p-4 shrink-0 flex items-center shadow-[0_-2px_10px_-4px_rgba(0,0,0,0.05)] border-t border-slate-200 relative">
+                <div className="bg-zinc-900 p-4 shrink-0 flex items-center shadow-[0_-2px_10px_-4px_rgba(0,0,0,0.05)] border-t border-zinc-800 relative">
                 {is24hExpired && (
                   <div className="absolute top-0 left-0 right-0 -translate-y-full bg-amber-100 border-y border-amber-300 px-6 py-2.5 flex items-center justify-center shadow-md z-30">
                     <AlertTriangle className="w-4 h-4 text-amber-600 mr-2" />
@@ -1961,7 +1968,7 @@ function Messenger() {
                   <button 
                     type="button"
                     onClick={() => setShowAttachmentMenu(!showAttachmentMenu)}
-                    className="w-12 h-12 flex-shrink-0 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-full flex items-center justify-center transition-all bg-slate-50 border border-slate-200 shadow-sm"
+                    className="w-12 h-12 flex-shrink-0 text-zinc-400 hover:text-orange-600 hover:bg-orange-50 rounded-full flex items-center justify-center transition-all bg-zinc-800/50 border border-zinc-800 shadow-sm"
                     title="Adjuntar / Plantillas"
                   >
                     <Paperclip className="w-5 h-5" />
@@ -1969,22 +1976,22 @@ function Messenger() {
 
                   {/* Menú de Adjuntos */}
                   {showAttachmentMenu && (
-                    <div className="absolute bottom-full left-0 mb-2 w-[220px] bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
+                    <div className="absolute bottom-full left-0 mb-2 w-[220px] bg-zinc-900 rounded-xl shadow-xl border border-zinc-800 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
                       <div className="p-1.5 flex flex-col gap-1">
-                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
-                          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><ImageIcon className="w-4 h-4" /></div>
+                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-zinc-800/50 rounded-lg text-zinc-200 transition-colors">
+                          <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600"><ImageIcon className="w-4 h-4" /></div>
                           <div className="text-left"><p className="text-[13px] font-bold">Fotos y Videos</p></div>
                         </button>
-                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
+                        <button onClick={() => { fileInputRef.current?.click(); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-zinc-800/50 rounded-lg text-zinc-200 transition-colors">
                           <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600"><FileText className="w-4 h-4" /></div>
                           <div className="text-left"><p className="text-[13px] font-bold">Documento</p></div>
                         </button>
-                        <button onClick={() => { alert("Nota de voz en desarrollo..."); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
+                        <button onClick={() => { alert("Nota de voz en desarrollo..."); setShowAttachmentMenu(false); }} className="flex items-center gap-3 w-full p-2.5 hover:bg-zinc-800/50 rounded-lg text-zinc-200 transition-colors">
                           <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-600"><Mic className="w-4 h-4" /></div>
                           <div className="text-left"><p className="text-[13px] font-bold">Audio</p></div>
                         </button>
-                        <div className="h-[1px] bg-slate-100 my-1"></div>
-                        <button onClick={() => { setShowWaPicker(true); setShowAttachmentMenu(false); if (!waTemplates.length) { fetchWaTemplates(); } }} className="flex items-center gap-3 w-full p-2.5 hover:bg-green-50 rounded-lg text-slate-700 transition-colors group">
+                        <div className="h-[1px] bg-zinc-800 my-1"></div>
+                        <button onClick={() => { setShowWaPicker(true); setShowAttachmentMenu(false); if (!waTemplates.length) { fetchWaTemplates(); } }} className="flex items-center gap-3 w-full p-2.5 hover:bg-green-50 rounded-lg text-zinc-200 transition-colors group">
                           <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform"><MessageSquarePlus className="w-4 h-4" /></div>
                           <div className="text-left">
                             <p className="text-[13px] font-bold text-green-800">Plantilla de Meta</p>
@@ -2004,26 +2011,26 @@ function Messenger() {
                 </div>
 
                 {showWaPicker && (
-                  <div className="absolute bottom-full left-4 w-[400px] mb-2 bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
+                  <div className="absolute bottom-full left-4 w-[400px] mb-2 bg-zinc-900 rounded-xl shadow-xl border border-zinc-800 overflow-hidden z-50 animate-in slide-in-from-bottom-2 fade-in">
                     <div className="bg-green-50 p-2.5 border-b border-green-100 flex items-center justify-between">
                       <span className="text-[11px] font-bold text-green-700 uppercase tracking-wider">Plantillas Meta (Con Costo)</span>
-                      <button onClick={() => setShowWaPicker(false)} className="text-slate-400 hover:text-slate-600"><X className="w-4 h-4"/></button>
+                      <button onClick={() => setShowWaPicker(false)} className="text-zinc-500 hover:text-zinc-300"><X className="w-4 h-4"/></button>
                     </div>
                     <div className="max-h-60 overflow-y-auto">
                       {waTemplatesLoading ? (
-                        <div className="p-4 text-center text-sm text-slate-400 font-medium animate-pulse">Cargando Meta API...</div>
+                        <div className="p-4 text-center text-sm text-zinc-500 font-medium animate-pulse">Cargando Meta API...</div>
                       ) : waTemplates.length === 0 ? (
-                        <div className="p-4 text-center text-sm text-slate-400 font-medium">No hay plantillas oficiales disponibles.</div>
+                        <div className="p-4 text-center text-sm text-zinc-500 font-medium">No hay plantillas oficiales disponibles.</div>
                       ) : (
                         waTemplates.map((t, idx) => {
                           const body = t.components?.find((c: any) => c.type === 'BODY')?.text || 'Plantilla sin texto';
                           return (
                             <div key={idx} className="p-3 hover:bg-green-50/50 border-b border-slate-50 cursor-pointer transition-colors" onClick={() => applyOfficialTemplate(t)}>
                               <div className="flex items-center justify-between mb-1">
-                                <span className="text-[13px] font-bold text-slate-700">{t.name}</span>
-                                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 font-mono uppercase">{t.language || 'es'}</span>
+                                <span className="text-[13px] font-bold text-zinc-200">{t.name}</span>
+                                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 font-mono uppercase">{t.language || 'es'}</span>
                               </div>
-                              <p className="text-[12px] text-slate-500 truncate">{body}</p>
+                              <p className="text-[12px] text-zinc-400 truncate">{body}</p>
                             </div>
                           );
                         })
@@ -2049,7 +2056,7 @@ function Messenger() {
                     className={`w-full border rounded-full px-5 py-3 text-[14px] focus:outline-none transition-all shadow-inner 
                       ${is24hExpired 
                         ? 'bg-amber-50 border-amber-300 text-amber-900 focus:bg-amber-100 focus:border-amber-500 placeholder:text-amber-500/70' 
-                        : 'bg-slate-100 border-transparent text-slate-800 focus:bg-white focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10'}`}
+                        : 'bg-zinc-800 border-transparent text-white focus:bg-zinc-900 focus:border-blue-400 focus:ring-4 focus:ring-orange-500/10'}`}
                   />
                 </form>
 
@@ -2066,9 +2073,9 @@ function Messenger() {
             </div>
           </>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center z-10 text-slate-400">
+          <div className="flex-1 flex flex-col items-center justify-center z-10 text-zinc-500">
             <MessageSquare className="w-16 h-16 mb-4 text-slate-300" />
-            <p className="text-lg font-bold text-slate-500">Selecciona un chat</p>
+            <p className="text-lg font-bold text-zinc-400">Selecciona un chat</p>
             <p className="text-sm mt-2">Para comenzar a enviar y recibir mensajes empresariales.</p>
           </div>
         )}
@@ -2076,19 +2083,19 @@ function Messenger() {
 
       {/* RIGHT SIDE PANEL: Facturas Asociadas */}
       {activeContact && (
-        <div className="w-[320px] bg-white text-slate-800 flex flex-col shrink-0 overflow-y-auto border-l border-slate-200 relative z-20">
-          <div className="p-8 flex flex-col items-center border-b border-slate-100 bg-slate-50">
-            <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center font-bold text-xl uppercase text-blue-600 mb-4 shadow-sm border border-blue-200">
+        <div className="w-[320px] bg-zinc-900 text-white flex flex-col shrink-0 overflow-y-auto border-l border-zinc-800 relative z-20">
+          <div className="p-8 flex flex-col items-center border-b border-zinc-800 bg-zinc-800/50">
+            <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center font-bold text-xl uppercase text-orange-600 mb-4 shadow-sm border border-blue-200">
               {activeContactInfo?.name ? activeContactInfo.name.substring(0,2) : activeContact.substring(0,2)}
             </div>
-            <h3 className="font-bold text-center text-[15px] tracking-wide text-slate-800">{activeContactInfo?.name || 'CLIENTE'}</h3>
-            <p className="text-slate-400 text-xs mt-1 tracking-wider">{activeContact}</p>
+            <h3 className="font-bold text-center text-[15px] tracking-wide text-white">{activeContactInfo?.name || 'CLIENTE'}</h3>
+            <p className="text-zinc-500 text-xs mt-1 tracking-wider">{activeContact}</p>
           </div>
           
           <div className="p-6">
             
-              <div className="mb-6 bg-slate-50 border border-slate-200 rounded-xl p-4">
-                <h4 className="text-[12px] font-bold text-slate-800 flex items-center mb-3">
+              <div className="mb-6 bg-zinc-800/50 border border-zinc-800 rounded-xl p-4">
+                <h4 className="text-[12px] font-bold text-white flex items-center mb-3">
                   <Zap className="w-4 h-4 mr-1.5 text-amber-500" /> Acciones Rápidas
                 </h4>
                 <div className="grid grid-cols-1 gap-2">
@@ -2096,9 +2103,9 @@ function Messenger() {
                     onClick={() => {
                       setNewMessage("¡Hola! Te dejo los datos de nuestra cuenta bancaria para realizar la transferencia:\n\nCBU: 00000031238918239123\nAlias: ADVENTURE.PRO\nBanco: Galicia\n\nPor favor, enviame el comprobante por acá cuando la realices. ¡Gracias!");
                     }}
-                    className="flex items-center text-left bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-[11px] font-bold text-slate-700 px-3 py-2 rounded-lg transition-colors shadow-sm"
+                    className="flex items-center text-left bg-zinc-900 border border-zinc-800 hover:border-blue-400 hover:bg-orange-50 text-[11px] font-bold text-zinc-200 px-3 py-2 rounded-lg transition-colors shadow-sm"
                   >
-                    <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-2"><CheckCircle className="w-3.5 h-3.5" /></span>
+                    <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mr-2"><CheckCircle className="w-3.5 h-3.5" /></span>
                     Enviar Datos Bancarios
                   </button>
 
@@ -2106,7 +2113,7 @@ function Messenger() {
                     onClick={() => {
                       setNewMessage("/PRESUPUESTO");
                     }}
-                    className="flex items-center text-left bg-white border border-slate-200 hover:border-purple-400 hover:bg-purple-50 text-[11px] font-bold text-slate-700 px-3 py-2 rounded-lg transition-colors shadow-sm"
+                    className="flex items-center text-left bg-zinc-900 border border-zinc-800 hover:border-purple-400 hover:bg-purple-50 text-[11px] font-bold text-zinc-200 px-3 py-2 rounded-lg transition-colors shadow-sm"
                   >
                     <span className="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-2"><FileText className="w-3.5 h-3.5" /></span>
                     Plantilla Presupuesto
@@ -2114,7 +2121,7 @@ function Messenger() {
 
                   <button 
                     onClick={() => setShowFollowUpModal(true)}
-                    className="flex items-center text-left bg-white border border-slate-200 hover:border-green-400 hover:bg-green-50 text-[11px] font-bold text-slate-700 px-3 py-2 rounded-lg transition-colors shadow-sm"
+                    className="flex items-center text-left bg-zinc-900 border border-zinc-800 hover:border-green-400 hover:bg-green-50 text-[11px] font-bold text-zinc-200 px-3 py-2 rounded-lg transition-colors shadow-sm"
                   >
                     <span className="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2"><Clock className="w-3.5 h-3.5" /></span>
                     Agendar Seguimiento
@@ -2128,9 +2135,9 @@ function Messenger() {
                   <h4 className="text-[12px] font-bold text-indigo-800 flex items-center">
                     <BrainCircuit className="w-4 h-4 mr-1.5 text-indigo-600" /> Copiloto de Ventas
                   </h4>
-                  <div className="flex items-center bg-white px-2 py-1 rounded-md border border-indigo-100 shadow-sm">
-                    <span className="text-[10px] font-bold text-slate-500 mr-1.5">Termómetro:</span>
-                    <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="flex items-center bg-zinc-900 px-2 py-1 rounded-md border border-indigo-100 shadow-sm">
+                    <span className="text-[10px] font-bold text-zinc-400 mr-1.5">Termómetro:</span>
+                    <div className="w-16 h-2 bg-zinc-800 rounded-full overflow-hidden">
                       <div 
                         className={`h-full ${copilotData.lead_score > 70 ? 'bg-green-500' : copilotData.lead_score > 40 ? 'bg-amber-500' : 'bg-red-500'}`} 
                         style={{ width: `${copilotData.lead_score}%` }}
@@ -2140,24 +2147,24 @@ function Messenger() {
                 </div>
 
                 {copilotData.extracted_data && (
-                  <div className="mb-4 bg-white rounded-lg p-3 border border-indigo-100 text-[11px]">
-                    <p className="font-bold text-slate-700 mb-1 flex items-center"><Zap className="w-3 h-3 mr-1 text-amber-500" /> Datos Extraídos:</p>
-                    <div className="grid grid-cols-2 gap-2 text-slate-600">
-                      <div><span className="text-slate-400">Auto:</span> {copilotData.extracted_data.vehicle_model || '-'}</div>
-                      <div><span className="text-slate-400">Medida:</span> {copilotData.extracted_data.tire_size || '-'}</div>
-                      <div className="col-span-2"><span className="text-slate-400">Interés:</span> {copilotData.extracted_data.intent_summary || '-'}</div>
+                  <div className="mb-4 bg-zinc-900 rounded-lg p-3 border border-indigo-100 text-[11px]">
+                    <p className="font-bold text-zinc-200 mb-1 flex items-center"><Zap className="w-3 h-3 mr-1 text-amber-500" /> Datos Extraídos:</p>
+                    <div className="grid grid-cols-2 gap-2 text-zinc-300">
+                      <div><span className="text-zinc-500">Auto:</span> {copilotData.extracted_data.vehicle_model || '-'}</div>
+                      <div><span className="text-zinc-500">Medida:</span> {copilotData.extracted_data.tire_size || '-'}</div>
+                      <div className="col-span-2"><span className="text-zinc-500">Interés:</span> {copilotData.extracted_data.intent_summary || '-'}</div>
                     </div>
                   </div>
                 )}
 
                 <div>
-                  <p className="text-[11px] font-bold text-slate-500 mb-2">Sugerencias de respuesta:</p>
+                  <p className="text-[11px] font-bold text-zinc-400 mb-2">Sugerencias de respuesta:</p>
                   <div className="space-y-1.5">
                     {copilotData.suggested_replies?.map((reply: string, idx: number) => (
                       <button 
                         key={idx}
                         onClick={() => setNewMessage(reply)}
-                        className="w-full text-left bg-white hover:bg-indigo-600 hover:text-white hover:border-indigo-600 text-slate-700 text-[11px] p-2 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                        className="w-full text-left bg-zinc-900 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 text-zinc-200 text-[11px] p-2 rounded-lg border border-zinc-800 transition-colors shadow-sm"
                       >
                         {reply}
                       </button>
@@ -2169,40 +2176,40 @@ function Messenger() {
 
             {activeContactInfo?.invoices && activeContactInfo.invoices.length > 0 && (
               <>
-                <h4 className="text-[11px] font-bold text-slate-400 tracking-[0.2em] flex items-center mb-5 uppercase">
+                <h4 className="text-[11px] font-bold text-zinc-500 tracking-[0.2em] flex items-center mb-5 uppercase">
                   <Package className="w-3.5 h-3.5 mr-2" />
                   Facturas ({activeContactInfo.invoices.length})
                 </h4>
             
             <div className="space-y-4">
               {activeContactInfo.invoices.map((inv: any, idx: number) => (
-                <div key={idx} className="bg-white border border-slate-200 rounded-xl p-4 transition-all hover:border-blue-300 hover:shadow-md relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-blue-500 transform origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+                <div key={idx} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 transition-all hover:border-blue-300 hover:shadow-md relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-orange-500 transform origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
                   
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-[13px] font-bold text-blue-600 tracking-wider">FA-{inv.id.substring(0,6).toUpperCase()}</span>
+                    <span className="text-[13px] font-bold text-orange-600 tracking-wider">FA-{inv.id.substring(0,6).toUpperCase()}</span>
                     <span className="text-[9px] font-bold bg-amber-50 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-[4px] tracking-wider">PENDIENTE</span>
                   </div>
                   
-                  <div className="space-y-2 text-[12px] text-slate-600">
-                    <p className="flex justify-between border-b border-slate-100 pb-1">
-                      <span className="text-slate-400 font-medium">Motivo:</span>
-                      <span className="truncate max-w-[140px] font-medium text-slate-700" title={Array.isArray(inv.items) ? inv.items.join(', ') : inv.items || 'Detalles'}>
+                  <div className="space-y-2 text-[12px] text-zinc-300">
+                    <p className="flex justify-between border-b border-zinc-800 pb-1">
+                      <span className="text-zinc-500 font-medium">Motivo:</span>
+                      <span className="truncate max-w-[140px] font-medium text-zinc-200" title={Array.isArray(inv.items) ? inv.items.join(', ') : inv.items || 'Detalles'}>
                         {Array.isArray(inv.items) ? inv.items[0] : (inv.items || 'Detalles').split(',')[0]}
                       </span>
                     </p>
-                    <p className="flex justify-between border-b border-slate-100 pb-1">
-                      <span className="text-slate-400 font-medium">Total:</span>
-                      <span className="font-bold text-slate-800">${inv.amount}</span>
+                    <p className="flex justify-between border-b border-zinc-800 pb-1">
+                      <span className="text-zinc-500 font-medium">Total:</span>
+                      <span className="font-bold text-white">${inv.amount}</span>
                     </p>
                     <p className="flex justify-between pb-1">
-                      <span className="text-slate-400 font-medium">Fecha:</span>
-                      <span className="text-slate-600">{inv.purchase_date}</span>
+                      <span className="text-zinc-500 font-medium">Fecha:</span>
+                      <span className="text-zinc-300">{inv.purchase_date}</span>
                     </p>
                   </div>
                   
                   {inv.file_url && (
-                    <a href={inv.file_url} target="_blank" rel="noreferrer" className="mt-4 w-full py-2.5 rounded-lg border border-blue-200 text-blue-600 text-[10px] font-bold tracking-[0.2em] flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
+                    <a href={inv.file_url} target="_blank" rel="noreferrer" className="mt-4 w-full py-2.5 rounded-lg border border-blue-200 text-orange-600 text-[10px] font-bold tracking-[0.2em] flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all">
                       <ExternalLink className="w-3 h-3 mr-2" />
                       VER PDF
                     </a>
@@ -2323,18 +2330,18 @@ function FollowUps() {
       'cancelled': 'bg-red-100 text-red-700'
     };
     const labels: Record<string, string> = { 'pending': 'Pendiente', 'completed': 'Completado', 'cancelled': 'Cancelado' };
-    return <span className={`${map[status] || 'bg-slate-100 text-slate-600'} text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider`}>{labels[status] || status}</span>;
+    return <span className={`${map[status] || 'bg-zinc-800 text-zinc-300'} text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider`}>{labels[status] || status}</span>;
   };
 
   const daysUntil = (date: string) => {
     const diff = Math.ceil((new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
     if (diff < 0) return <span className="text-red-500 font-bold text-[12px]">Vencido hace {Math.abs(diff)} días</span>;
     if (diff === 0) return <span className="text-amber-600 font-bold text-[12px]">Hoy</span>;
-    return <span className="text-slate-600 text-[12px]">En {diff} días</span>;
+    return <span className="text-zinc-300 text-[12px]">En {diff} días</span>;
   };
 
   return (
-    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-[#F8FAFC] flex flex-col`}>
+    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-zinc-950 flex flex-col`}>
       <TopBar title="Adventure Pro" subtitle="Seguimientos Programados" />
       <main className="px-10 py-6 w-full">
 
@@ -2345,13 +2352,13 @@ function FollowUps() {
               <Clock className="w-6 h-6 text-amber-500" />
             </div>
             <div>
-              <h2 className="text-[20px] font-bold text-slate-800">Seguimientos</h2>
-              <p className="text-[13px] text-slate-400">Contactos agendados automáticamente tras cargar facturas</p>
+              <h2 className="text-[20px] font-bold text-white">Seguimientos</h2>
+              <p className="text-[13px] text-zinc-500">Contactos agendados automáticamente tras cargar facturas</p>
             </div>
           </div>
-          <div className="flex items-center bg-white rounded-xl border border-slate-200 p-1 shadow-sm">
+          <div className="flex items-center bg-zinc-900 rounded-xl border border-zinc-800 p-1 shadow-sm">
             {[{k:'all',l:'Todos'},{k:'pending',l:'Pendientes'},{k:'completed',l:'Completados'},{k:'cancelled',l:'Cancelados'}].map(f => (
-              <button key={f.k} onClick={() => setFilterStatus(f.k)} className={`px-4 py-2 rounded-lg text-[13px] font-bold transition-all ${filterStatus === f.k ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-500 hover:bg-slate-50'}`}>
+              <button key={f.k} onClick={() => setFilterStatus(f.k)} className={`px-4 py-2 rounded-lg text-[13px] font-bold transition-all ${filterStatus === f.k ? 'bg-orange-600 text-white shadow-sm' : 'text-zinc-400 hover:bg-zinc-800/50'}`}>
                 {f.l}
               </button>
             ))}
@@ -2360,59 +2367,59 @@ function FollowUps() {
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-6">
-            <p className="text-[12px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total</p>
-            <p className="text-[28px] font-extrabold text-slate-800">{followUps.length}</p>
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-6">
+            <p className="text-[12px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total</p>
+            <p className="text-[28px] font-extrabold text-white">{followUps.length}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-6">
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-6">
             <p className="text-[12px] font-bold text-amber-500 uppercase tracking-wider mb-1">Pendientes</p>
             <p className="text-[28px] font-extrabold text-amber-600">{followUps.filter(f => f.status === 'pending').length}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-6">
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-6">
             <p className="text-[12px] font-bold text-green-500 uppercase tracking-wider mb-1">Completados</p>
             <p className="text-[28px] font-extrabold text-green-600">{followUps.filter(f => f.status === 'completed').length}</p>
           </div>
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
+        <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cliente</th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Teléfono</th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Motivo</th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Observaciones</th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Fecha Programada</th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tiempo</th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Estado</th>
-                  <th className="text-right px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Acciones</th>
+                <tr className="bg-zinc-800/50 border-b border-zinc-800">
+                  <th className="text-left px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Cliente</th>
+                  <th className="text-left px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Teléfono</th>
+                  <th className="text-left px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Motivo</th>
+                  <th className="text-left px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Observaciones</th>
+                  <th className="text-left px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Fecha Programada</th>
+                  <th className="text-left px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Tiempo</th>
+                  <th className="text-left px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Estado</th>
+                  <th className="text-right px-6 py-4 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
-                  <tr><td colSpan={8} className="text-center py-12 text-slate-400 text-[14px]">Cargando seguimientos...</td></tr>
+                  <tr><td colSpan={8} className="text-center py-12 text-zinc-500 text-[14px]">Cargando seguimientos...</td></tr>
                 ) : filtered.length === 0 ? (
-                  <tr><td colSpan={8} className="text-center py-12 text-slate-400 text-[14px]">No hay seguimientos {filterStatus !== 'all' ? `con estado "${filterStatus}"` : ''}</td></tr>
+                  <tr><td colSpan={8} className="text-center py-12 text-zinc-500 text-[14px]">No hay seguimientos {filterStatus !== 'all' ? `con estado "${filterStatus}"` : ''}</td></tr>
                 ) : filtered.map((f: any) => (
-                  <tr key={f.id} onClick={() => openContactPanel(f)} className="border-b border-slate-50 hover:bg-blue-50/40 transition-colors cursor-pointer">
+                  <tr key={f.id} onClick={() => openContactPanel(f)} className="border-b border-slate-50 hover:bg-orange-50/40 transition-colors cursor-pointer">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
-                        <img src="/images.png" alt="" className="w-8 h-8 rounded-full object-cover mr-3 border border-slate-200" />
-                        <span className="text-[14px] font-bold text-slate-800">{f.ng_clients?.name || 'Sin nombre'}</span>
+                        <img src="/images.png" alt="" className="w-8 h-8 rounded-full object-cover mr-3 border border-zinc-800" />
+                        <span className="text-[14px] font-bold text-white">{f.ng_clients?.name || 'Sin nombre'}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-[13px] text-slate-600 font-medium">{f.ng_clients?.phone || '—'}</td>
-                    <td className="px-6 py-4 text-[13px] text-slate-600 font-medium">{f.reason}</td>
-                    <td className="px-6 py-4 text-[12px] text-slate-500 max-w-[180px] truncate" title={f.observations || ''}>{f.observations || <span className="text-slate-300">—</span>}</td>
-                    <td className="px-6 py-4 text-[13px] text-slate-700 font-bold">{new Date(f.scheduled_date).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                    <td className="px-6 py-4 text-[13px] text-zinc-300 font-medium">{f.ng_clients?.phone || '—'}</td>
+                    <td className="px-6 py-4 text-[13px] text-zinc-300 font-medium">{f.reason}</td>
+                    <td className="px-6 py-4 text-[12px] text-zinc-400 max-w-[180px] truncate" title={f.observations || ''}>{f.observations || <span className="text-slate-300">—</span>}</td>
+                    <td className="px-6 py-4 text-[13px] text-zinc-200 font-bold">{new Date(f.scheduled_date).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                     <td className="px-6 py-4">{daysUntil(f.scheduled_date)}</td>
                     <td className="px-6 py-4">{statusBadge(f.status)}</td>
                     <td className="px-6 py-4 text-right">
                       {f.status === 'pending' && (
                         <div className="flex items-center justify-end gap-2">
-                          <button onClick={(e) => { e.stopPropagation(); openContactPanel(f); }} className="bg-blue-50 hover:bg-blue-100 text-blue-600 p-2 rounded-lg transition-colors" title="Contactar">
+                          <button onClick={(e) => { e.stopPropagation(); openContactPanel(f); }} className="bg-orange-50 hover:bg-orange-100 text-orange-600 p-2 rounded-lg transition-colors" title="Contactar">
                             <MessageSquare className="w-4 h-4" />
                           </button>
                           <button onClick={(e) => { e.stopPropagation(); markComplete(f.id); }} className="bg-green-50 hover:bg-green-100 text-green-600 p-2 rounded-lg transition-colors" title="Marcar completado">
@@ -2437,50 +2444,50 @@ function FollowUps() {
       {panelOpen && selectedFollowUp && (
         <div className="fixed inset-0 z-[100] flex justify-end">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setPanelOpen(false)}></div>
-          <div className="relative w-full max-w-[520px] bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+          <div className="relative w-full max-w-[520px] bg-zinc-900 h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             
             {/* Panel Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-orange-600 to-orange-700 px-6 py-5 flex items-center justify-between">
               <div className="flex items-center">
                 <img src="/images.png" alt="" className="w-12 h-12 rounded-full object-cover border-2 border-white/30 mr-4" />
                 <div>
                   <h3 className="text-white font-bold text-[17px]">{selectedFollowUp.ng_clients?.name || 'Sin nombre'}</h3>
-                  <p className="text-blue-100 text-[13px] font-medium">{selectedFollowUp.ng_clients?.phone || '—'}</p>
+                  <p className="text-orange-100 text-[13px] font-medium">{selectedFollowUp.ng_clients?.phone || '—'}</p>
                 </div>
               </div>
-              <button onClick={() => setPanelOpen(false)} className="text-white/70 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors">
+              <button onClick={() => setPanelOpen(false)} className="text-white/70 hover:text-white p-2 rounded-lg hover:bg-zinc-900/10 transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
             </div>
 
             {/* Client Info Cards */}
-            <div className="p-5 space-y-4 border-b border-slate-100 overflow-y-auto flex-shrink-0">
+            <div className="p-5 space-y-4 border-b border-zinc-800 overflow-y-auto flex-shrink-0">
               {/* Follow-up info */}
               <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
                 <p className="text-[11px] font-bold text-amber-600 uppercase tracking-wider mb-2">Seguimiento</p>
                 <div className="grid grid-cols-2 gap-3 text-[13px]">
-                  <div><span className="text-slate-400">Motivo:</span> <span className="font-bold text-slate-700">{selectedFollowUp.reason}</span></div>
-                  <div><span className="text-slate-400">Fecha:</span> <span className="font-bold text-slate-700">{new Date(selectedFollowUp.scheduled_date).toLocaleDateString('es-AR')}</span></div>
-                  <div><span className="text-slate-400">Estado:</span> {statusBadge(selectedFollowUp.status)}</div>
+                  <div><span className="text-zinc-500">Motivo:</span> <span className="font-bold text-zinc-200">{selectedFollowUp.reason}</span></div>
+                  <div><span className="text-zinc-500">Fecha:</span> <span className="font-bold text-zinc-200">{new Date(selectedFollowUp.scheduled_date).toLocaleDateString('es-AR')}</span></div>
+                  <div><span className="text-zinc-500">Estado:</span> {statusBadge(selectedFollowUp.status)}</div>
                   <div>{daysUntil(selectedFollowUp.scheduled_date)}</div>
                 </div>
                 {selectedFollowUp.observations && (
                   <div className="mt-3 pt-3 border-t border-amber-200">
                     <p className="text-[10px] font-bold text-amber-500 uppercase tracking-wider mb-1">Observaciones</p>
-                    <p className="text-[13px] text-slate-700 leading-relaxed whitespace-pre-wrap">{selectedFollowUp.observations}</p>
+                    <p className="text-[13px] text-zinc-200 leading-relaxed whitespace-pre-wrap">{selectedFollowUp.observations}</p>
                   </div>
                 )}
               </div>
 
               {/* Last purchase */}
               {clientInvoices.length > 0 && (
-                <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                  <p className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2">Última Compra</p>
+                <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
+                  <p className="text-[11px] font-bold text-orange-600 uppercase tracking-wider mb-2">Última Compra</p>
                   {clientInvoices.slice(0, 1).map((inv: any, i: number) => (
                     <div key={i} className="text-[13px] space-y-1">
-                      <div><span className="text-slate-400">Productos:</span> <span className="font-bold text-slate-700">{Array.isArray(inv.items) ? inv.items.join(', ') : inv.items || '—'}</span></div>
-                      <div><span className="text-slate-400">Importe:</span> <span className="font-extrabold text-green-700">${inv.amount || 0}</span></div>
-                      <div><span className="text-slate-400">Fecha:</span> <span className="font-medium text-slate-600">{new Date(inv.created_at).toLocaleDateString('es-AR')}</span></div>
+                      <div><span className="text-zinc-500">Productos:</span> <span className="font-bold text-zinc-200">{Array.isArray(inv.items) ? inv.items.join(', ') : inv.items || '—'}</span></div>
+                      <div><span className="text-zinc-500">Importe:</span> <span className="font-extrabold text-green-700">${inv.amount || 0}</span></div>
+                      <div><span className="text-zinc-500">Fecha:</span> <span className="font-medium text-zinc-300">{new Date(inv.created_at).toLocaleDateString('es-AR')}</span></div>
                     </div>
                   ))}
                 </div>
@@ -2490,29 +2497,29 @@ function FollowUps() {
             {/* Message Composer (WhatsApp style) */}
             <div className="flex-1 flex flex-col p-5">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-[12px] font-bold text-slate-400 uppercase tracking-wider">Enviar Mensaje WhatsApp</p>
+                <p className="text-[12px] font-bold text-zinc-500 uppercase tracking-wider">Enviar Mensaje WhatsApp</p>
                 <div className="relative">
-                  <button onClick={() => setShowTplPicker(!showTplPicker)} className="bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-colors flex items-center gap-1">
+                  <button onClick={() => setShowTplPicker(!showTplPicker)} className="bg-orange-50 hover:bg-orange-100 text-orange-600 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-colors flex items-center gap-1">
                     <FileText className="w-3.5 h-3.5" /> Plantillas
                   </button>
                   {showTplPicker && (
-                    <div className="absolute right-0 top-10 bg-white rounded-xl shadow-2xl border border-slate-200 w-[300px] max-h-[280px] overflow-y-auto z-50">
-                      <div className="p-3 border-b border-slate-100">
-                        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Seleccioná una plantilla</p>
+                    <div className="absolute right-0 top-10 bg-zinc-900 rounded-xl shadow-2xl border border-zinc-800 w-[300px] max-h-[280px] overflow-y-auto z-50">
+                      <div className="p-3 border-b border-zinc-800">
+                        <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Seleccioná una plantilla</p>
                       </div>
                       {templates.length === 0 ? (
-                        <p className="p-4 text-[13px] text-slate-400 text-center">No hay plantillas creadas</p>
+                        <p className="p-4 text-[13px] text-zinc-500 text-center">No hay plantillas creadas</p>
                       ) : templates.map((tpl: any) => (
                         <button
                           key={tpl.id}
                           onClick={() => applyTemplate(tpl)}
-                          className="w-full text-left px-4 py-3 hover:bg-blue-50 border-b border-slate-50 transition-colors"
+                          className="w-full text-left px-4 py-3 hover:bg-orange-50 border-b border-slate-50 transition-colors"
                         >
                           <div className="flex items-center justify-between">
-                            <span className="text-[12px] font-bold text-blue-600">{tpl.shortcut}</span>
-                            <span className="text-[10px] text-slate-400 uppercase">{tpl.category}</span>
+                            <span className="text-[12px] font-bold text-orange-600">{tpl.shortcut}</span>
+                            <span className="text-[10px] text-zinc-500 uppercase">{tpl.category}</span>
                           </div>
-                          <p className="text-[12px] text-slate-500 mt-1 line-clamp-2">{tpl.body.substring(0, 80)}...</p>
+                          <p className="text-[12px] text-zinc-400 mt-1 line-clamp-2">{tpl.body.substring(0, 80)}...</p>
                         </button>
                       ))}
                     </div>
@@ -2524,9 +2531,9 @@ function FollowUps() {
                 value={contactMsg} 
                 onChange={e => setContactMsg(e.target.value)}
                 placeholder="Escribí tu mensaje para el cliente..."
-                className="flex-1 w-full border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-800 resize-none focus:outline-none focus:border-blue-400 bg-slate-50 min-h-[160px]"
+                className="flex-1 w-full border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-white resize-none focus:outline-none focus:border-blue-400 bg-zinc-800/50 min-h-[160px]"
               />
-              <p className="text-[11px] text-slate-400 mt-2 mb-4">{contactMsg.length} caracteres</p>
+              <p className="text-[11px] text-zinc-500 mt-2 mb-4">{contactMsg.length} caracteres</p>
 
               <button 
                 onClick={handleSendFollowUpMsg} 
@@ -2651,7 +2658,7 @@ function Clients() {
   const totalInvoiceAmount = (invs: any[]) => invs.reduce((acc: number, i: any) => acc + (parseFloat(i.amount) || 0), 0);
 
   return (
-    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-[#F8FAFC] flex flex-col`}>
+    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-zinc-950 flex flex-col`}>
       <TopBar title="Adventure Pro" subtitle="Clientes" />
       <main className="px-10 py-6 w-full">
 
@@ -2662,8 +2669,8 @@ function Clients() {
               <Users className="w-6 h-6 text-indigo-500" />
             </div>
             <div>
-              <h2 className="text-[20px] font-bold text-slate-800">Clientes</h2>
-              <p className="text-[13px] text-slate-400">Base de datos de todos los contactos · Resumen IA automático</p>
+              <h2 className="text-[20px] font-bold text-white">Clientes</h2>
+              <p className="text-[13px] text-zinc-500">Base de datos de todos los contactos · Resumen IA automático</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -2672,41 +2679,41 @@ function Clients() {
                 <RefreshCw className="w-3 h-3 animate-spin" /> Generando resúmenes IA...
               </span>
             )}
-            <span className="text-[13px] font-medium text-slate-400">{clients.length} clientes</span>
+            <span className="text-[13px] font-medium text-zinc-500">{clients.length} clientes</span>
           </div>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total Clientes</p>
-            <p className="text-[26px] font-extrabold text-slate-800">{clients.length}</p>
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
+            <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Clientes</p>
+            <p className="text-[26px] font-extrabold text-white">{clients.length}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
             <p className="text-[11px] font-bold text-indigo-500 uppercase tracking-wider mb-1">Con Factura</p>
             <p className="text-[26px] font-extrabold text-indigo-600">{clients.filter(c => c.ai_summary && c.ai_summary.toLowerCase().includes('factura')).length || '—'}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
             <p className="text-[11px] font-bold text-green-500 uppercase tracking-wider mb-1">Con Resumen IA</p>
             <p className="text-[26px] font-extrabold text-green-600">{clients.filter(c => c.ai_summary).length}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
+          <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
             <p className="text-[11px] font-bold text-amber-500 uppercase tracking-wider mb-1">Sin Resumen</p>
             <p className="text-[26px] font-extrabold text-amber-600">{clients.filter(c => !c.ai_summary).length}</p>
           </div>
         </div>
 
         {/* Search */}
-        <div className="bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
-          <div className="p-4 border-b border-slate-100 flex items-center">
+        <div className="bg-zinc-900 rounded-2xl border border-zinc-800/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
+          <div className="p-4 border-b border-zinc-800 flex items-center">
             <div className="flex-1 max-w-md relative">
-              <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
+              <Search className="w-4 h-4 absolute left-3 top-2.5 text-zinc-500" />
               <input 
                 type="text" 
                 placeholder="Buscar por nombre o teléfono..." 
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-[13px] font-medium text-slate-700 focus:outline-none focus:bg-white focus:border-blue-400 transition-colors"
+                className="w-full bg-zinc-800/50 border border-zinc-800 rounded-lg pl-9 pr-4 py-2 text-[13px] font-medium text-zinc-200 focus:outline-none focus:bg-zinc-900 focus:border-blue-400 transition-colors"
               />
             </div>
           </div>
@@ -2714,23 +2721,23 @@ function Clients() {
           {/* Client List */}
           <div className="divide-y divide-slate-50">
             {loading ? (
-              <div className="p-12 text-center text-slate-400 text-[14px]">Cargando clientes...</div>
+              <div className="p-12 text-center text-zinc-500 text-[14px]">Cargando clientes...</div>
             ) : filtered.length === 0 ? (
-              <div className="p-12 text-center text-slate-400 text-[14px]">No se encontraron clientes</div>
+              <div className="p-12 text-center text-zinc-500 text-[14px]">No se encontraron clientes</div>
             ) : filtered.map(client => (
               <div 
                 key={client.id} 
                 onClick={() => openClientPanel(client)}
-                className="flex items-center px-6 py-4 hover:bg-blue-50/40 transition-colors cursor-pointer group"
+                className="flex items-center px-6 py-4 hover:bg-orange-50/40 transition-colors cursor-pointer group"
               >
-                <img src="/images.png" alt="" className="w-10 h-10 rounded-full object-cover mr-4 border border-slate-200" />
+                <img src="/images.png" alt="" className="w-10 h-10 rounded-full object-cover mr-4 border border-zinc-800" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[14px] font-bold text-slate-800 truncate">{client.name || 'Sin nombre'}</p>
-                  <p className="text-[12px] text-slate-400 font-mono">{client.phone}</p>
+                  <p className="text-[14px] font-bold text-white truncate">{client.name || 'Sin nombre'}</p>
+                  <p className="text-[12px] text-zinc-500 font-mono">{client.phone}</p>
                 </div>
                 {client.ai_summary ? (
                   <div className="flex-1 max-w-[400px] mx-4">
-                    <p className="text-[12px] text-slate-500 line-clamp-2 leading-relaxed italic">{client.ai_summary}</p>
+                    <p className="text-[12px] text-zinc-400 line-clamp-2 leading-relaxed italic">{client.ai_summary}</p>
                   </div>
                 ) : (
                   <div className="flex-1 max-w-[400px] mx-4">
@@ -2739,7 +2746,7 @@ function Clients() {
                 )}
                 <div className="flex items-center gap-2">
                   {client.ai_summary && <span className="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">IA</span>}
-                  <Eye className="w-4 h-4 text-slate-300 group-hover:text-blue-500 transition-colors" />
+                  <Eye className="w-4 h-4 text-slate-300 group-hover:text-orange-500 transition-colors" />
                 </div>
               </div>
             ))}
@@ -2751,7 +2758,7 @@ function Clients() {
       {panelOpen && selectedClient && (
         <div className="fixed inset-0 z-[100] flex justify-end">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setPanelOpen(false)}></div>
-          <div className="relative w-full max-w-[580px] bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 overflow-y-auto">
+          <div className="relative w-full max-w-[580px] bg-zinc-900 h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 overflow-y-auto">
             
             {/* Panel Header */}
             <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 px-6 py-5 flex items-center justify-between flex-shrink-0">
@@ -2765,10 +2772,10 @@ function Clients() {
                         value={editName} 
                         onChange={e => setEditName(e.target.value)} 
                         onKeyDown={e => e.key === 'Enter' && saveClientName()}
-                        className="bg-white/20 text-white border border-white/30 rounded-lg px-3 py-1.5 text-[15px] font-bold focus:outline-none focus:bg-white/30 w-[200px]"
+                        className="bg-zinc-900/20 text-white border border-white/30 rounded-lg px-3 py-1.5 text-[15px] font-bold focus:outline-none focus:bg-zinc-900/30 w-[200px]"
                         autoFocus
                       />
-                      <button onClick={saveClientName} className="bg-white/20 hover:bg-white/30 text-white p-1.5 rounded-lg transition-colors"><Check className="w-4 h-4" /></button>
+                      <button onClick={saveClientName} className="bg-zinc-900/20 hover:bg-zinc-900/30 text-white p-1.5 rounded-lg transition-colors"><Check className="w-4 h-4" /></button>
                       <button onClick={() => setEditingName(false)} className="text-white/60 hover:text-white p-1.5 rounded-lg transition-colors">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                       </button>
@@ -2785,13 +2792,13 @@ function Clients() {
                   </div>
                 </div>
               </div>
-              <button onClick={() => setPanelOpen(false)} className="text-white/70 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors">
+              <button onClick={() => setPanelOpen(false)} className="text-white/70 hover:text-white p-2 rounded-lg hover:bg-zinc-900/10 transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
             </div>
 
             {/* AI Summary Card */}
-            <div className="p-5 border-b border-slate-100 flex-shrink-0">
+            <div className="p-5 border-b border-zinc-800 flex-shrink-0">
               <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-4 border border-indigo-100">
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-[11px] font-bold text-indigo-600 uppercase tracking-wider flex items-center gap-1.5">
@@ -2801,17 +2808,17 @@ function Clients() {
                     <RefreshCw className="w-3 h-3" /> Regenerar
                   </button>
                 </div>
-                <p className="text-[13px] text-slate-700 leading-relaxed">
+                <p className="text-[13px] text-zinc-200 leading-relaxed">
                   {selectedClient.ai_summary || 'Resumen pendiente de generación...'}
                 </p>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-3 px-5 py-4 border-b border-slate-100 flex-shrink-0">
-              <div className="bg-blue-50 rounded-xl p-3 text-center">
-                <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider">Facturas</p>
-                <p className="text-[20px] font-extrabold text-blue-700">{clientInvoices.length}</p>
+            <div className="grid grid-cols-3 gap-3 px-5 py-4 border-b border-zinc-800 flex-shrink-0">
+              <div className="bg-orange-50 rounded-xl p-3 text-center">
+                <p className="text-[10px] font-bold text-orange-500 uppercase tracking-wider">Facturas</p>
+                <p className="text-[20px] font-extrabold text-orange-700">{clientInvoices.length}</p>
               </div>
               <div className="bg-green-50 rounded-xl p-3 text-center">
                 <p className="text-[10px] font-bold text-green-500 uppercase tracking-wider">Facturado</p>
@@ -2824,39 +2831,39 @@ function Clients() {
             </div>
 
             {/* Invoices Section */}
-            <div className="p-5 border-b border-slate-100 flex-shrink-0">
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <div className="p-5 border-b border-zinc-800 flex-shrink-0">
+              <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                 <ShoppingCart className="w-3.5 h-3.5" /> Facturas Asociadas
               </p>
               {clientInvoices.length === 0 ? (
-                <p className="text-[13px] text-slate-400 italic">Sin facturas registradas</p>
+                <p className="text-[13px] text-zinc-500 italic">Sin facturas registradas</p>
               ) : clientInvoices.map((inv: any, idx: number) => (
-                <div key={idx} className="bg-slate-50 rounded-xl p-4 mb-3 border border-slate-100">
+                <div key={idx} className="bg-zinc-800/50 rounded-xl p-4 mb-3 border border-zinc-800">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[12px] font-bold text-slate-600">
+                    <span className="text-[12px] font-bold text-zinc-300">
                       {inv.invoice_number ? `Factura N° ${inv.invoice_number}` : `Factura #${idx + 1}`}
                     </span>
                     <span className="text-[14px] font-extrabold text-green-700">{formatMoney(inv.amount || 0)}</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 mb-2">{inv.purchase_date ? new Date(inv.purchase_date + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Sin fecha'}</p>
+                  <p className="text-[11px] text-zinc-500 mb-2">{inv.purchase_date ? new Date(inv.purchase_date + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Sin fecha'}</p>
                   
                   {/* Products table for this invoice */}
                   {Array.isArray(inv.items) && inv.items.length > 0 && (
-                    <div className="border border-slate-200 rounded-lg overflow-hidden mt-2">
+                    <div className="border border-zinc-800 rounded-lg overflow-hidden mt-2">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-white">
-                            <th className="text-left px-3 py-2 text-[9px] font-bold text-slate-400 uppercase">Cant.</th>
-                            <th className="text-left px-3 py-2 text-[9px] font-bold text-slate-400 uppercase">Producto</th>
-                            <th className="text-right px-3 py-2 text-[9px] font-bold text-slate-400 uppercase">Importe</th>
+                          <tr className="bg-zinc-900">
+                            <th className="text-left px-3 py-2 text-[9px] font-bold text-zinc-500 uppercase">Cant.</th>
+                            <th className="text-left px-3 py-2 text-[9px] font-bold text-zinc-500 uppercase">Producto</th>
+                            <th className="text-right px-3 py-2 text-[9px] font-bold text-zinc-500 uppercase">Importe</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
                           {inv.items.map((item: any, i: number) => (
                             <tr key={i}>
-                              <td className="px-3 py-1.5 text-[12px] font-bold text-slate-700">{typeof item === 'object' ? (item.qty || 1) : 1}</td>
-                              <td className="px-3 py-1.5 text-[12px] text-slate-700">{typeof item === 'object' ? item.description : item}</td>
-                              <td className="px-3 py-1.5 text-[12px] font-mono text-right text-slate-600">{typeof item === 'object' && item.total ? formatMoney(item.total) : '—'}</td>
+                              <td className="px-3 py-1.5 text-[12px] font-bold text-zinc-200">{typeof item === 'object' ? (item.qty || 1) : 1}</td>
+                              <td className="px-3 py-1.5 text-[12px] text-zinc-200">{typeof item === 'object' ? item.description : item}</td>
+                              <td className="px-3 py-1.5 text-[12px] font-mono text-right text-zinc-300">{typeof item === 'object' && item.total ? formatMoney(item.total) : '—'}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -2869,19 +2876,19 @@ function Clients() {
 
             {/* Follow-ups Section */}
             <div className="p-5 flex-shrink-0">
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                 <Clock className="w-3.5 h-3.5" /> Seguimientos
               </p>
               {clientFollowUps.length === 0 ? (
-                <p className="text-[13px] text-slate-400 italic">Sin seguimientos registrados</p>
+                <p className="text-[13px] text-zinc-500 italic">Sin seguimientos registrados</p>
               ) : clientFollowUps.map((fu: any, idx: number) => (
                 <div key={idx} className="flex items-center gap-3 py-2 border-b border-slate-50 last:border-0">
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 ${fu.status === 'pending' ? 'bg-amber-400' : fu.status === 'completed' ? 'bg-green-400' : 'bg-red-400'}`}></div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-medium text-slate-700">{fu.reason}</p>
-                    {fu.observations && <p className="text-[11px] text-slate-400 italic truncate">{fu.observations}</p>}
+                    <p className="text-[13px] font-medium text-zinc-200">{fu.reason}</p>
+                    {fu.observations && <p className="text-[11px] text-zinc-500 italic truncate">{fu.observations}</p>}
                   </div>
-                  <span className="text-[11px] text-slate-400 flex-shrink-0">{new Date(fu.scheduled_date).toLocaleDateString('es-AR')}</span>
+                  <span className="text-[11px] text-zinc-500 flex-shrink-0">{new Date(fu.scheduled_date).toLocaleDateString('es-AR')}</span>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${fu.status === 'pending' ? 'bg-amber-100 text-amber-700' : fu.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                     {fu.status === 'pending' ? 'Pendiente' : fu.status === 'completed' ? 'Completado' : 'Cancelado'}
                   </span>
@@ -3139,64 +3146,64 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
 
   if (userRole === 'vendedor') {
     return (
-      <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center`}>
+      <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-zinc-950 flex flex-col items-center justify-center`}>
         <Lock className="w-16 h-16 text-slate-300 mb-4" />
-        <h2 className="text-xl font-bold text-slate-700">Acceso Restringido</h2>
-        <p className="text-slate-500 mt-2">No tienes permisos de Administrador para ver esta sección.</p>
+        <h2 className="text-xl font-bold text-zinc-200">Acceso Restringido</h2>
+        <p className="text-zinc-400 mt-2">No tienes permisos de Administrador para ver esta sección.</p>
       </div>
     );
   }
 
   return (
-    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-[#F8FAFC] flex flex-col`}>
+    <div className={`flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'ml-[280px]' : 'ml-[80px]'} min-h-screen bg-zinc-950 flex flex-col`}>
       <TopBar title="Adventure Pro" subtitle="Centro de Control & Configuración" />
       
       <main className="px-10 py-6 w-full flex gap-8">
         {/* Sidebar Nav */}
         <div className="w-[240px] shrink-0 space-y-1">
-          <button onClick={() => setActiveTab('general')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'general' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('general')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'general' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <Settings className="w-4 h-4" /> General
           </button>
-          <button onClick={() => setActiveTab('bot-ia')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'bot-ia' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('bot-ia')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'bot-ia' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <MessageSquare className="w-4 h-4" /> Bot IA
           </button>
-          <button onClick={() => setActiveTab('whatsapp')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'whatsapp' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('whatsapp')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'whatsapp' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <MessageSquare className="w-4 h-4" /> WhatsApp API
           </button>
-          <button onClick={() => setActiveTab('seguimientos')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'seguimientos' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('seguimientos')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'seguimientos' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <Clock className="w-4 h-4" /> Seguimientos
           </button>
-          <button onClick={() => setActiveTab('plantillas')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'plantillas' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('plantillas')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'plantillas' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <FileText className="w-4 h-4" /> Plantillas Rápidas
           </button>
-          <button onClick={() => setActiveTab('utilidades')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'utilidades' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('utilidades')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'utilidades' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <History className="w-4 h-4" /> Utilidades & Logs
           </button>
-          <button onClick={() => setActiveTab('equipo')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'equipo' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('equipo')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'equipo' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <Users className="w-4 h-4" /> Equipo / Permisos
           </button>
-          <button onClick={() => setActiveTab('apariencia')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'apariencia' ? 'bg-white text-blue-600 border border-slate-200/60 shadow-sm' : 'text-slate-500 hover:bg-white/50 hover:text-slate-700'}`}>
+          <button onClick={() => setActiveTab('apariencia')} className={`w-full text-left px-4 py-3 rounded-xl text-[14px] font-bold transition-all flex items-center gap-3 ${activeTab === 'apariencia' ? 'bg-zinc-900 text-orange-600 border border-zinc-800/60 shadow-sm' : 'text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200'}`}>
             <Sparkles className="w-4 h-4" /> Apariencia
           </button>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 bg-white border border-slate-200/60 rounded-2xl p-8 relative overflow-hidden shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]">
+        <div className="flex-1 bg-zinc-900 border border-zinc-800/60 rounded-2xl p-8 relative overflow-hidden shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#065F46]/20 rounded-full blur-[100px] -z-10 pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
 
           {activeTab === 'general' && (
             <div className="animate-in fade-in space-y-8">
               <div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">Datos de Empresa</h3>
-                <p className="text-slate-500 text-sm mb-6">Información básica que se usa en resúmenes y encabezados.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Datos de Empresa</h3>
+                <p className="text-zinc-400 text-sm mb-6">Información básica que se usa en resúmenes y encabezados.</p>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Nombre de Fantasía</label>
-                    <input type="text" value={settings.empresa_nombre} onChange={e => setSettings({...settings, empresa_nombre: e.target.value})} onBlur={() => saveSetting('empresa_nombre', settings.empresa_nombre)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all" />
+                    <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Nombre de Fantasía</label>
+                    <input type="text" value={settings.empresa_nombre} onChange={e => setSettings({...settings, empresa_nombre: e.target.value})} onBlur={() => saveSetting('empresa_nombre', settings.empresa_nombre)} className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all" />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Sucursal / Ubicación</label>
-                    <input type="text" value={settings.empresa_sucursal} onChange={e => setSettings({...settings, empresa_sucursal: e.target.value})} onBlur={() => saveSetting('empresa_sucursal', settings.empresa_sucursal)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all" />
+                    <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Sucursal / Ubicación</label>
+                    <input type="text" value={settings.empresa_sucursal} onChange={e => setSettings({...settings, empresa_sucursal: e.target.value})} onBlur={() => saveSetting('empresa_sucursal', settings.empresa_sucursal)} className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all" />
                   </div>
                 </div>
               </div>            </div>
@@ -3209,27 +3216,27 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                 <div className="space-y-6 animate-pulse">
                   <div className="flex justify-between items-center">
                     <div>
-                      <div className="h-6 bg-slate-200 rounded w-64 mb-2"></div>
-                      <div className="h-4 bg-slate-100 rounded w-96"></div>
+                      <div className="h-6 bg-zinc-700 rounded w-64 mb-2"></div>
+                      <div className="h-4 bg-zinc-800 rounded w-96"></div>
                     </div>
-                    <div className="w-20 h-6 bg-slate-200 rounded-full"></div>
+                    <div className="w-20 h-6 bg-zinc-700 rounded-full"></div>
                   </div>
-                  <div className="h-10 bg-slate-100 rounded-xl w-1/2"></div>
-                  <div className="h-40 bg-slate-100 rounded-xl"></div>
-                  <div className="h-24 bg-slate-100 rounded-xl"></div>
+                  <div className="h-10 bg-zinc-800 rounded-xl w-1/2"></div>
+                  <div className="h-40 bg-zinc-800 rounded-xl"></div>
+                  <div className="h-24 bg-zinc-800 rounded-xl"></div>
                 </div>
               ) : (
                 <>
                   {/* Header con Toggle */}
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                       <h3 className="text-xl font-bold text-slate-800 mb-2">Bot de Inteligencia Artificial</h3>
-                       <p className="text-slate-500 text-sm">Controla la personalidad del bot y sus disparadores automáticos (triggers).</p>
+                       <h3 className="text-xl font-bold text-white mb-2">Bot de Inteligencia Artificial</h3>
+                       <p className="text-zinc-400 text-sm">Controla la personalidad del bot y sus disparadores automáticos (triggers).</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" checked={botEnabled} onChange={e => setBotEnabled(e.target.checked)} className="sr-only peer" />
-                      <div className={`w-11 h-6 rounded-full peer after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white ${botEnabled ? 'bg-green-500' : 'bg-slate-300'}`}></div>
-                      <span className={`ml-3 text-sm font-bold ${botEnabled ? 'text-green-700' : 'text-slate-500'}`}>{botEnabled ? 'Activado' : 'Apagado'}</span>
+                      <div className={`w-11 h-6 rounded-full peer after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-900 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white ${botEnabled ? 'bg-green-500' : 'bg-slate-300'}`}></div>
+                      <span className={`ml-3 text-sm font-bold ${botEnabled ? 'text-green-700' : 'text-zinc-400'}`}>{botEnabled ? 'Activado' : 'Apagado'}</span>
                     </label>
                   </div>
 
@@ -3242,22 +3249,22 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                   {/* Trigger */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Palabra Clave (Trigger)</label>
-                      <input type="text" value={botTrigger} onChange={e => setBotTrigger(e.target.value)} placeholder="Ej: asistente, edge (vacío = responde siempre)" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all" />
-                      <p className="text-[10px] text-slate-400 mt-1.5">Si está vacío, el bot responde a todos los mensajes. Si tiene valor, solo responde cuando el mensaje contiene esa palabra.</p>
+                      <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Palabra Clave (Trigger)</label>
+                      <input type="text" value={botTrigger} onChange={e => setBotTrigger(e.target.value)} placeholder="Ej: asistente, edge (vacío = responde siempre)" className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all" />
+                      <p className="text-[10px] text-zinc-500 mt-1.5">Si está vacío, el bot responde a todos los mensajes. Si tiene valor, solo responde cuando el mensaje contiene esa palabra.</p>
                     </div>
                   </div>
 
                   {/* System Prompt */}
-                  <div className="pt-6 border-t border-slate-100">
+                  <div className="pt-6 border-t border-zinc-800">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-[14px] font-bold text-slate-800">System Prompt Principal</h3>
-                      <span className={`text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg ${botPrompt.length > 2000 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'}`}>
+                      <h3 className="text-[14px] font-bold text-white">System Prompt Principal</h3>
+                      <span className={`text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg ${botPrompt.length > 2000 ? 'bg-amber-100 text-amber-700' : 'bg-zinc-800 text-zinc-400'}`}>
                         {botPrompt.length} caracteres
                       </span>
                     </div>
-                    <p className="text-[12px] text-slate-500 mb-4">Instrucciones vitales de cómo debe presentarse y pensar el asistente GPT cada vez que contesta.</p>
-                    <textarea rows={12} value={botPrompt} onChange={e => setBotPrompt(e.target.value)} placeholder="Sos el asesor virtual de Adventure Pro..." className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all resize-none shadow-sm font-mono leading-relaxed" />
+                    <p className="text-[12px] text-zinc-400 mb-4">Instrucciones vitales de cómo debe presentarse y pensar el asistente GPT cada vez que contesta.</p>
+                    <textarea rows={12} value={botPrompt} onChange={e => setBotPrompt(e.target.value)} placeholder="Sos el asesor virtual de Adventure Pro..." className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all resize-none shadow-sm font-mono leading-relaxed" />
                     {botPrompt !== originalBotPrompt && (
                       <div className="flex items-center mt-2 text-[11px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
                         <AlertCircle className="w-3.5 h-3.5 mr-2 shrink-0" />
@@ -3267,16 +3274,16 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                   </div>
 
                   {/* Catálogo de Precios */}
-                  <div className="border border-slate-200 rounded-xl p-5 bg-gradient-to-br from-white to-slate-50 mt-6">
+                  <div className="border border-zinc-800 rounded-xl p-5 bg-gradient-to-br from-white to-slate-50 mt-6">
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="text-[14px] font-bold text-slate-800 flex items-center">
+                        <h3 className="text-[14px] font-bold text-white flex items-center">
                           <Package className="w-4 h-4 mr-2 text-green-600" />
                           Catálogo de Precios
                         </h3>
-                        <p className="text-[11px] text-slate-400 mt-0.5">El bot usa estos precios para cotizar automáticamente</p>
+                        <p className="text-[11px] text-zinc-500 mt-0.5">El bot usa estos precios para cotizar automáticamente</p>
                         {lastCatalogUpdate && (
-                          <p className="text-[10px] text-blue-500 mt-1 font-medium">Última actualización: {lastCatalogUpdate}</p>
+                          <p className="text-[10px] text-orange-500 mt-1 font-medium">Última actualización: {lastCatalogUpdate}</p>
                         )}
                       </div>
                       <div className={`text-[12px] font-bold px-3 py-1.5 rounded-lg ${productCount > 0 ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -3287,28 +3294,28 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                     {/* Product Preview Table */}
                     {productPreview && productPreview.length > 0 ? (
                       <div className="space-y-3 mt-4">
-                        <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 flex items-center text-[12px] font-bold text-blue-700">
+                        <div className="bg-orange-50 border border-blue-200 rounded-xl px-4 py-3 flex items-center text-[12px] font-bold text-orange-700">
                           <Info className="w-4 h-4 mr-2 shrink-0" />
                           Se detectaron {pendingProducts.length} productos. Revisá la vista previa y confirmá la carga.
                         </div>
-                        <div className="border border-slate-200 rounded-xl overflow-hidden max-h-[260px] overflow-y-auto">
+                        <div className="border border-zinc-800 rounded-xl overflow-hidden max-h-[260px] overflow-y-auto">
                           <table className="w-full text-[12px]">
-                            <thead className="bg-slate-50 sticky top-0">
+                            <thead className="bg-zinc-800/50 sticky top-0">
                               <tr>
-                                <th className="text-left px-3 py-2 font-bold text-slate-500 uppercase text-[10px]">Código</th>
-                                <th className="text-left px-3 py-2 font-bold text-slate-500 uppercase text-[10px]">Producto</th>
-                                <th className="text-left px-3 py-2 font-bold text-slate-500 uppercase text-[10px]">Marca</th>
-                                <th className="text-right px-3 py-2 font-bold text-slate-500 uppercase text-[10px]">Precio</th>
-                                <th className="text-right px-3 py-2 font-bold text-slate-500 uppercase text-[10px]">Stock</th>
+                                <th className="text-left px-3 py-2 font-bold text-zinc-400 uppercase text-[10px]">Código</th>
+                                <th className="text-left px-3 py-2 font-bold text-zinc-400 uppercase text-[10px]">Producto</th>
+                                <th className="text-left px-3 py-2 font-bold text-zinc-400 uppercase text-[10px]">Marca</th>
+                                <th className="text-right px-3 py-2 font-bold text-zinc-400 uppercase text-[10px]">Precio</th>
+                                <th className="text-right px-3 py-2 font-bold text-zinc-400 uppercase text-[10px]">Stock</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
                               {productPreview.map((p: any, i: number) => (
-                                <tr key={i} className="hover:bg-blue-50/40">
-                                  <td className="px-3 py-2 font-mono text-slate-500">{p.code}</td>
-                                  <td className="px-3 py-2 font-medium text-slate-800 truncate max-w-[220px]">{p.name}</td>
-                                  <td className="px-3 py-2 text-slate-600">{p.brand || '—'}</td>
-                                  <td className="px-3 py-2 font-mono font-bold text-slate-800 text-right">{formatMoney(p.price)}</td>
+                                <tr key={i} className="hover:bg-orange-50/40">
+                                  <td className="px-3 py-2 font-mono text-zinc-400">{p.code}</td>
+                                  <td className="px-3 py-2 font-medium text-white truncate max-w-[220px]">{p.name}</td>
+                                  <td className="px-3 py-2 text-zinc-300">{p.brand || '—'}</td>
+                                  <td className="px-3 py-2 font-mono font-bold text-white text-right">{formatMoney(p.price)}</td>
                                   <td className="px-3 py-2 font-bold text-right">{p.stock}</td>
                                 </tr>
                               ))}
@@ -3316,10 +3323,10 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                           </table>
                         </div>
                         {pendingProducts.length > 8 && (
-                          <p className="text-[10px] text-slate-400 text-center">Mostrando 8 de {pendingProducts.length} productos...</p>
+                          <p className="text-[10px] text-zinc-500 text-center">Mostrando 8 de {pendingProducts.length} productos...</p>
                         )}
                         <div className="flex gap-3">
-                          <button onClick={cancelProductUpload} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-xl text-[12px] transition-all border border-slate-200">
+                          <button onClick={cancelProductUpload} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold py-3 rounded-xl text-[12px] transition-all border border-zinc-800">
                             Cancelar
                           </button>
                           <button onClick={confirmProductUpload} disabled={productUploading} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl text-[12px] transition-all shadow-md flex items-center justify-center disabled:opacity-50">
@@ -3333,7 +3340,7 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                       </div>
                     ) : (
                       <div className="flex items-center space-x-3">
-                        <label className={`flex-1 flex items-center justify-center border-2 border-dashed rounded-xl px-4 py-4 cursor-pointer transition-all ${productUploading ? 'border-blue-300 bg-blue-50' : 'border-slate-200 hover:border-blue-400 hover:bg-blue-50'}`}>
+                        <label className={`flex-1 flex items-center justify-center border-2 border-dashed rounded-xl px-4 py-4 cursor-pointer transition-all ${productUploading ? 'border-blue-300 bg-orange-50' : 'border-zinc-800 hover:border-blue-400 hover:bg-orange-50'}`}>
                           <input 
                             type="file" 
                             accept=".xls,.xlsx" 
@@ -3343,15 +3350,15 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                           />
                           {productUploading ? (
                             <>
-                              <RefreshCw className="w-4 h-4 text-blue-500 animate-spin mr-2" />
-                              <span className="text-[12px] text-blue-600 font-bold">Leyendo archivo...</span>
+                              <RefreshCw className="w-4 h-4 text-orange-500 animate-spin mr-2" />
+                              <span className="text-[12px] text-orange-600 font-bold">Leyendo archivo...</span>
                             </>
                           ) : (
                             <>
-                              <UploadCloud className="w-5 h-5 text-slate-400 mr-2" />
+                              <UploadCloud className="w-5 h-5 text-zinc-500 mr-2" />
                               <div className="text-left">
-                              <span className="text-[12px] text-slate-600 font-bold block">Subir archivo de precios</span>
-                                <span className="text-[10px] text-slate-400">Columnas: Cód.Art | Articulo | Marca | Medida | Cód.Alt | Precio | Cantidad</span>
+                              <span className="text-[12px] text-zinc-300 font-bold block">Subir archivo de precios</span>
+                                <span className="text-[10px] text-zinc-500">Columnas: Cód.Art | Articulo | Marca | Medida | Cód.Alt | Precio | Cantidad</span>
                               </div>
                             </>
                           )}
@@ -3362,11 +3369,11 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
 
                   {/* Action Buttons */}
                   <div className="flex items-center justify-between pt-2">
-                     <button onClick={() => setBotPrompt(originalBotPrompt)} disabled={botPrompt === originalBotPrompt} className={`px-6 py-3 rounded-xl font-bold text-[12px] transition-all flex items-center ${botPrompt !== originalBotPrompt ? 'bg-amber-50 text-amber-600 border border-amber-200 hover:bg-amber-100 hover:text-amber-700 shadow-sm' : 'bg-slate-50 text-slate-400 border border-slate-200 opacity-50 cursor-not-allowed'}`}>
+                     <button onClick={() => setBotPrompt(originalBotPrompt)} disabled={botPrompt === originalBotPrompt} className={`px-6 py-3 rounded-xl font-bold text-[12px] transition-all flex items-center ${botPrompt !== originalBotPrompt ? 'bg-amber-50 text-amber-600 border border-amber-200 hover:bg-amber-100 hover:text-amber-700 shadow-sm' : 'bg-zinc-800/50 text-zinc-500 border border-zinc-800 opacity-50 cursor-not-allowed'}`}>
                        <RotateCcw className="w-3.5 h-3.5 mr-2" />
                        Deshacer Cambios (Volver Atrás)
                      </button>
-                     <button onClick={saveBotConfig} disabled={botSaving} className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-6 py-3 rounded-xl shadow-md transition-all text-[12px] flex items-center disabled:opacity-50">
+                     <button onClick={saveBotConfig} disabled={botSaving} className="bg-orange-600 hover:bg-orange-700 text-white font-extrabold px-6 py-3 rounded-xl shadow-md transition-all text-[12px] flex items-center disabled:opacity-50">
                        {botSaving ? <><RefreshCw className="w-3.5 h-3.5 animate-spin mr-2" /> Guardando...</> : <><Check className="w-3.5 h-3.5 mr-2" /> Guardar Configuración</>}
                      </button>
                   </div>
@@ -3378,41 +3385,41 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
           {activeTab === 'utilidades' && (
             <div className="animate-in fade-in space-y-6 max-h-[70vh] overflow-hidden flex flex-col">
               <div className="shrink-0 mb-4">
-                <h3 className="text-xl font-bold text-slate-800 mb-2">Utilidades y Auditoría</h3>
-                <p className="text-slate-500 text-sm">Registro de cambios (logs) y sistema de reversionado de prompts de IA.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Utilidades y Auditoría</h3>
+                <p className="text-zinc-400 text-sm">Registro de cambios (logs) y sistema de reversionado de prompts de IA.</p>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl flex-1 flex flex-col overflow-hidden">
-                <div className="bg-white px-6 py-4 border-b border-slate-200 flex justify-between items-center shrink-0">
-                  <h4 className="text-[14px] font-bold text-slate-800 flex items-center"><History className="w-4 h-4 mr-2 text-blue-500" /> Historial de Prompts (Reversionado)</h4>
-                  <span className="text-[11px] bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-full border border-blue-200">{promptHistory.length} registros</span>
+              <div className="bg-zinc-800/50 border border-zinc-800 rounded-2xl flex-1 flex flex-col overflow-hidden">
+                <div className="bg-zinc-900 px-6 py-4 border-b border-zinc-800 flex justify-between items-center shrink-0">
+                  <h4 className="text-[14px] font-bold text-white flex items-center"><History className="w-4 h-4 mr-2 text-orange-500" /> Historial de Prompts (Reversionado)</h4>
+                  <span className="text-[11px] bg-orange-50 text-orange-600 font-bold px-3 py-1 rounded-full border border-blue-200">{promptHistory.length} registros</span>
                 </div>
                 
                 {fetchingHistory ? (
-                  <div className="p-12 text-center text-slate-400 font-mono tracking-widest uppercase text-[12px]"><RefreshCw className="w-6 h-6 mx-auto animate-spin mb-3 text-blue-500/50" /> Leyendo base de datos...</div>
+                  <div className="p-12 text-center text-zinc-500 font-mono tracking-widest uppercase text-[12px]"><RefreshCw className="w-6 h-6 mx-auto animate-spin mb-3 text-orange-500/50" /> Leyendo base de datos...</div>
                 ) : promptHistory.length === 0 ? (
-                  <div className="p-12 text-center text-slate-500 font-medium text-[13px]">No hay registros históricos aún.</div>
+                  <div className="p-12 text-center text-zinc-400 font-medium text-[13px]">No hay registros históricos aún.</div>
                 ) : (
                   <div className="flex-1 overflow-y-auto p-2 custom-scrollbar">
                      <div className="divide-y divide-slate-200">
                         {promptHistory.map((hist, i) => (
-                           <div key={hist.id || i} className="p-6 hover:bg-white transition-colors group">
+                           <div key={hist.id || i} className="p-6 hover:bg-zinc-900 transition-colors group">
                               <div className="flex justify-between items-start mb-4">
                                 <div className="flex items-center gap-3">
-                                   <div className="w-10 h-10 rounded-xl bg-blue-100 border border-blue-200 flex items-center justify-center text-[13px] font-bold text-blue-700 shadow-sm">{hist.username?.charAt(0) || 'A'}</div>
+                                   <div className="w-10 h-10 rounded-xl bg-orange-100 border border-blue-200 flex items-center justify-center text-[13px] font-bold text-orange-700 shadow-sm">{hist.username?.charAt(0) || 'A'}</div>
                                    <div>
-                                     <p className="text-[14px] font-bold text-slate-800">{hist.username || 'Admin'}</p>
-                                     <p className="text-[11px] text-slate-500 font-mono uppercase tracking-wider">{new Date(hist.created_at).toLocaleString('es-AR')}</p>
+                                     <p className="text-[14px] font-bold text-white">{hist.username || 'Admin'}</p>
+                                     <p className="text-[11px] text-zinc-400 font-mono uppercase tracking-wider">{new Date(hist.created_at).toLocaleString('es-AR')}</p>
                                    </div>
                                 </div>
-                                <button onClick={() => handleRollbackPrompt(hist.old_prompt)} className="opacity-0 group-hover:opacity-100 bg-blue-100 hover:bg-blue-600 hover:text-white text-blue-700 text-[11px] font-bold px-4 py-2 rounded-lg flex items-center transition-all shadow-sm border border-blue-200 uppercase tracking-widest">
+                                <button onClick={() => handleRollbackPrompt(hist.old_prompt)} className="opacity-0 group-hover:opacity-100 bg-orange-100 hover:bg-orange-600 hover:text-white text-orange-700 text-[11px] font-bold px-4 py-2 rounded-lg flex items-center transition-all shadow-sm border border-blue-200 uppercase tracking-widest">
                                   <RotateCcw className="w-3.5 h-3.5 mr-2" /> Revertir Cambios
                                 </button>
                               </div>
                               <div className="grid grid-cols-2 gap-6 mt-4">
                                  <div>
-                                   <p className="text-[10px] font-bold text-slate-500 mb-2 uppercase tracking-widest flex items-center"><X className="w-3 h-3 text-red-500 mr-2" /> Prompt Anterior</p>
-                                   <div className="bg-white text-slate-600 text-[12px] p-4 rounded-xl border border-slate-200 h-[160px] overflow-y-auto font-mono whitespace-pre-wrap shadow-sm">{hist.old_prompt || '(Vacío)'}</div>
+                                   <p className="text-[10px] font-bold text-zinc-400 mb-2 uppercase tracking-widest flex items-center"><X className="w-3 h-3 text-red-500 mr-2" /> Prompt Anterior</p>
+                                   <div className="bg-zinc-900 text-zinc-300 text-[12px] p-4 rounded-xl border border-zinc-800 h-[160px] overflow-y-auto font-mono whitespace-pre-wrap shadow-sm">{hist.old_prompt || '(Vacío)'}</div>
                                  </div>
                                  <div>
                                    <p className="text-[10px] font-bold text-emerald-600 mb-2 uppercase tracking-widest flex items-center"><Check className="w-3 h-3 text-emerald-500 mr-2" /> Prompt Modificado</p>
@@ -3431,16 +3438,16 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
           {activeTab === 'whatsapp' && (
             <div className="animate-in fade-in space-y-6">
               <div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">Conexión con BuilderBot</h3>
-                <p className="text-slate-500 text-sm mb-6">Configuración del proveedor de WhatsApp oficial (Cloud API v2).</p>
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-white mb-2">Conexión con BuilderBot</h3>
+                <p className="text-zinc-400 text-sm mb-6">Configuración del proveedor de WhatsApp oficial (Cloud API v2).</p>
+                <div className="bg-zinc-800/50 border border-zinc-800 rounded-2xl p-6 flex items-center justify-between mb-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center border border-blue-200">
-                      <MessageSquare className="w-6 h-6 text-blue-600" />
+                    <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center border border-blue-200">
+                      <MessageSquare className="w-6 h-6 text-orange-600" />
                     </div>
                     <div>
-                      <h4 className="text-slate-800 font-bold text-base">API BuilderBot</h4>
-                      <p className="text-slate-500 text-sm font-mono mt-1">Host configurado: {settings.builderbot_url || 'https://app.builderbot.cloud'}</p>
+                      <h4 className="text-white font-bold text-base">API BuilderBot</h4>
+                      <p className="text-zinc-400 text-sm font-mono mt-1">Host configurado: {settings.builderbot_url || 'https://app.builderbot.cloud'}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 border border-green-200 text-green-700 text-[11px] font-bold uppercase">
@@ -3451,16 +3458,16 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
 
                 <div className="grid grid-cols-1 gap-4 mt-4">
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">URL Base de API (Endpoint)</label>
-                    <input type="text" value={settings.builderbot_url || ''} onChange={e => setSettings({...settings, builderbot_url: e.target.value})} onBlur={() => saveSetting('builderbot_url', settings.builderbot_url)} placeholder="https://api.builderbot.cloud" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all font-mono" />
+                    <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">URL Base de API (Endpoint)</label>
+                    <input type="text" value={settings.builderbot_url || ''} onChange={e => setSettings({...settings, builderbot_url: e.target.value})} onBlur={() => saveSetting('builderbot_url', settings.builderbot_url)} placeholder="https://api.builderbot.cloud" className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all font-mono" />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Token de Acceso (API Key)</label>
-                    <input type="password" value={settings.builderbot_token || ''} onChange={e => setSettings({...settings, builderbot_token: e.target.value})} onBlur={() => saveSetting('builderbot_token', settings.builderbot_token)} placeholder="Bearer token..." className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all font-mono" />
+                    <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Token de Acceso (API Key)</label>
+                    <input type="password" value={settings.builderbot_token || ''} onChange={e => setSettings({...settings, builderbot_token: e.target.value})} onBlur={() => saveSetting('builderbot_token', settings.builderbot_token)} placeholder="Bearer token..." className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all font-mono" />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Número de Teléfono (Instancia)</label>
-                    <input type="text" value={settings.builderbot_phone || ''} onChange={e => setSettings({...settings, builderbot_phone: e.target.value})} onBlur={() => saveSetting('builderbot_phone', settings.builderbot_phone)} placeholder="5491100000000" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all font-mono" />
+                    <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Número de Teléfono (Instancia)</label>
+                    <input type="text" value={settings.builderbot_phone || ''} onChange={e => setSettings({...settings, builderbot_phone: e.target.value})} onBlur={() => saveSetting('builderbot_phone', settings.builderbot_phone)} placeholder="5491100000000" className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all font-mono" />
                   </div>
                 </div>
 
@@ -3471,11 +3478,11 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
           {activeTab === 'seguimientos' && (
             <div className="animate-in fade-in space-y-6">
               <div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">Periodos de Seguimiento</h3>
-                <p className="text-slate-500 text-sm mb-6">Definí los intervalos rápidos que se sugieren al agendar una alerta.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Periodos de Seguimiento</h3>
+                <p className="text-zinc-400 text-sm mb-6">Definí los intervalos rápidos que se sugieren al agendar una alerta.</p>
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Días Sugeridos (Separados por coma)</label>
-                  <input type="text" value={settings.seguimiento_dias} onChange={e => setSettings({...settings, seguimiento_dias: e.target.value})} onBlur={() => saveSetting('seguimiento_dias', settings.seguimiento_dias)} placeholder="Ej: 30, 60, 90" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all" />
+                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Días Sugeridos (Separados por coma)</label>
+                  <input type="text" value={settings.seguimiento_dias} onChange={e => setSettings({...settings, seguimiento_dias: e.target.value})} onBlur={() => saveSetting('seguimiento_dias', settings.seguimiento_dias)} placeholder="Ej: 30, 60, 90" className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all" />
                 </div>
               </div>
             </div>
@@ -3484,8 +3491,8 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
           {activeTab === 'equipo' && (
             <div className="animate-in fade-in space-y-6 text-center py-12">
               <Users className="w-20 h-20 text-slate-300 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold text-slate-800 mb-2">Gestión de Perfiles y Roles</h3>
-              <p className="text-slate-500 text-sm max-w-lg mx-auto">
+              <h3 className="text-2xl font-bold text-white mb-2">Gestión de Perfiles y Roles</h3>
+              <p className="text-zinc-400 text-sm max-w-lg mx-auto">
                 Los usuarios (Vendedores/Admins) se dan de alta directamente a través del panel de Supabase Auth para mantener la integridad criptográfica de las contraseñas.
               </p>
               <div className="mt-8 flex justify-center">
@@ -3499,8 +3506,8 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
           {activeTab === 'apariencia' && (
             <div className="animate-in fade-in space-y-6 text-center py-12">
               <Sparkles className="w-20 h-20 text-blue-300 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold text-slate-800 mb-2">Diseño Estándar Ligero</h3>
-              <p className="text-slate-500 text-sm max-w-lg mx-auto">
+              <h3 className="text-2xl font-bold text-white mb-2">Diseño Estándar Ligero</h3>
+              <p className="text-zinc-400 text-sm max-w-lg mx-auto">
                 El entorno está actualmente configurado en el sistema de diseño <strong>Light Standard</strong>. Este tema asegura armonía con el resto de los componentes y una experiencia fluida.
               </p>
             </div>
@@ -3510,32 +3517,32 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
             <div className="animate-in fade-in h-max">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-800">Plantillas Rápidas</h3>
-                  <p className="text-slate-500 text-sm mt-1">Configurá fragmentos que te ahorrarán tiempo de tipear al chatear.</p>
+                  <h3 className="text-xl font-bold text-white">Plantillas Rápidas</h3>
+                  <p className="text-zinc-400 text-sm mt-1">Configurá fragmentos que te ahorrarán tiempo de tipear al chatear.</p>
                 </div>
-                <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 flex items-center shadow-sm">
-                  <span className="text-sm font-medium text-slate-600 mr-4">{templates.length} plantillas</span>
-                  <div className="h-6 w-px bg-slate-200 mr-4"></div>
-                  <Package className="w-4 h-4 text-slate-400" />
+                <div className="bg-zinc-800/50 border border-zinc-800 rounded-lg px-4 py-2 flex items-center shadow-sm">
+                  <span className="text-sm font-medium text-zinc-300 mr-4">{templates.length} plantillas</span>
+                  <div className="h-6 w-px bg-zinc-700 mr-4"></div>
+                  <Package className="w-4 h-4 text-zinc-500" />
                 </div>
               </div>
 
               <div className="grid grid-cols-12 gap-8">
                 {/* Formulario Nueva */}
                 <div className="col-span-12 lg:col-span-5 relative">
-                  <div className="bg-white rounded-2xl p-6 border border-slate-200 sticky top-6 shadow-sm relative z-10 overflow-hidden">
-                    <h3 className="text-[14px] font-bold text-slate-800 mb-5 flex items-center gap-2">
-                      <PenLine className="w-4 h-4 text-blue-500" />
+                  <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800 sticky top-6 shadow-sm relative z-10 overflow-hidden">
+                    <h3 className="text-[14px] font-bold text-white mb-5 flex items-center gap-2">
+                      <PenLine className="w-4 h-4 text-orange-500" />
                       Crear nueva
                     </h3>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Comando rápido</label>
-                        <input type="text" value={newTemplate.shortcut} onChange={e => setNewTemplate({...newTemplate, shortcut: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-[14px] font-bold text-blue-600 focus:border-blue-500 focus:outline-none transition-all" />
+                        <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Comando rápido</label>
+                        <input type="text" value={newTemplate.shortcut} onChange={e => setNewTemplate({...newTemplate, shortcut: e.target.value})} className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-[14px] font-bold text-orange-600 focus:border-orange-500 focus:outline-none transition-all" />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Categoría</label>
-                        <select value={newTemplate.category} onChange={e => setNewTemplate({...newTemplate, category: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-[14px] text-slate-700 focus:border-blue-500 focus:outline-none transition-all">
+                        <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Categoría</label>
+                        <select value={newTemplate.category} onChange={e => setNewTemplate({...newTemplate, category: e.target.value})} className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-[14px] text-zinc-200 focus:border-orange-500 focus:outline-none transition-all">
                           <option>General</option>
                           <option>Seguimiento</option>
                           <option>Ventas</option>
@@ -3544,10 +3551,10 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                       </div>
 
                       <div className="pt-2">
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Mensaje e incrustaciones</label>
+                        <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2">Mensaje e incrustaciones</label>
                         <div className="flex flex-wrap gap-2 mb-3">
                           {['nombre', 'productos', 'importe', 'fecha'].map(vr => (
-                            <button key={vr} onClick={() => setNewTemplate({...newTemplate, body: newTemplate.body + `{{${vr}}}`})} className="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg text-blue-600 text-[11px] font-bold hover:border-blue-400 hover:bg-blue-50 transition-colors">
+                            <button key={vr} onClick={() => setNewTemplate({...newTemplate, body: newTemplate.body + `{{${vr}}}`})} className="bg-zinc-800/50 border border-zinc-800 px-3 py-1.5 rounded-lg text-orange-600 text-[11px] font-bold hover:border-blue-400 hover:bg-orange-50 transition-colors">
                               {`{{${vr}}}`}
                             </button>
                           ))}
@@ -3557,16 +3564,16 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                           value={newTemplate.body}
                           onChange={e => setNewTemplate({...newTemplate, body: e.target.value})}
                           placeholder="Hola {{nombre}}, ¿En qué te puedo ayudar?"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-700 focus:border-blue-500 focus:outline-none resize-none transition-all"
+                          className="w-full bg-zinc-800/50 border border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-zinc-200 focus:border-orange-500 focus:outline-none resize-none transition-all"
                         />
-                        <div className="flex items-center justify-between mt-2 text-[11px] text-slate-500 font-medium">
+                        <div className="flex items-center justify-between mt-2 text-[11px] text-zinc-400 font-medium">
                           <span>{newTemplate.body.length} caracteres</span>
                           <span>{newTemplate.body.match(/\{\{.+?\}\}/g)?.length || 0} variables</span>
                         </div>
                       </div>
 
                       <div className="pt-4 flex justify-end">
-                        <button onClick={saveTemplate} className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl text-[13px] font-bold flex items-center shadow-lg transition-all active:scale-95">
+                        <button onClick={saveTemplate} className="bg-orange-600 hover:bg-orange-500 text-white px-6 py-3 rounded-xl text-[13px] font-bold flex items-center shadow-lg transition-all active:scale-95">
                           <Check className="w-4 h-4 mr-2" /> Guardar Plantilla
                         </button>
                       </div>
@@ -3577,24 +3584,24 @@ function Configuracion({ isSidebarOpen, userRole }: { isSidebarOpen: boolean, us
                 {/* Lista Existentes */}
                 <div className="col-span-12 lg:col-span-7 space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
                   {templates.length === 0 ? (
-                    <div className="border border-slate-200 bg-slate-50 rounded-2xl p-12 text-center">
+                    <div className="border border-zinc-800 bg-zinc-800/50 rounded-2xl p-12 text-center">
                       <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                      <p className="text-[14px] font-bold text-slate-600">Aún no hay plantillas creadas.</p>
-                      <p className="text-[13px] text-slate-400 mt-1">Usá el formulario lateral para agregar tu primer atajo.</p>
+                      <p className="text-[14px] font-bold text-zinc-300">Aún no hay plantillas creadas.</p>
+                      <p className="text-[13px] text-zinc-500 mt-1">Usá el formulario lateral para agregar tu primer atajo.</p>
                     </div>
                   ) : (
                     templates.map((t, idx) => (
-                      <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-blue-300 hover:bg-blue-50/50 transition-all shadow-sm group">
+                      <div key={idx} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 hover:border-blue-300 hover:bg-orange-50/50 transition-all shadow-sm group">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-3">
-                            <span className="text-[14px] font-extrabold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg tracking-wider border border-blue-200">{t.shortcut}</span>
-                            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wide bg-slate-100 border border-slate-200 px-2 py-1 rounded-md">{t.category}</span>
+                            <span className="text-[14px] font-extrabold text-orange-600 bg-orange-50 px-3 py-1 rounded-lg tracking-wider border border-blue-200">{t.shortcut}</span>
+                            <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wide bg-zinc-800 border border-zinc-800 px-2 py-1 rounded-md">{t.category}</span>
                           </div>
                           <button onClick={async (e) => { e.stopPropagation(); await supabase.from('ng_templates').delete().eq('id', t.id); fetchTemplates(); }} className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                           </button>
                         </div>
-                        <p className="text-[13px] text-slate-600 leading-relaxed font-medium mt-4 pl-1 border-l-2 border-slate-200 group-hover:border-blue-400 transition-colors">{t.body}</p>
+                        <p className="text-[13px] text-zinc-300 leading-relaxed font-medium mt-4 pl-1 border-l-2 border-zinc-800 group-hover:border-blue-400 transition-colors">{t.body}</p>
                       </div>
                     ))
                   )}
@@ -3615,7 +3622,7 @@ function SystemModal({ isOpen, title, message, type, onClose }: { isOpen: boolea
   const bgClasses = {
     'error': 'bg-red-50 text-red-600 border-red-200',
     'success': 'bg-green-50 text-green-600 border-green-200',
-    'info': 'bg-blue-50 text-blue-600 border-blue-200'
+    'info': 'bg-orange-50 text-orange-600 border-blue-200'
   };
 
   const Icon = {
@@ -3626,7 +3633,7 @@ function SystemModal({ isOpen, title, message, type, onClose }: { isOpen: boolea
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-200">
+      <div className="bg-zinc-900 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-zinc-800 overflow-hidden animate-in zoom-in-95 duration-200">
         <div className={`px-6 py-4 border-b flex items-center justify-between ${bgClasses[type]}`}>
           <div className="flex items-center">
             <Icon className="w-5 h-5 mr-2" />
@@ -3638,9 +3645,9 @@ function SystemModal({ isOpen, title, message, type, onClose }: { isOpen: boolea
           </button>
         </div>
         <div className="p-6">
-          <p className="text-slate-600 text-[14px] leading-relaxed whitespace-pre-wrap">{message}</p>
+          <p className="text-zinc-300 text-[14px] leading-relaxed whitespace-pre-wrap">{message}</p>
         </div>
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="px-6 py-4 bg-zinc-800/50 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <button onClick={async () => {
             // Log issue to DB
             supabase.from('ng_error_logs').insert([{ title, message, type }]).then();
@@ -3660,10 +3667,10 @@ function SystemModal({ isOpen, title, message, type, onClose }: { isOpen: boolea
               } catch (err) { console.error('Error sending alert to admin:', err); }
             }
             onClose();
-          }} className="text-[11px] font-medium text-slate-400 hover:text-blue-600 underline">
+          }} className="text-[11px] font-medium text-zinc-500 hover:text-orange-600 underline">
             Reportar problema
           </button>
-          <button onClick={onClose} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl transition-colors shadow-sm cursor-pointer border-none outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          <button onClick={onClose} className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-xl transition-colors shadow-sm cursor-pointer border-none outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
             Aceptar
           </button>
         </div>
@@ -3708,7 +3715,7 @@ function App() {
 
   return (
     <AppContext.Provider value={{ isSidebarOpen, toggleSidebar, showSystemModal }}>
-      <div className="flex h-screen overflow-x-hidden overflow-y-auto font-sans selection:bg-blue-100 transition-colors duration-300 relative bg-[#000]">
+      <div className="flex h-screen overflow-x-hidden overflow-y-auto font-sans selection:bg-orange-100 transition-colors duration-300 relative bg-[#000]">
         <Sidebar />
         <Routes>
           <Route path="/" element={<Dashboard />} />
