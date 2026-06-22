@@ -19,7 +19,7 @@ serve(async (req) => {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-builderbot': bbKey },
-      body: JSON.stringify({ number: phone, messages: { content: message } })
+      body: JSON.stringify({ number: phone, messages: { content: message }, checkIfExists: false })
     });
     
     const text = await res.text();

@@ -217,7 +217,7 @@ serve(async (req) => {
             await fetch(`${bbUrl}/${bbBotId}/messages`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'x-api-builderbot': bbKey },
-              body: JSON.stringify({ number: phone, messages: { content: pausedMsg } })
+              body: JSON.stringify({ number: phone, messages: { content: pausedMsg }, checkIfExists: false })
             });
             await supabase.from('ng_whatsapp_messages').insert({ client_phone: phone, body: pausedMsg, direction: 'outgoing', message_type: 'text' });
           }
@@ -552,7 +552,7 @@ ${dbPrompt}
               return fetch(`${bbUrl}/${bbBotId}/messages`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'x-api-builderbot': bbKey },
-                body: JSON.stringify({ number: phone, messages: { content: text } })
+                body: JSON.stringify({ number: phone, messages: { content: text }, checkIfExists: false })
               });
             };
 

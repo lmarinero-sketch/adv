@@ -725,7 +725,8 @@ function Messenger() {
           },
           body: JSON.stringify({
              number: activeContact,
-             messages: { content: newMessage }
+             messages: { content: newMessage },
+             checkIfExists: false
           })
         });
       } catch (err) {
