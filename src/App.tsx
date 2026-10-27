@@ -3,6 +3,7 @@ import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from './lib/supabase';
 import GallitoWidget from './GallitoWidget';
 import CarrerasPanel from './CarrerasPanel';
+import PlantillasPanel from './PlantillasPanel';
 import * as XLSX from 'xlsx';
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
@@ -52,7 +53,8 @@ import {
   Image as ImageIcon,
   Mic,
   History,
-  RotateCcw
+  RotateCcw,
+  Send
 } from 'lucide-react';
 
 export type ModalType = 'error' | 'success' | 'info';
@@ -125,6 +127,7 @@ function Sidebar() {
         <NavItem to="/mensajeria" icon={MessageSquare} text="Mensajería" />
         <NavItem to="/clientes" icon={Users} text="Clientes" />
         <NavItem to="/carreras" icon={Flag} text="Carreras" />
+        <NavItem to="/plantillas" icon={Send} text="Plantillas Meta" />
         <NavItem to="/seguimientos" icon={Clock} text="Seguimientos" />
         <div className="my-4" />
         <NavItem to="/configuracion" icon={Settings} text="Configuración" />
@@ -3206,6 +3209,7 @@ function App() {
           <Route path="/clientes" element={<Clients />} />
           <Route path="/seguimientos" element={<FollowUps />} />
           <Route path="/carreras" element={<CarrerasPanel />} />
+          <Route path="/plantillas" element={<PlantillasPanel />} />
           <Route path="/configuracion" element={<Configuracion isSidebarOpen={isSidebarOpen} userRole="admin" />} />
         </Routes>
         <SystemModal 
