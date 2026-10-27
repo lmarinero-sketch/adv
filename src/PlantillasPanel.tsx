@@ -181,9 +181,135 @@ export default function PlantillasPanel() {
   const [syncToSupabase, setSyncToSupabase] = useState<boolean>(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  // Estados para prueba individual
+  const [showTestModal, setShowTestModal] = useState(false);
+  const [testPhoneRaw, setTestPhoneRaw] = useState('');
+  const [testSendMode, setTestSendMode] = useState<'template' | 'text'>('template');
+  const [testSending, setTestSending] = useState(false);
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string; details?: any } | null>(null);
+
   // Referencias para control de pausa/cancelación
   const cancelSendingRef = useRef(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleTestSend = async () => {
+    if (!selectedTemplate && testSendMode === 'template') {
+      showSystemModal('Error', 'Selecciona una plantilla primero', 'error');
+      return;
+    }
+    const norm = normalizeArgentinePhone(testPhoneRaw);
+    if (!norm.isValid) {
+      showSystemModal('Teléfono Inválido', `El número '${testPhoneRaw}' no es válido para Argentina. Debe tener 13 dígitos en formato 549... (resultado actual: '${norm.normalized}')`, 'error');
+      return;
+    }
+
+    setTestSending(true);
+    setTestResult(null);
+
+    const bodyComp = selectedTemplate?.components.find(c => c.type.toUpperCase() === 'BODY');
+    const templateBodyText = bodyComp?.text || `[Plantilla: ${selectedTemplate?.name}]`;
+
+    try {
+      if (testSendMode === 'template') {
+        const payload = {
+          to: norm.normalized,
+          templateName: selectedTemplate!.name,
+          languageCode: selectedTemplate!.language || 'es_AR'
+        };
+
+        console.log('[Test Send Template] Enviando payload:', payload);
+
+        const res = await fetch(`${bbUrl}/${bbBotId}/whatsapp-template`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-builderbot': bbKey
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+        console.log('[Test Send Template Result]: HTTP', res.status, json);
+
+        if (res.ok && json.success) {
+          setTestResult({
+            success: true,
+            message: `¡Meta aceptó el mensaje! ID generado: ${json.messageId}`,
+            details: json
+          });
+
+          if (syncToSupabase) {
+            await supabase.from('ng_whatsapp_messages').insert([
+              {
+                client_phone: norm.normalized,
+                body: `[Prueba Plantilla Meta: ${selectedTemplate!.name}]\n\n${templateBodyText}`,
+                direction: 'outgoing',
+                message_type: 'template'
+              }
+            ]);
+          }
+        } else {
+          setTestResult({
+            success: false,
+            message: json.error || json.message || (json.details ? JSON.stringify(json.details) : `Error HTTP ${res.status}`),
+            details: json
+          });
+        }
+      } else {
+        // Enviar como mensaje directo de texto a través del bot
+        console.log('[Test Send Direct Text] Enviando a:', norm.normalized);
+
+        const res = await fetch(`${bbUrl}/${bbBotId}/messages`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-builderbot': bbKey
+          },
+          body: JSON.stringify({
+            number: norm.normalized,
+            messages: { content: templateBodyText },
+            checkIfExists: false
+          })
+        });
+
+        const json = await res.json();
+        console.log('[Test Send Direct Text Result]: HTTP', res.status, json);
+
+        if (res.ok) {
+          setTestResult({
+            success: true,
+            message: `Mensaje directo enviado a BuilderBot. Respuesta: ${JSON.stringify(json)}`,
+            details: json
+          });
+
+          if (syncToSupabase) {
+            await supabase.from('ng_whatsapp_messages').insert([
+              {
+                client_phone: norm.normalized,
+                body: `[Prueba Texto Bot: ${selectedTemplate?.name || 'Manual'}]\n\n${templateBodyText}`,
+                direction: 'outgoing',
+                message_type: 'text'
+              }
+            ]);
+          }
+        } else {
+          setTestResult({
+            success: false,
+            message: `Error HTTP ${res.status}: ${JSON.stringify(json)}`,
+            details: json
+          });
+        }
+      }
+    } catch (err: any) {
+      console.error('[Test Send Catch Error]:', err);
+      setTestResult({
+        success: false,
+        message: err.message || 'Error de conexión'
+      });
+    } finally {
+      setTestSending(false);
+    }
+  };
 
   // 1. Cargar plantillas desde BuilderBot
   const fetchTemplates = useCallback(async () => {
@@ -445,6 +571,8 @@ export default function PlantillasPanel() {
           languageCode: selectedTemplate.language || 'es'
         };
 
+        console.log(`[Meta Template Send] Enviando a ${contact.phoneNormalized} (${contact.firstName} ${contact.lastName})...`, payload);
+
         const res = await fetch(`${bbUrl}/${bbBotId}/whatsapp-template`, {
           method: 'POST',
           headers: {
@@ -455,6 +583,7 @@ export default function PlantillasPanel() {
         });
 
         const resData = await res.json();
+        console.log(`[Meta Template Send] Respuesta para ${contact.phoneNormalized}: HTTP ${res.status}`, resData);
 
         if (res.ok && resData.success) {
           const messageId = resData.messageId || 'wamid.success';
@@ -474,18 +603,20 @@ export default function PlantillasPanel() {
             )
           );
 
-          // Opcional: Registrar en Supabase para historial de mensajería
+          // Opcional: Registrar en Supabase para historial de mensajería (sin enviar id inválido)
           if (syncToSupabase) {
             try {
-              await supabase.from('ng_whatsapp_messages').insert([
+              const { error: dbErr } = await supabase.from('ng_whatsapp_messages').insert([
                 {
-                  id: `meta-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
                   client_phone: contact.phoneNormalized,
                   body: `[Plantilla Meta: ${selectedTemplate.name}]\n\n${templateBodyText}`,
                   direction: 'outgoing',
                   message_type: 'template'
                 }
               ]);
+              if (dbErr) {
+                console.warn('[Supabase Insert Error]:', dbErr);
+              }
             } catch (dbErr) {
               console.warn('No se pudo guardar en ng_whatsapp_messages:', dbErr);
             }
@@ -494,6 +625,7 @@ export default function PlantillasPanel() {
           errorCount++;
           const errDetail =
             resData.error || resData.message || (resData.details ? JSON.stringify(resData.details) : `Error HTTP ${res.status}`);
+          console.error(`[Meta Template Error] Error al enviar a ${contact.phoneNormalized}:`, errDetail);
           setContacts(prev =>
             prev.map(c =>
               c.id === contact.id
@@ -508,6 +640,7 @@ export default function PlantillasPanel() {
         }
       } catch (netErr: any) {
         errorCount++;
+        console.error(`[Network Error] Fallo de conexión para ${contact.phoneNormalized}:`, netErr);
         setContacts(prev =>
           prev.map(c =>
             c.id === contact.id
@@ -605,6 +738,15 @@ export default function PlantillasPanel() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => { setShowTestModal(true); setTestResult(null); }}
+            className="px-3.5 py-2 rounded-xl bg-orange-600/20 hover:bg-orange-600/30 text-orange-400 hover:text-orange-300 border border-orange-500/40 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+            title="Enviar prueba a mi propio teléfono para verificar recepción en WhatsApp"
+          >
+            <Phone className="w-3.5 h-3.5 text-orange-400" />
+            Probar en mi Celular
+          </button>
+
           <button
             onClick={fetchTemplates}
             disabled={loadingTemplates}
@@ -1193,6 +1335,135 @@ export default function PlantillasPanel() {
                 className="px-5 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition-all shadow-lg shadow-orange-600/30 flex items-center gap-2"
               >
                 <Send className="w-3.5 h-3.5" /> Iniciar Envíos Ahora
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Prueba Individual en tu propio Celular */}
+      {showTestModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-2xl max-w-md w-full p-6 shadow-2xl animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-zinc-800">
+              <div className="flex items-center gap-3 text-orange-500">
+                <div className="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center">
+                  <Phone className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white">Disparo de Prueba Individual</h3>
+                  <p className="text-[11px] text-zinc-400">Verifica la entrega directa en tu WhatsApp</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowTestModal(false)}
+                className="p-1 rounded-lg hover:bg-zinc-800 text-zinc-400 hover:text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="text-zinc-400 block mb-1 font-medium">Plantilla Seleccionada:</label>
+                <div className="bg-zinc-950 p-2.5 rounded-xl border border-zinc-800 font-mono text-orange-400 font-semibold flex items-center justify-between">
+                  <span>/{selectedTemplate?.name || 'Ninguna'}</span>
+                  <span className="text-[10px] text-emerald-400 font-sans uppercase">({selectedTemplate?.language})</span>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-zinc-400 block mb-1 font-medium">Método de Envío:</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setTestSendMode('template')}
+                    className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all ${
+                      testSendMode === 'template'
+                        ? 'bg-orange-500/20 border-orange-500 text-orange-400'
+                        : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    1. Plantilla Meta
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTestSendMode('text')}
+                    className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all ${
+                      testSendMode === 'text'
+                        ? 'bg-orange-500/20 border-orange-500 text-orange-400'
+                        : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    2. Mensaje Directo Bot
+                  </button>
+                </div>
+                <p className="text-[10px] text-zinc-500 mt-1">
+                  {testSendMode === 'template'
+                    ? 'Usa el endpoint oficial /whatsapp-template de Meta. Requiere plantilla aprobada.'
+                    : 'Usa el endpoint directo /messages de BuilderBot. Envía el texto de la plantilla directamente.'}
+                </p>
+              </div>
+
+              <div>
+                <label className="text-zinc-400 block mb-1 font-medium">Tu Número de Teléfono (Cualquier formato):</label>
+                <input
+                  type="text"
+                  placeholder="Ej: 2645438114 ó 155438114"
+                  value={testPhoneRaw}
+                  onChange={e => setTestPhoneRaw(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-white font-mono text-xs outline-none focus:border-orange-500"
+                />
+                {testPhoneRaw && (
+                  <div className="mt-1.5 flex items-center justify-between text-[11px]">
+                    <span className="text-zinc-500">Se normalizará a:</span>
+                    <span className="font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                      {normalizeArgentinePhone(testPhoneRaw).normalized || 'Inválido'}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {testResult && (
+                <div
+                  className={`p-3 rounded-xl border text-xs leading-relaxed ${
+                    testResult.success
+                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                      : 'bg-red-500/10 border-red-500/30 text-red-300'
+                  }`}
+                >
+                  <div className="font-bold flex items-center gap-1.5 mb-1">
+                    {testResult.success ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-red-400" />}
+                    <span>{testResult.success ? 'Resultado Exitoso' : 'Error en el Disparo'}</span>
+                  </div>
+                  <p className="text-[11px] whitespace-pre-wrap">{testResult.message}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowTestModal(false)}
+                className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold transition-colors"
+              >
+                Cerrar
+              </button>
+              <button
+                type="button"
+                onClick={handleTestSend}
+                disabled={testSending || !testPhoneRaw}
+                className="px-5 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition-all shadow-lg shadow-orange-600/30 flex items-center gap-2 disabled:opacity-40 cursor-pointer"
+              >
+                {testSending ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Disparando...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5" /> Enviar Prueba
+                  </>
+                )}
               </button>
             </div>
           </div>
