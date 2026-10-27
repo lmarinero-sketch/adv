@@ -155,6 +155,30 @@ interface ExcelContact {
   selected: boolean;
 }
 
+// Plantilla por defecto aprobada en Meta para evitar bloqueos por límite de consultas
+const DEFAULT_TEMPLATES: WhatsAppTemplate[] = [
+  {
+    id: '1900281170957941',
+    name: 'gendarmeria',
+    language: 'es_AR',
+    category: 'MARKETING',
+    status: 'APPROVED',
+    components: [
+      {
+        type: 'BODY',
+        text: '¡Hola! ¿Cómo estás? 😊\n\nQueremos informarte que, por motivos ajenos a nuestra organización, la Maratón de Gendarmería será suspendida.\n\nComo alternativa, te invitamos a participar de la *Maratón de la Policía*, que se realizará el *27 de noviembre a las 21:00 hs*, con largada y llegada en *El Pinar*, el circuito es similar a la otra carrera.\n\n📍*Información de la carrera:*\n- *Distancias:* 15K, 10K y 4K.\n- *Acreditación:* 26 de noviembre, de 14:00 a 21:00 hs, en Patio Alvear.\n- *Largada:* 27 de noviembre a las 21:00 hs, en El Pinar.\n\nSi podés participar en esta nueva fecha, tu inscripción pasará directamente a la Maratón de la Policía. Si no puedes asistir, realizaremos la devolución del dinero.\n\nEsperamos que puedas acompañarnos en esta nueva propuesta. 🏃‍♀️🏃‍♂️\n\n¡Muchas gracias!                                                                                                   ADVENTURE PRO'
+      },
+      {
+        type: 'BUTTONS',
+        buttons: [
+          { type: 'QUICK_REPLY', text: 'Quiero Participar' },
+          { type: 'QUICK_REPLY', text: 'Solicito Devolución' }
+        ]
+      }
+    ]
+  }
+];
+
 export default function PlantillasPanel() {
   const { isSidebarOpen, showSystemModal } = React.useContext(AppContext);
 
@@ -163,10 +187,28 @@ export default function PlantillasPanel() {
   const bbKey = import.meta.env.VITE_BUILDERBOT_API_KEY || '';
   const bbBotId = import.meta.env.VITE_BUILDERBOT_BOT_ID || '';
 
-  // Estados de plantillas
-  const [templates, setTemplates] = useState<WhatsAppTemplate[]>([]);
+  // Estados de plantillas con caché local inicial
+  const [templates, setTemplates] = useState<WhatsAppTemplate[]>(() => {
+    try {
+      const cached = localStorage.getItem('adv_whatsapp_templates');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return DEFAULT_TEMPLATES;
+  });
   const [loadingTemplates, setLoadingTemplates] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState<WhatsAppTemplate | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<WhatsAppTemplate | null>(() => {
+    try {
+      const cached = localStorage.getItem('adv_whatsapp_templates');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+      }
+    } catch {}
+    return DEFAULT_TEMPLATES[0];
+  });
 
   // Estados de contactos
   const [contacts, setContacts] = useState<ExcelContact[]>([]);
@@ -312,9 +354,11 @@ export default function PlantillasPanel() {
   };
 
   // 1. Cargar plantillas desde BuilderBot
-  const fetchTemplates = useCallback(async () => {
+  const fetchTemplates = useCallback(async (isManualClick = false) => {
     if (!bbUrl || !bbKey || !bbBotId) {
-      showSystemModal('Error de Configuración', 'Faltan variables VITE_BUILDERBOT en el entorno .env', 'error');
+      if (isManualClick) {
+        showSystemModal('Error de Configuración', 'Faltan variables VITE_BUILDERBOT en el entorno .env', 'error');
+      }
       return;
     }
 
@@ -327,31 +371,44 @@ export default function PlantillasPanel() {
         }
       });
 
-      if (!res.ok) {
-        throw new Error(`Error ${res.status}: ${res.statusText}`);
-      }
-
       const json = await res.json();
-      if (json.success && Array.isArray(json.data)) {
+
+      if (res.ok && json.success && Array.isArray(json.data) && json.data.length > 0) {
         setTemplates(json.data);
-        if (json.data.length > 0 && !selectedTemplate) {
-          // Seleccionar la primera aprobada o la primera disponible
-          const approved = json.data.find((t: WhatsAppTemplate) => t.status === 'APPROVED');
-          setSelectedTemplate(approved || json.data[0]);
+        try {
+          localStorage.setItem('adv_whatsapp_templates', JSON.stringify(json.data));
+        } catch {}
+        setSelectedTemplate(prev => {
+          if (!prev) return json.data[0];
+          const found = json.data.find((t: WhatsAppTemplate) => t.id === prev.id || t.name === prev.name);
+          return found || json.data[0];
+        });
+        if (isManualClick) {
+          showSystemModal('Plantillas Actualizadas', `Se sincronizaron ${json.data.length} plantillas con Meta.`, 'success');
         }
       } else {
-        setTemplates([]);
+        const errMsg = json.error || (json.details ? JSON.stringify(json.details) : `Error HTTP ${res.status}`);
+        console.warn('[Builderbot Template Fetch Warning]:', errMsg);
+        if (isManualClick) {
+          if (errMsg.includes('80008') || errMsg.includes('too many calls')) {
+            showSystemModal('Límite Temporal de Meta', 'Meta está aplicando una pausa temporal de consultas (Rate Limit #80008). Tus plantillas siguen funcionando con la copia local.', 'info');
+          } else {
+            showSystemModal('Aviso de Plantillas', errMsg, 'info');
+          }
+        }
       }
     } catch (err: any) {
-      console.error('Error al obtener plantillas:', err);
-      showSystemModal('Error al listar plantillas', err.message || 'No se pudieron consultar las plantillas en Meta', 'error');
+      console.warn('Error al obtener plantillas:', err);
+      if (isManualClick) {
+        showSystemModal('Error al listar plantillas', err.message || 'No se pudieron consultar las plantillas en Meta', 'error');
+      }
     } finally {
       setLoadingTemplates(false);
     }
-  }, [bbUrl, bbKey, bbBotId, selectedTemplate, showSystemModal]);
+  }, [bbUrl, bbKey, bbBotId, showSystemModal]);
 
   useEffect(() => {
-    fetchTemplates();
+    fetchTemplates(false);
   }, [fetchTemplates]);
 
   // 2. Procesar archivo Excel
@@ -748,7 +805,7 @@ export default function PlantillasPanel() {
           </button>
 
           <button
-            onClick={fetchTemplates}
+            onClick={() => fetchTemplates(true)}
             disabled={loadingTemplates}
             className="px-3.5 py-2 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 text-xs font-semibold flex items-center gap-2 transition-colors disabled:opacity-50"
             title="Sincronizar plantillas con BuilderBot / Meta"
@@ -804,7 +861,7 @@ export default function PlantillasPanel() {
                     Si acabas de solicitar una plantilla en Meta Business Manager, puede estar en revisión o necesitar autorización.
                   </p>
                   <button
-                    onClick={fetchTemplates}
+                    onClick={() => fetchTemplates(true)}
                     className="mt-3 text-xs text-orange-400 hover:text-orange-300 underline font-medium"
                   >
                     Volver a comprobar
